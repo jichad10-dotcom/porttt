@@ -675,6 +675,38 @@ footer {
 .mod-card:hover .mod-title {
     color: var(--accent-strong);
 }
+  .card-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    font-family: monospace;
+    font-size: 0.75rem;
+    letter-spacing: 1px;
+}
+
+.status-pulse {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(168, 85, 247, 0.1);
+    padding: 4px 10px;
+    border-radius: 20px;
+}
+
+.dot {
+    width: 6px;
+    height: 6px;
+    background: #27c93f;
+    border-radius: 50%;
+    box-shadow: 0 0 8px #27c93f;
+    animation: statusPulse 2s infinite;
+}
+
+.version {
+    color: var(--muted);
+    opacity: 0.8;
+}
  /* Futuristic Data Grid */
 .modal-meta-grid {
     display: grid;
@@ -1254,16 +1286,37 @@ footer {
       data-title="100 Days as Goku – Saiyan Survival Evolution"
      data-desc="Take on the ultimate anime survival challenge and live 100 Days as Goku inside Minecraft! Start your journey as a low-level Saiyan and train your way to unlocking legendary transformations. Grow stronger each day, increase your power level, and become one of the most powerful warriors in existence. Built specifically for intense 100 Days survival challenges, this mod combines progression, combat, and iconic Saiyan abilities."
      data-images="Goku1.png,Goku2.png,Goku3.png">
+      <div class="card-meta">
+    <div class="status-pulse">
+        <span class="dot"></span>
+        <span class="tag-text">Gameplay</span>
+    </div>
+    <span class="version">v1.2.0</span>
+</div>
       <span class="tag">Gameplay</span><h3 class="mod-title">100 Days as Goku – Saiyan Survival Evolution</h3></div>
     <div class="mod-card"
       data-title="Stranger Things Morph Mod"
   data-desc="Step into the world of Hawkins and bring the horror of the Upside Down into Minecraft! This Stranger Things-inspired mod allows you to morph into iconic creatures from the series and use their unique abilities to scare, troll, and dominate your friends. Whether you're hunting players in the shadows or causing chaos in multiplayer, this mod turns your world into a supernatural battlefield.." 
       data-images="ST1.png,ST2.png,ST5.png,ST3.png">
+      <div class="card-meta">
+    <div class="status-pulse">
+        <span class="dot"></span>
+        <span class="tag-text">Gameplay</span>
+    </div>
+    <span class="version">v1.2.0</span>
+</div>
       <span class="tag">Gameplay</span><h3 class="mod-title">Stranger Things Morph Mod</h3></div>
     <div class="mod-card"
        data-title="Immortal Mod – Ultimate Roleplay & Prank Powers"
   data-desc="Take control of life and power in your Minecraft world with the Immortal Mod, a roleplay-focused prank mod that lets you turn ordinary mobs into unstoppable beings. Whether you're creating chaos on a server or setting up epic roleplay scenarios, this mod gives you full control over mob strength, survival, and abilities."
       data-images="IM1.png,IM2.png">
+      <div class="card-meta">
+    <div class="status-pulse">
+        <span class="dot"></span>
+        <span class="tag-text">Gameplay</span>
+    </div>
+    <span class="version">v1.2.0</span>
+</div>
       <span class="tag">Gameplay</span><h3 class="mod-title">Immortal Mod – Ultimate Roleplay & Prank Powers</h3></div>
     <div class="mod-card"
        data-title="Minecraft But Drops Are Guns"
@@ -1273,6 +1326,13 @@ This chaotic challenge mod completely changes Minecraft survival. Every time you
 
 Forget wooden pickaxes… your progression now depends on firepower."
       data-images="GUN.jpg">
+      <div class="card-meta">
+    <div class="status-pulse">
+        <span class="dot"></span>
+        <span class="tag-text">Gameplay</span>
+    </div>
+    <span class="version">v1.2.0</span>
+</div>
       <span class="tag">Gameplay</span><h3 class="mod-title">Minecraft But Drops Are Guns</h3></div>
     <div class="mod-card"
        data-title="World Destroyer Boss Mod"
@@ -1286,6 +1346,13 @@ This mod introduces an extremely powerful custom boss into Minecraft — designe
 
 One mistake… and you're gone in seconds."
        data-images="BM1.png,BM2.png,BM3.png">
+      <div class="card-meta">
+    <div class="status-pulse">
+        <span class="dot"></span>
+        <span class="tag-text">Gameplay</span>
+    </div>
+    <span class="version">v1.2.0</span>
+</div>
       <span class="tag">Gameplay</span><h3 class="mod-title">World Destroyer Boss Mod</h3></div>
     <div class="mod-card"
        data-title="Cow Army Mod"
@@ -1295,6 +1362,13 @@ With the Cow Army Mod, you can command an unstoppable army of over 1000 cows and
 
 Cute… but deadly."
       data-images="Cow1.png,Cow2.png,Cow3.png">
+      <div class="card-meta">
+    <div class="status-pulse">
+        <span class="dot"></span>
+        <span class="tag-text">Gameplay</span>
+    </div>
+    <span class="version">v1.2.0</span>
+</div>
       <span class="tag">Worldgen</span><h3 class="mod-title">Cow Army Mod</h3></div>
   </div>
 
@@ -1305,6 +1379,13 @@ Cute… but deadly."
 
 Now you can test your friends and find out who’s really telling the truth… and who’s lying."
      data-images="LD1.png,LD2.png" >
+      <div class="card-meta">
+    <div class="status-pulse">
+        <span class="dot"></span>
+        <span class="tag-text">Gameplay</span>
+    </div>
+    <span class="version">v1.2.0</span>
+</div>
       <span class="tag">Gameplay</span><h3 class="mod-title">Lie Detector Mod – Truth or Consequences</h3></div>
     <div class="mod-card"
        data-title="Broken Reality Mod"
@@ -1318,6 +1399,13 @@ Fighting mobs? It gets worse.
 
 Nothing works the way it should."
       data-images="BR1.jpeg,BR2.png">
+      <div class="card-meta">
+    <div class="status-pulse">
+        <span class="dot"></span>
+        <span class="tag-text">Gameplay</span>
+    </div>
+    <span class="version">v1.2.0</span>
+</div>
       <span class="tag">Utility</span><h3 class="mod-title">Broken Reality Mod</h3></div>
   </div>
 </section>

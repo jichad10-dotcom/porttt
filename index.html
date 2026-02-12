@@ -334,14 +334,11 @@ body {
   padding: 32px;
   min-height: 260px;
 
-  box-shadow:
-    0 0 0 1px rgba(168,85,247,.45),
-    0 0 80px rgba(168,85,247,.35),
-    inset 0 0 0 rgba(255,255,255,0);
+  box-shadow: 
+        0 0 0 1px rgba(168, 85, 247, 0.2), 
+        0 10px 30px rgba(0, 0, 0, 0.4);
 
-  transition:
-    transform .45s cubic-bezier(.22,1,.36,1),
-    box-shadow .45s cubic-bezier(.22,1,.36,1);
+  transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
 /* soft inner glow */
@@ -381,11 +378,11 @@ body {
     left: 120%;
 }
 .mod-card:hover {
-  transform: translateY(-10px) scale(1.03);
-  box-shadow:
-    0 0 0 1px rgba(168,85,247,.7),
-    0 0 140px rgba(168,85,247,.65),
-    0 0 260px rgba(168,85,247,.45);
+  transform: translateY(-5px) scale(1.03);
+  box-shadow: 
+        0 0 0 1px rgba(168, 85, 247, 0.5), 
+        0 15px 40px rgba(0, 0, 0, 0.6),
+        inset 0 0 15px rgba(168, 85, 247, 0.1); /* Subtle internal glow */
 }
   .mod-title {
   font-size: 1.25rem;

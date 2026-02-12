@@ -1869,42 +1869,7 @@ function rotateCards() {
 
 /* ===== FEATURED CARD → MODAL ===== */
 
-featuredCards.forEach((card, index) => {
-  card.addEventListener("click", () => {
 
-    // If NOT center → rotate into center
-    if (!card.classList.contains("pos-center")) {
-      while (!card.classList.contains("pos-center")) {
-        rotateCards();
-      }
-      resetAutoRotate();
-      return;
-    }
-
-    // If CENTER → open modal
-    modalTitle.textContent = card.dataset.title || "";
-    modalDesc.textContent = card.dataset.desc || "";
-    modalGallery.innerHTML = "";
-
-    const images = card.dataset.images
-      ? card.dataset.images.split(",")
-      : [];
-
-    if (images.length && images[0]) {
-      images.forEach(src => {
-        const img = document.createElement("img");
-        img.src = src.trim();
-        modalGallery.appendChild(img);
-      });
-    } else {
-      modalGallery.innerHTML =
-        "<p style='color:var(--muted)'>No images available.</p>";
-    }
-
-    modal.classList.add("active");
-    document.body.style.overflow = "hidden";
-  });
-});
 
 
 let autoRotateTimer;

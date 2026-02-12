@@ -1998,7 +1998,7 @@ let loadProgress = 0;
 const messages = ["ACCESSING CORE...", "SYNCING NEURAL LINKS...", "LOADING MODS...", "SYSTEM READY"];
 
 const interval = setInterval(() => {
-    loadProgress += Math.random() * 15;
+    loadProgress += Math.random() * 35;
     
     if (loadProgress >= 100) {
         loadProgress = 100;
@@ -2010,7 +2010,7 @@ const interval = setInterval(() => {
             preloader.classList.add('loaded');
             // Allow scrolling once loaded
             document.body.style.overflow = 'auto';
-        }, 600);
+        }, 200);
     } else {
         // Change status message based on progress
         const msgIndex = Math.floor((loadProgress / 100) * messages.length);
@@ -2018,7 +2018,7 @@ const interval = setInterval(() => {
     }
     
     barFill.style.width = loadProgress + '%';
-}, 120);
+}, 60);
 
 // Lock scrolling while preloader is active
 document.body.style.overflow = 'hidden';

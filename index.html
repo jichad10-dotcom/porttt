@@ -1776,6 +1776,14 @@ const modalBackdrop = document.querySelector(".mod-modal-backdrop");
 
 document.querySelectorAll(".mod-card, .featured-card").forEach(card => {
     card.addEventListener("click", () => {
+      // IF it's a side featured card, rotate it and STOP
+        if (card.classList.contains("featured-card") && !card.classList.contains("pos-center")) {
+            while (!card.classList.contains("pos-center")) {
+                rotateCards();
+            }
+            resetAutoRotate();
+            return; // This stops the modal from opening
+        }
         // 1. Setup Title & Meta Data
         const categoryTag = card.querySelector('.tag-text') || card.querySelector('.tag');
         const category = categoryTag ? categoryTag.textContent : 'Gameplay';

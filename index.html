@@ -342,73 +342,69 @@ body {
 }
 
 /* soft inner glow */
-.mod-card::before {
-  content: "◈";
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  background: radial-gradient(
-    120% 80% at 50% 0%,
-    rgba(255,255,255,.12),
-    transparent 60%
-  );
-  opacity: .35;
-  pointer-events: none;
-  bottom: -10px;
-    right: 10px;
-    font-size: 5rem;
-    color: rgba(168, 85, 247, 0.05);
-  
-    transition: transform 0.5s ease;
+.mod-card {
+    position: relative;
+    background: linear-gradient(180deg, rgba(30, 20, 50, 0.4), rgba(10, 5, 20, 0.9));
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 30px;
+    min-height: 260px;
+    overflow: hidden;
+    cursor: pointer;
+    
+    /* Sharp, low-glow border */
+    border: 1px solid rgba(168, 85, 247, 0.15);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
 }
+
+/* The Background Watermark (Sword) */
+.mod-card::before {
+    content: "⚔"; /* You can use an SVG icon here too */
+    position: absolute;
+    bottom: -20px;
+    right: 20px;
+    font-size: 8rem;
+    color: rgba(168, 85, 247, 0.03);
+    pointer-events: none;
+    transform: rotate(-15deg);
+    transition: all 0.6s ease;
+}
+
+/* The Scanning Light Bar */
 .mod-card::after {
     content: "";
     position: absolute;
-    top: -50%;
-    left: -60%;
-    width: 20%;
-    height: 200%;
-    background: rgba(168, 85, 247, 0.2);
-    transform: rotate(30deg);
-    transition: all 0.6s cubic-bezier(0.19, 1, 0.22, 1);
-    pointer-events: none;
-    filter: blur(20px);
+    top: 40%;
+    left: -100%;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    box-shadow: 0 0 15px var(--accent);
+    opacity: 0;
+    transition: none;
 }
-  .mod-card:hover::after {
-    left: 120%;
-}
+
 .mod-card:hover {
-  transform: translateY(-5px) scale(1.03);
-  box-shadow: 
-        0 0 0 1px rgba(168, 85, 247, 0.5), 
-        0 15px 40px rgba(0, 0, 0, 0.6),
-        inset 0 0 15px rgba(168, 85, 247, 0.1); /* Subtle internal glow */
-}
-  .mod-title {
-  font-size: 1.25rem;
-  font-weight: 700;
-  margin-top: 12px;
-  color: var(--text);
-  letter-spacing: .01em;
-  transition: transform .3s ease, color .3s ease;
+    transform: translateY(-8px);
+    border-color: rgba(168, 85, 247, 0.6);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7);
 }
 
-/* subtle interaction */
-.mod-card:hover .mod-title {
-  transform: translateY(-2px);
-  color: var(--accent-strong);
+.mod-card:hover::before {
+    color: rgba(168, 85, 247, 0.08);
+    transform: scale(1.1) rotate(-10deg);
 }
 
-.tag {
-  transition: all .3s ease;
+/* Trigger the Scanline Animation on Hover */
+@keyframes cardScan {
+    0% { left: -100%; opacity: 1; }
+    100% { left: 100%; opacity: 0; }
 }
 
-.mod-card:hover .tag {
-  background: rgba(168,85,247,.45);
-  box-shadow: 0 0 20px rgba(168,85,247,.6);
-}
-.mod-card {
-  cursor: pointer;
+.mod-card:hover::after {
+    opacity: 1;
+    animation: cardScan 0.8s cubic-bezier(0.445, 0.05, 0.55, 0.95) forwards;
 }
 
 

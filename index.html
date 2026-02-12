@@ -321,40 +321,7 @@ body {
   gap: 56px;
   margin-top: 56px;
 }
-/* 1. The Main Vertical Spine (Container Level) */
-.mods-grid {
-    position: relative;
-    z-index: 1;
-}
 
-/* Draws the data line behind the cards */
-.mods-grid::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 2px;
-    height: 100%;
-    background: linear-gradient(
-        to bottom,
-        transparent,
-        rgba(168, 85, 247, 0.4) 10%,
-        rgba(168, 85, 247, 0.4) 90%,
-        transparent
-    );
-    z-index: -1; /* Layer it behind the cards */
-    pointer-events: none;
-}
-
-/* 2. The Connection Glow (Card Level) */
-/* When the JavaScript Observer 'activates' a card */
-.mod-card.link-active {
-    border-left: 3px solid var(--accent-strong) !important;
-    box-shadow: 
-        -15px 0 30px -10px rgba(168, 85, 247, 0.5), 
-        0 40px 80px rgba(0, 0, 0, 0.8);
-}
 .mod-card {
     position: relative;
     /* 1. Higher opacity and darker tint to stand out from background */
@@ -2230,25 +2197,6 @@ document.querySelectorAll('.cmd-tag').forEach(tag => {
             document.body.style.overflow = "hidden";
         };
     }
-});
-  /* ===== NEURAL LINK OBSERVER ===== */
-const linkObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        // If the card is in the center 40% of the screen
-        if (entry.isIntersecting) {
-            entry.target.classList.add("link-active");
-        } else {
-            entry.target.classList.remove("link-active");
-        }
-    });
-}, { 
-    threshold: 0.5, // Trigger when half the card is visible
-    rootMargin: "-20% 0px -20% 0px" // Focus on the middle of the screen
-});
-
-// Attach the observer to all cards
-document.querySelectorAll(".mod-card").forEach(card => {
-    linkObserver.observe(card);
 });
 </script>
 

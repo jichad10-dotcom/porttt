@@ -10,6 +10,2209 @@
 
   /* ================= EXPANDABLE NAV ================= */
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Rox — Minecraft Mod Developer</title>
+
+<style>
+
+  /* ================= EXPANDABLE NAV ================= */
+
+.nav-wrapper {
+  position: fixed;
+  top: 22px;
+  left: 28px;
+  z-index: 1001;
+}
+
+.nav-toggle {
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  border: none;
+  cursor: pointer;
+
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--accent-strong);
+
+  background: rgba(24,18,45,.65);
+  backdrop-filter: blur(14px);
+
+  box-shadow:
+    0 0 0 1px rgba(168,85,247,.35),
+    0 0 40px rgba(168,85,247,.35);
+
+  transition: transform .35s cubic-bezier(.22,1,.36,1);
+}
+
+.nav-toggle.open {
+  transform: rotate(45deg);
+}
+
+.nav-menu {
+  margin-top: 14px;
+  display: flex;
+  flex-direction: row;
+  gap: 22px;
+  align-items: center;
+
+  padding: 14px 20px;
+  border-radius: 18px;
+
+  background: rgba(24,18,45,.65);
+  backdrop-filter: blur(18px);
+
+  box-shadow:
+    0 0 0 1px rgba(168,85,247,.35),
+    0 0 70px rgba(168,85,247,.35);
+
+  opacity: 0;
+  transform: translateY(-10px) scale(.96);
+  pointer-events: none;
+
+  transition:
+    opacity .35s ease,
+    transform .35s cubic-bezier(.22,1,.36,1);
+}
+
+.nav-menu.open {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+
+.nav-menu a {
+  text-decoration: none;
+  color: var(--text);
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.nav-menu a:hover {
+  color: var(--accent-strong);
+}
+/* === ACTIVE NAV LINK === */
+.nav-menu a.active {
+  color: var(--accent-strong);
+  text-shadow:
+    0 0 10px rgba(168,85,247,.8),
+    0 0 30px rgba(168,85,247,.6);
+}
+
+:root {
+  --bg: #0b0614;
+  --bg-alt: #120a24;
+  --card: rgba(24, 18, 45, 0.75);
+  --text: #f2efff;
+  --muted: #b7aedf;
+  --accent: #a855f7;
+  --accent-strong: #c084fc;
+}  
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: system-ui, sans-serif;
+  color: var(--text);
+  background: linear-gradient(180deg, var(--bg), var(--bg-alt));
+  overflow-x: hidden;
+}
+
+/* ================= PARTICLES ================= */
+#particles {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* ================= STICKY BRAND ================= */
+.brand-sticky {
+  position: fixed;
+  top: 22px;
+  right: 32px;
+  font-weight: 900;
+  font-size: 1.1rem;
+  letter-spacing: .08em;
+  color: var(--accent-strong);
+  opacity: 0;
+  transform: translateY(-10px) scale(0.85);
+  transition: all .4s cubic-bezier(.22,1,.36,1);
+  z-index: 1000;
+  cursor: pointer;
+}
+.brand-sticky.active {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* ================= HERO ================= */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding-left: clamp(2.5rem, 8vw, 6rem);
+  overflow: hidden;
+  z-index: 1;
+  background:
+    radial-gradient(circle at 30% 40%, rgba(168,85,247,0.35), transparent 60%),
+    linear-gradient(180deg, rgba(10,6,20,0.35), rgba(10,6,20,0.9)),
+    url("rox1-illustration.png");
+  background-size: 110%;
+  background-position: center right;
+  background-repeat: no-repeat;
+}
+
+.hero::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 260px;
+  background: linear-gradient(
+    to bottom,
+    rgba(11,6,20,0),
+    rgba(11,6,20,1)
+  );
+}
+
+.hero-overlay {
+  max-width: 520px;
+  position: relative;
+  z-index: 2;
+}
+.hero-text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.hero-name {
+  font-size: clamp(4.5rem, 10vw, 7.5rem);
+  font-weight: 900;
+  line-height: 1.05;
+  margin: 0;
+  color: #e9d5ff;
+  text-shadow:
+    0 0 40px rgba(168,85,247,.8),
+    0 0 90px rgba(168,85,247,.65),
+    0 0 180px rgba(168,85,247,.45);
+}
+
+
+.hero-sub {
+  margin-top: .35rem;
+  font-size: 1.05rem;
+  color: var(--muted);
+  letter-spacing: .02em;
+}
+
+  .hero-overlay {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* ================= SECTIONS ================= */
+.mods-section {
+  position: relative;
+  z-index: 1;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 7rem 3rem;
+}
+
+.section-title {
+  font-size: 2.4rem;
+  margin-bottom: 3rem;
+  border-left: 4px solid var(--accent);
+  padding-left: 1rem;
+}
+/* ================= FEATURED SPOTLIGHT ================= */
+
+.featured-carousel {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 64px;
+}
+
+.featured-card {
+  width: 420px;
+  min-height: 240px;
+  padding: 36px;
+  border-radius: 26px;
+  cursor: pointer;
+
+  background: linear-gradient(
+    180deg,
+    rgba(70,40,140,.35),
+    rgba(10,5,30,.95)
+  );
+
+  box-shadow:
+    0 0 0 1px rgba(168,85,247,.35),
+    0 0 70px rgba(168,85,247,.35);
+
+  opacity: .45;
+  transform: scale(.88);
+  transition:
+    transform .6s cubic-bezier(.22,1,.36,1),
+    opacity .4s ease,
+    box-shadow .6s cubic-bezier(.22,1,.36,1);
+}
+
+
+
+@media (max-width: 900px) {
+  .featured-carousel {
+    gap: 24px;
+    flex-direction: column;
+  }
+
+  .featured-card {
+    width: 100%;
+  }
+}
+
+/* ===== FEATURED POSITION STATES ===== */
+
+.featured-card {
+  position: absolute;
+}
+
+.featured-carousel {
+  position: relative;
+  height: 300px;
+}
+
+/* LEFT */
+.featured-card.pos-left {
+  transform: translateX(-460px) scale(.88);
+  opacity: .45;
+  z-index: 1;
+}
+
+/* CENTER (ONLY spotlight) */
+.featured-card.pos-center {
+  transform: translateX(0) scale(1.08);
+  opacity: 1;
+  z-index: 3;
+
+  box-shadow:
+    0 0 0 1px rgba(168,85,247,.7),
+    0 0 160px rgba(168,85,247,.65),
+    0 0 280px rgba(168,85,247,.45);
+}
+
+/* RIGHT */
+.featured-card.pos-right {
+  transform: translateX(460px) scale(.88);
+  opacity: .45;
+  z-index: 1;
+}
+
+/* ================= ALL MODS ================= */
+.mods-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(360px, 1fr));
+  gap: 56px;
+}
+
+.mods-grid-last {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 56px;
+  margin-top: 56px;
+}
+
+.mod-card {
+    position: relative;
+    /* 1. Higher opacity and darker tint to stand out from background */
+    background: rgba(15, 10, 25, 0.85); 
+    
+    /* 2. Strong blur to "block out" the background particles */
+    backdrop-filter: blur(25px) saturate(160%);
+    -webkit-backdrop-filter: blur(25px) saturate(160%);
+    
+    border-radius: 20px;
+    padding: 32px;
+    min-height: 260px;
+    overflow: hidden;
+    cursor: pointer;
+    z-index: 1;
+
+    /* 3. Sharp border acts as a 'cut-out' from the page */
+    border: 1px solid rgba(168, 85, 247, 0.4);
+    
+    /* 4. Deep shadow + Inset rim light for 3D depth */
+    box-shadow: 
+        inset 1px 1px 0px rgba(255, 255, 255, 0.05),
+        0 25px 50px rgba(0, 0, 0, 0.7);
+        
+    transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+}
+/* The Background Watermark (Sword) */
+.mod-card::before {
+    content: ""; /* You can use an SVG icon here too */
+    position: absolute;
+    bottom: -20px;
+    right: 20px;
+    font-size: 8rem;
+    color: rgba(168, 85, 247, 0.03);
+    pointer-events: none;
+    transform: rotate(-15deg);
+    transition: all 0.6s ease;
+}
+
+/* The Scanning Light Bar */
+.mod-card::after {
+    content: "";
+    position: absolute;
+    top: 40%;
+    left: -100%;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    box-shadow: 0 0 15px var(--accent);
+    opacity: 0;
+    transition: none;
+}
+
+.mod-card:hover {
+    transform: translateY(-10px) scale(1.02);
+    background: rgba(25, 15, 45, 0.95);
+    border-color: var(--accent-strong);
+    box-shadow: 
+        0 40px 80px rgba(0, 0, 0, 0.8),
+        0 0 15px rgba(168, 85, 247, 0.2);
+}
+
+.mod-card:hover::before {
+    color: rgba(168, 85, 247, 0.08);
+    transform: scale(1.1) rotate(-10deg);
+}
+
+/* Trigger the Scanline Animation on Hover */
+@keyframes cardScan {
+    0% { left: -100%; opacity: 1; }
+    100% { left: 100%; opacity: 0; }
+}
+
+.mod-card:hover::after {
+    opacity: 1;
+    animation: cardScan 0.8s cubic-bezier(0.445, 0.05, 0.55, 0.95) forwards;
+}
+
+
+.tag {
+  display: inline-block;
+  font-size: .7rem;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: rgba(168,85,247,.3);
+  margin-bottom: 12px;
+}
+
+/* ================= ABOUT ================= */
+.about {
+  margin-top: 24rem;
+  background: linear-gradient(
+    180deg,
+    rgba(18,10,36,.85),
+    rgba(11,6,20,1)
+  );
+}
+
+.about-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 64px;
+}
+
+.about-text p {
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: var(--muted);
+}
+
+.about-stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 28px;
+}
+
+.stat {
+  background: rgba(24,18,45,.65);
+  border-radius: 18px;
+  padding: 28px;
+  box-shadow: 0 0 60px rgba(168,85,247,.25);
+}
+
+.stat h3 {
+  font-size: 2rem;
+  color: var(--accent-strong);
+}
+
+/* ================= GET IN TOUCH ================= */
+.contact {
+  margin-top: 24rem;
+}
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
+
+.contact-grid img {
+  width: 100%;
+  max-width: 520px;
+  border-radius: 26px;
+}
+
+.contact-info {
+  background: rgba(24,18,45,.65);
+  border-radius: 20px;
+  padding: 28px 32px;
+
+  width: fit-content;           /* KEY FIX */
+  box-shadow: 0 0 60px rgba(168,85,247,.25);
+}
+
+.contact-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 1.05rem;
+  color: var(--muted);
+}
+
+.contact-row:not(:last-child) {
+  margin-bottom: 18px;
+}
+
+.contact-row svg {
+  width: 22px;
+  height: 22px;
+  fill: var(--accent-strong);
+  filter: drop-shadow(0 0 8px rgba(168,85,247,.6));
+  flex-shrink: 0;
+}
+
+.copy-discord {
+  cursor: pointer;
+  position: relative;
+}
+
+.copy-discord:hover {
+  text-decoration: underline;
+}
+
+.copy-discord::after {
+  content: "Copied!";
+  position: absolute;
+  top: -26px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.75rem;
+  padding: 4px 8px;
+  border-radius: 6px;
+  background: rgba(24,18,45,.9);
+  color: var(--accent-strong);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .2s ease;
+}
+
+.copy-discord.copied::after {
+  opacity: 1;
+}
+
+/* ================= FOOTER ================= */
+footer {
+  text-align: center;
+  padding: 3rem;
+  color: var(--muted);
+  font-size: .85rem;
+  position: relative;
+  z-index: 1;
+}
+
+@media(max-width: 900px) {
+  .featured-grid,
+  .mods-grid,
+  .mods-grid-last,
+  .about-grid,
+  .contact-grid {
+    grid-template-columns: 1fr;
+  }
+}
+  .hero-name {
+  line-height: 0.88;          /* tighter glyph box */
+  margin-bottom: 14px;        /* controlled spacing */
+}
+
+.hero-sub {
+  margin-top: 0;              /* remove default paragraph offset */
+  line-height: 1.2;
+}
+/* ================= MOD MODAL ================= */
+.mod-modal {
+  position: fixed;
+  inset: 0;
+  display: none;
+  z-index: 2000;
+}
+
+.mod-modal.active {
+  display: block;
+}
+
+.mod-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(5, 2, 15, 0.75);
+  backdrop-filter: blur(6px);
+}
+
+/* Upgrade the Modal Container */
+.mod-modal-content {
+    position: relative;
+    max-width: 1000px;
+    width: 90%;
+    max-height: 85vh;
+    margin: 5vh auto;
+    background: linear-gradient(145deg, rgba(20, 10, 40, 0.9), rgba(10, 5, 25, 0.98));
+    backdrop-filter: blur(20px);
+    border-radius: 30px;
+    padding: 50px;
+    overflow-y: auto;
+    border: 1px solid rgba(168, 85, 247, 0.3);
+    box-shadow: 
+        0 0 0 1px rgba(168, 85, 247, 0.2),
+        0 20px 50px rgba(0, 0, 0, 0.5),
+        inset 0 0 30px rgba(168, 85, 247, 0.1);
+}
+
+/* Futuristic Header Style */
+#modalTitle {
+    font-size: 2.5rem;
+    font-weight: 900;
+    background: linear-gradient(to right, #fff, var(--accent-strong));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 15px;
+    letter-spacing: -1px;
+}
+
+#modalDesc {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: var(--muted);
+    border-left: 3px solid var(--accent);
+    padding-left: 20px;
+    margin-bottom: 40px;
+}
+
+/* Image Showcase Grid */
+.mod-modal-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    perspective: 1000px; /* Adds depth for 3D effects */
+}
+
+/* Keep this separate */
+@keyframes imgPulse {
+    0% { background-color: rgba(168, 85, 247, 0.05); }
+    50% { background-color: rgba(168, 85, 247, 0.15); }
+    100% { background-color: rgba(168, 85, 247, 0.05); }
+}
+
+/* Merged block */
+.mod-modal-gallery img {
+    width: 100%;
+    aspect-ratio: 16/9;
+    object-fit: cover;
+    border-radius: 12px;
+    border: 1px solid rgba(168, 85, 247, 0.2);
+    cursor: pointer;
+    filter: brightness(0.8) contrast(1.1);
+    transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+    
+    /* ADD THESE TWO LINES HERE */
+    background: rgba(168, 85, 247, 0.1);
+    animation: imgPulse 2s infinite ease-in-out;
+}
+
+/* Keep your hover as it is */
+.mod-modal-gallery img:hover {
+    filter: brightness(1.1) contrast(1.1);
+    transform: translateY(-8px) scale(1.02);
+    border-color: var(--accent-strong);
+    box-shadow: 0 15px 35px rgba(168, 85, 247, 0.3);
+}
+
+/* Add this to stop the pulsing once the image actually loads */
+.mod-modal-gallery img.loaded {
+    animation: none;
+    background: transparent;
+}
+.mod-title {
+    font-size: 1.2rem;
+    line-height: 1.4;
+    color: var(--text);
+    position: relative;
+    z-index: 2;
+    transition: color 0.3s ease;
+}
+
+.mod-card:hover .mod-title {
+    color: var(--accent-strong);
+}
+  .card-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    font-family: monospace;
+    font-size: 0.75rem;
+    letter-spacing: 1px;
+}
+
+.status-pulse {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(168, 85, 247, 0.1);
+    padding: 4px 10px;
+    border-radius: 20px;
+}
+
+.dot {
+    width: 6px;
+    height: 6px;
+    background: #27c93f;
+    border-radius: 50%;
+    box-shadow: 0 0 8px #27c93f;
+    animation: statusPulse 2s infinite;
+}
+
+.version {
+    color: var(--muted);
+    opacity: 0.8;
+}
+ /* Futuristic Data Grid */
+.modal-meta-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.meta-item {
+    background: rgba(168, 85, 247, 0.08);
+    padding: 15px;
+    border-radius: 12px;
+    border: 1px solid rgba(168, 85, 247, 0.2);
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.meta-item:hover {
+    background: rgba(168, 85, 247, 0.15);
+    border-color: var(--accent-strong);
+    transform: translateY(-3px);
+}
+
+.meta-label { 
+    font-size: 0.65rem; 
+    color: var(--accent-strong); 
+    text-transform: uppercase; 
+    display: block; 
+    letter-spacing: 1px;
+    margin-bottom: 5px;
+}
+
+.meta-value { font-size: 0.95rem; font-weight: 700; color: #fff; }
+
+/* Refined Log Entries */
+.premium-log {
+    border-left: 2px solid var(--accent);
+    background: rgba(255, 255, 255, 0.03);
+    padding: 20px;
+    margin-bottom: 15px;
+    border-radius: 0 12px 12px 0;
+}
+
+@keyframes modalIn {
+    0% { transform: scale(0.9); opacity: 0; filter: brightness(2) blur(10px); }
+    50% { filter: brightness(1.2) blur(0px); }
+    100% { transform: scale(1); opacity: 1; filter: brightness(1); }
+}
+.mod-modal-close {
+  position: absolute;
+  top: 20px;
+  right: 22px;
+  font-size: 2rem;
+  background: none;
+  border: none;
+  color: var(--text);
+  cursor: pointer;
+}
+
+
+  /* --- CONTAINER SETUP --- */
+.hype-stage-wrapper {
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+    min-height: 400px; /* Reserves space to prevent page jumping */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    perspective: 1000px;
+    position: relative;
+}
+
+.hidden { display: none !important; }
+
+/* --- LOADING SCREEN STYLES --- */
+.loading-state {
+    text-align: center;
+    width: 100%;
+    max-width: 500px;
+}
+
+.glitch-hype-text {
+    font-family: monospace;
+    font-size: 1.5rem;
+    color: var(--accent-strong);
+    text-shadow: 0 0 15px var(--accent);
+    margin-bottom: 25px;
+    letter-spacing: 2px;
+}
+
+.progress-bar-wrapper {
+    width: 100%;
+    height: 6px;
+    background: rgba(168, 85, 247, 0.1);
+    border-radius: 10px;
+    border: 1px solid rgba(168, 85, 247, 0.2);
+    margin-bottom: 15px;
+    overflow: hidden;
+}
+
+.progress-bar-fill {
+    width: 0%;
+    height: 100%;
+    background: var(--accent-strong);
+    box-shadow: 0 0 20px var(--accent);
+    transition: width 0.1s ease-out;
+}
+
+.loading-meta {
+    display: flex;
+    justify-content: space-between;
+    font-family: monospace;
+    font-size: 0.9rem;
+    color: var(--muted);
+}
+
+/* --- TERMINAL BOX STYLES --- */
+.reveal-box {
+    width: 100%;
+    background: rgba(24, 18, 45, 0.7);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(168, 85, 247, 0.45);
+    border-radius: 20px;
+    box-shadow: 0 0 60px rgba(168, 85, 247, 0.25);
+    overflow: hidden;
+    animation: terminalIn 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+@keyframes terminalIn {
+    0% { opacity: 0; transform: translateY(30px) scale(0.95); }
+    100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.terminal-header {
+    background: rgba(168, 85, 247, 0.15);
+    padding: 14px 22px;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid rgba(168, 85, 247, 0.2);
+}
+
+.terminal-controls { display: flex; gap: 8px; margin-right: 18px; }
+.control { width: 11px; height: 11px; border-radius: 50%; }
+.red { background: #ff5f56; } .amber { background: #ffbd2e; } .green { background: #27c93f; }
+.terminal-title { font-family: monospace; font-size: 0.85rem; color: var(--muted); }
+
+.terminal-body { padding: 40px; min-height: 280px; display: flex; flex-direction: column; }
+.console-output { flex-grow: 1; margin-bottom: 20px; }
+
+.typewriter-text {
+    font-family: 'Courier New', monospace;
+    font-size: 1.15rem;
+    line-height: 1.7;
+    color: var(--text);
+}
+
+/* --- THE CIRCULAR SPINNER --- */
+.ai-thinking-loader {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 15px;
+    color: var(--accent-strong);
+}
+
+.spinner {
+    width: 18px;
+    height: 18px;
+    border: 2px solid rgba(168, 85, 247, 0.2);
+    border-top: 2px solid var(--accent-strong);
+    border-radius: 50%; /* Ensures a circle */
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes textFlicker { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+.flicker-text { animation: textFlicker 1.5s infinite; font-family: monospace; }
+
+.expand-data-btn {
+    padding: 12px 28px;
+    background: transparent;
+    border: 1px solid var(--accent);
+    color: var(--accent-strong);
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 700;
+    opacity: 0;
+    transition: all 0.4s ease;
+    align-self: flex-start;
+}
+
+.expand-data-btn.visible { opacity: 1; }
+.expand-data-btn:hover { background: var(--accent); color: white; box-shadow: 0 0 20px var(--accent); }
+
+  .ai-modal-body {
+    font-family: 'Courier New', monospace;
+    padding: 10px;
+}
+.data-header {
+    display: flex;
+    justify-content: space-between;
+    background: rgba(168, 85, 247, 0.1);
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    color: var(--accent-strong);
+    font-size: 0.8rem;
+    border: 1px solid rgba(168, 85, 247, 0.2);
+}
+.log-entry {
+    background: rgba(24, 18, 45, 0.4);
+    border-left: 3px solid var(--accent);
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 0 8px 8px 0;
+}
+.log-entry h4 { color: var(--accent-strong); margin-bottom: 5px; }
+.status-tag { float: right; background: var(--accent); color: white; padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; }
+
+  /* --- AI MODAL STATUS PULSE --- */
+.status-live { 
+    color: #27c93f; 
+    text-shadow: 0 0 10px #27c93f; 
+    font-weight: bold;
+    animation: statusPulse 2s infinite; 
+}
+
+@keyframes statusPulse { 
+    0%, 100% { opacity: 1; } 
+    50% { opacity: 0.4; } 
+}
+
+.log-entry p {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--muted);
+    margin-top: 5px;
+}
+
+  .command-dashboard {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 25px;
+    flex-wrap: wrap;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+/* Added via JS when typing ends */
+.command-dashboard.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.cmd-tag {
+    font-family: 'Courier New', monospace;
+    font-size: 0.8rem;
+    padding: 6px 14px;
+    background: rgba(168, 85, 247, 0.1);
+    border: 1px solid rgba(168, 85, 247, 0.4);
+    color: var(--accent-strong);
+    border-radius: 6px;
+    text-shadow: 0 0 8px rgba(168, 85, 247, 0.5);
+    cursor: pointer; /* Makes it look clickable */
+    transition: all 0.3s ease;
+    user-select: none;
+}
+
+.cmd-tag:hover {
+    background: rgba(168, 85, 247, 0.2);
+    border-color: var(--accent-strong);
+    box-shadow: 0 0 15px rgba(168, 85, 247, 0.3);
+    transform: translateY(-2px);
+}
+
+.cmd-tag:active {
+    transform: scale(0.95);
+}
+
+  /* Pixel Map Container */
+.stronghold-map {
+    display: inline-grid;
+    grid-template-columns: repeat(8, 12px);
+    grid-template-rows: repeat(8, 12px);
+    gap: 1px;
+    margin: 15px 0;
+    padding: 8px;
+    background: rgba(0,0,0,0.4);
+    border: 1px solid var(--accent);
+    border-radius: 4px;
+}
+
+/* Individual Pixels */
+.px { width: 12px; height: 12px; }
+.px.stone { background: #5a5a5a; } /* Stronghold Walls */
+.px.portal { background: #00ffcc; box-shadow: 0 0 10px #00ffcc; } /* Portal Room */
+.px.lava { background: #ff4500; } /* Lava */
+  /* Update your existing pixel styles */
+.px { 
+    width: 12px; 
+    height: 12px; 
+    border-radius: 1px; 
+}
+.px.empty { background: rgba(255, 255, 255, 0.05); } /* Missing background for '0' */
+.px.stone { background: #5a5a5a; border: 1px solid #444; } 
+.px.portal { background: #00ffcc; box-shadow: 0 0 10px #00ffcc; border: 1px solid #fff; }
+.px.lava { background: #ff4500; box-shadow: 0 0 8px #ff4500; }
+
+  .map-data-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin: 15px 0;
+    padding: 15px;
+    background: rgba(168, 85, 247, 0.05);
+    border-radius: 10px;
+    border: 1px solid rgba(168, 85, 247, 0.2);
+}
+
+.stronghold-map {
+    display: inline-grid;
+    grid-template-columns: repeat(8, 12px);
+    gap: 1px;
+    background: #000;
+    padding: 5px;
+    border: 1px solid var(--accent);
+}
+
+.coord-display {
+    font-family: 'Courier New', monospace;
+    font-size: 0.85rem;
+    color: var(--muted);
+    line-height: 1.6;
+}
+
+.coord-val { color: var(--accent-strong); font-weight: bold; }
+
+  /* Subtle glitch for the map and data wrapper */
+.map-data-wrapper {
+    animation: digital_flicker 0.2s ease-out;
+}
+
+@keyframes digital_flicker {
+    0% { opacity: 0; filter: brightness(2); transform: scale(0.98); }
+    50% { opacity: 0.8; filter: brightness(1.5); }
+    100% { opacity: 1; filter: brightness(1); transform: scale(1); }
+}
+
+/* Make the portal blocks glow specifically */
+.px.portal {
+    animation: portal_pulse 2s infinite ease-in-out;
+}
+
+@keyframes portal_pulse {
+    0%, 100% { box-shadow: 0 0 5px #00ffcc; filter: brightness(1); }
+    50% { box-shadow: 0 0 15px #00ffcc; filter: brightness(1.3); }
+}
+
+  /* The initial glitch entrance */
+.glitch-appear {
+    animation: terminal_glitch 0.3s steps(2) forwards;
+}
+
+@keyframes terminal_glitch {
+    0% { transform: translate(2px, -2px); filter: hue-rotate(90deg) brightness(2); opacity: 0; }
+    20% { transform: translate(-2px, 2px); filter: hue-rotate(180deg); opacity: 1; }
+    40% { transform: translate(-2px, -2px); }
+    60% { transform: translate(2px, 2px); filter: hue-rotate(0deg); }
+    80% { transform: translate(1px, -1px); }
+    100% { transform: translate(0); opacity: 1; }
+}
+
+/* Pulse for the portal room to keep it feeling "Live" */
+.px.portal {
+    animation: portal_glow 1.5s infinite ease-in-out;
+}
+
+@keyframes portal_glow {
+    0%, 100% { box-shadow: 0 0 5px #00ffcc; filter: brightness(1); }
+    50% { box-shadow: 0 0 15px #00ffcc; filter: brightness(1.4); }
+}
+  /* Container must be relative for the scanline to stay inside it */
+.stronghold-map {
+    position: relative;
+    overflow: hidden;
+}
+
+/* The moving scanline */
+.stronghold-map::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(
+        to bottom,
+        transparent,
+        rgba(0, 255, 204, 0.4),
+        transparent
+    );
+    box-shadow: 0 0 10px rgba(0, 255, 204, 0.2);
+    pointer-events: none;
+    animation: map_scanline 3s linear infinite;
+}
+
+@keyframes map_scanline {
+    0% { top: -10%; }
+    100% { top: 110%; }
+}
+
+  .modal-footer {
+    position: sticky;
+    bottom: -40px; /* Offset to stay at the very bottom edge */
+    left: 0;
+    width: 100%;
+    padding: 20px 0;
+    background: linear-gradient(to top, rgba(10, 5, 30, 1) 60%, transparent);
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    z-index: 100;
+}
+
+.action-btn {
+    padding: 10px 24px;
+    border-radius: 8px;
+    font-family: monospace;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s ease;
+    border: 1px solid var(--accent);
+    background: rgba(168, 85, 247, 0.1);
+    color: var(--text);
+}
+
+.action-btn.primary {
+    background: var(--accent);
+    box-shadow: 0 0 15px rgba(168, 85, 247, 0.4);
+}
+
+.action-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(168, 85, 247, 0.3);
+}
+
+  .card-watermark {
+    position: absolute;
+    bottom: -10px;
+    right: -10px;
+    width: 140px;
+    height: 140px;
+    pointer-events: none;
+    transform: rotate(-15deg);
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 0;
+}
+
+/* Hover Effect: The Enderman "Wakes Up" */
+.mod-card:hover .card-watermark {
+    transform: scale(1.2) rotate(-5deg) translateY(-10px);
+    filter: drop-shadow(0 0 10px rgba(255, 0, 255, 0.4));
+}
+
+.mod-card:hover .card-watermark path[fill="#ff00ff"] {
+    fill-opacity: 1; /* Eyes brighten on hover */
+}
+</style>
+</head>
+
+<body>
+
+  <audio id="type-sound" preload="auto">
+    <source src="https://www.soundjay.com/communication/typewriter-key-1.mp3" type="audio/mpeg">
+</audio>
+  <!-- EXPANDABLE NAV -->
+<div class="nav-wrapper">
+  <button class="nav-toggle" id="navToggle">+</button>
+
+  <nav class="nav-menu" id="navMenu">
+    <a href="#" id="navTop">Top</a>
+    <a href="#mods">Mods</a>
+    <a href="#about">About</a>
+    <a href="#contact">Contact</a>
+  </nav>
+</div>
+
+
+<canvas id="particles"></canvas>
+
+<div class="brand-sticky" id="brandSticky">ROX</div>
+
+<header class="hero" id="hero">
+  <div id="top"></div>
+
+ <div class="hero-overlay">
+  <div class="hero-text" id="heroText">
+    <h1 class="hero-name">ROX</h1>
+    <p class="hero-sub">Minecraft Mod Developer</p>
+  </div>
+</div>
+</header>
+
+<main>
+
+<section class="mods-section" id="mods">
+
+  <h2 class="section-title">Featured Mods</h2>
+<div class="featured-carousel">
+  <div class="featured-card"
+    data-title="Godzilla Evolution Mod"
+     data-desc="Take your survival experience to the next level with a full Godzilla progression system designed specifically for the 100 Days Challenge format. Start your journey as a Baby Godzilla, small and vulnerable, and survive your way through the world as you grow stronger over time. As the days progress, you’ll evolve into a massive, powerful version of Godzilla, unlocking devastating abilities and unstoppable strength."
+     data-images="G2.png,G1.png">
+    <span class="tag">Gameplay</span>
+    <h3>Godzilla Evolution Mod</h3>
+    <p>[Click for more deails]</p>
+  </div>
+
+  <div class="featured-card"
+    data-title="Ben 10 Omnitrix Mod – Ultimate Alien Transformation"
+     data-desc="Bring the power of the Omnitrix into Minecraft and become the ultimate alien hero! 
+    This mod allows players to use a fully functional Omnitrix system, transforming into multiple powerful aliens — each with their own unique abilities, strengths, and combat styles.."
+     data-images="B1.png,B2.png">
+    <span class="tag">Gameplay</span>
+    <h3>Ben 10 Omnitrix Mod – Ultimate Alien Transformation</h3>
+    <p>[Click for more deails]</p>
+  </div>
+
+  <div class="featured-card"
+    data-title="Attack on Titan: Ultimate 100 Days Titan Evolution"
+     data-desc="Enter the brutal world of Titans and experience Minecraft like never before with this fully featured Attack on Titan transformation mod. Start your journey as a Baby Titan, weak and unstable — and survive your way to becoming the unstoppable Colossal Titan. As you evolve, you unlock massive destruction abilities, titan strength, and world-ending powers. This mod is built for intense survival challenges and cinematic 100 Days content."
+     data-images="T1.png,T2.png">
+    <span class="tag">Gameplay</span>
+    <h3>Attack on Titan: Ultimate 100 Days Titan Evolution</h3>
+    <p>[Click for more deails]</p>
+  </div>
+</div>
+
+
+</section>
+
+  <div style="height: 18rem;"></div>
+
+<section class="mods-section" id="ai-hype-section">
+    <h2 class="section-title">In Development</h2>
+    
+    <div class="hype-stage-wrapper">
+        
+        <div id="loading-stage" class="loading-state">
+            <h3 id="decode-text" class="glitch-hype-text">SOMETHING BIG IS LOADING...</h3>
+            <div class="progress-bar-wrapper">
+                <div id="progressBar" class="progress-bar-fill"></div>
+            </div>
+            <div class="loading-meta">
+                <p>DECRYPTING: <span id="percent">0%</span></p>
+                <p>CORE: STABLE</p>
+            </div>
+        </div>
+
+        <div id="reveal-box" class="reveal-box hidden">
+            <div class="terminal-header">
+                <div class="terminal-controls">
+                    <span class="control red"></span>
+                    <span class="control amber"></span>
+                    <span class="control green"></span>
+                </div>
+                <span class="terminal-title">ROX_NEURAL_LOGS.sh</span>
+            </div>
+            <div class="terminal-body">
+                <div class="console-output">
+                    <div id="typewriter-content" class="typewriter-text"></div>
+                    
+                    <div id="ai-loader" class="ai-thinking-loader hidden">
+                        <div class="spinner"></div>
+                        <span class="flicker-text">AI is thinking...</span>
+                    </div>
+                </div>
+<div id="cmd-dashboard" class="command-dashboard">
+    <span class="cmd-tag" data-command="/locate_stronghold">/locate_stronghold</span>
+    <span class="cmd-tag" data-command="/supply_obsidian">/supply_obsidian</span>
+    <span class="cmd-tag" data-command="/sync_voice">/sync_voice</span>
+</div>
+                <button id="expand-btn" class="expand-data-btn">EXPAND SYSTEM DATA</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div style="height: 18rem;"></div>
+<section class="mods-section">
+  <h2 class="section-title">All Mods</h2>
+  <div class="mods-grid">
+    <div class="mod-card"
+      data-title="100 Days as Goku – Saiyan Survival Evolution"
+     data-desc="Take on the ultimate anime survival challenge and live 100 Days as Goku inside Minecraft! Start your journey as a low-level Saiyan and train your way to unlocking legendary transformations. Grow stronger each day, increase your power level, and become one of the most powerful warriors in existence. Built specifically for intense 100 Days survival challenges, this mod combines progression, combat, and iconic Saiyan abilities."
+     data-images="Goku1.png,Goku2.png,Goku3.png">
+      <div class="card-meta">
+    <div class="status-pulse">
+        <span class="dot"></span>
+        <span class="tag-text">Gameplay</span>
+    </div>
+    <span class="version">v1.20.0</span>
+</div>
+      <svg class="card-watermark enderman-icon" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0 0h16v16H0z" fill="currentColor" fill-opacity="0.05"/>
+    <path d="M2 7h3v2H2z" fill="#ff00ff" fill-opacity="0.6"/>
+    <path d="M11 7h3v2h-3z" fill="#ff00ff" fill-opacity="0.6"/>
+    <path d="M3 7h1v2H3zM12 7h1v2h-1z" fill="#fff" fill-opacity="0.3"/>
+</svg>
+      <h3 class="mod-title">100 Days as Goku – Saiyan Survival Evolution</h3></div>
+    <div class="mod-card"
+      data-title="Stranger Things Morph Mod"
+  data-desc="Step into the world of Hawkins and bring the horror of the Upside Down into Minecraft! This Stranger Things-inspired mod allows you to morph into iconic creatures from the series and use their unique abilities to scare, troll, and dominate your friends. Whether you're hunting players in the shadows or causing chaos in multiplayer, this mod turns your world into a supernatural battlefield.." 
+      data-images="ST1.png,ST2.png,ST5.png,ST3.png">
+      <div class="card-meta">
+    <div class="status-pulse">
+        <span class="dot"></span>
+        <span class="tag-text">Gameplay</span>
+    </div>
+    <span class="version">v1.20.0</span>
+</div>
+      <svg class="card-watermark enderman-icon" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0 0h16v16H0z" fill="currentColor" fill-opacity="0.05"/>
+    <path d="M2 7h3v2H2z" fill="#ff00ff" fill-opacity="0.6"/>
+    <path d="M11 7h3v2h-3z" fill="#ff00ff" fill-opacity="0.6"/>
+    <path d="M3 7h1v2H3zM12 7h1v2h-1z" fill="#fff" fill-opacity="0.3"/>
+</svg>
+     <h3 class="mod-title">Stranger Things Morph Mod</h3></div>
+    <div class="mod-card"
+       data-title="Immortal Mod – Ultimate Roleplay & Prank Powers"
+  data-desc="Take control of life and power in your Minecraft world with the Immortal Mod, a roleplay-focused prank mod that lets you turn ordinary mobs into unstoppable beings. Whether you're creating chaos on a server or setting up epic roleplay scenarios, this mod gives you full control over mob strength, survival, and abilities."
+      data-images="IM1.png,IM2.png">
+      <div class="card-meta">
+    <div class="status-pulse">
+        <span class="dot"></span>
+        <span class="tag-text">Gameplay</span>
+    </div>
+    <span class="version">v1.20.0</span>
+</div>
+      <svg class="card-watermark enderman-icon" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0 0h16v16H0z" fill="currentColor" fill-opacity="0.05"/>
+    <path d="M2 7h3v2H2z" fill="#ff00ff" fill-opacity="0.6"/>
+    <path d="M11 7h3v2h-3z" fill="#ff00ff" fill-opacity="0.6"/>
+    <path d="M3 7h1v2H3zM12 7h1v2h-1z" fill="#fff" fill-opacity="0.3"/>
+</svg>
+     <h3 class="mod-title">Immortal Mod – Ultimate Roleplay & Prank Powers</h3></div>
+    <div class="mod-card"
+       data-title="Minecraft But Drops Are Guns"
+  data-desc="What if every block you break gave you insane, overpowered guns instead of normal drops?
+
+This chaotic challenge mod completely changes Minecraft survival. Every time you mine a block, it drops a random overpowered gun — turning your peaceful world into a full-blown action battlefield.
+
+Forget wooden pickaxes… your progression now depends on firepower."
+      data-images="GUN.jpg">
+      <div class="card-meta">
+    <div class="status-pulse">
+        <span class="dot"></span>
+        <span class="tag-text">Gameplay</span>
+    </div>
+    <span class="version">v1.20.0</span>
+</div>
+      <svg class="card-watermark enderman-icon" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0 0h16v16H0z" fill="currentColor" fill-opacity="0.05"/>
+    <path d="M2 7h3v2H2z" fill="#ff00ff" fill-opacity="0.6"/>
+    <path d="M11 7h3v2h-3z" fill="#ff00ff" fill-opacity="0.6"/>
+    <path d="M3 7h1v2H3zM12 7h1v2h-1z" fill="#fff" fill-opacity="0.3"/>
+</svg>
+      <h3 class="mod-title">Minecraft But Drops Are Guns</h3></div>
+    <div class="mod-card"
+       data-title="World Destroyer Boss Mod"
+  data-desc="Here’s a polished, professional showcase description for your Custom Boss Mod 🔥👇
+
+👑 Ultimate Custom Boss Mod – World Destroyer
+
+Prepare your world for total destruction.
+
+This mod introduces an extremely powerful custom boss into Minecraft — designed to be one of the most dangerous encounters you’ll ever face. Built for high-difficulty survival and epic challenge videos, this boss is not meant to be taken lightly.
+
+One mistake… and you're gone in seconds."
+       data-images="BM1.png,BM2.png,BM3.png">
+      <div class="card-meta">
+    <div class="status-pulse">
+        <span class="dot"></span>
+        <span class="tag-text">Gameplay</span>
+    </div>
+    <span class="version">v1.20.0</span>
+</div>
+      <svg class="card-watermark enderman-icon" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0 0h16v16H0z" fill="currentColor" fill-opacity="0.05"/>
+    <path d="M2 7h3v2H2z" fill="#ff00ff" fill-opacity="0.6"/>
+    <path d="M11 7h3v2h-3z" fill="#ff00ff" fill-opacity="0.6"/>
+    <path d="M3 7h1v2H3zM12 7h1v2h-1z" fill="#fff" fill-opacity="0.3"/>
+</svg>
+      <h3 class="mod-title">World Destroyer Boss Mod</h3></div>
+    <div class="mod-card"
+       data-title="Cow Army Mod"
+  data-desc="Who said cows are peaceful?
+
+With the Cow Army Mod, you can command an unstoppable army of over 1000 cows and unleash them on anyone who dares to stand against you. What starts as a normal farm animal quickly turns into a full-scale invasion force.
+
+Cute… but deadly."
+      data-images="Cow1.png,Cow2.png,Cow3.png">
+      <div class="card-meta">
+    <div class="status-pulse">
+        <span class="dot"></span>
+        <span class="tag-text">Gameplay</span>
+    </div>
+    <span class="version">v1.20.0</span>
+</div>
+      <svg class="card-watermark enderman-icon" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0 0h16v16H0z" fill="currentColor" fill-opacity="0.05"/>
+    <path d="M2 7h3v2H2z" fill="#ff00ff" fill-opacity="0.6"/>
+    <path d="M11 7h3v2h-3z" fill="#ff00ff" fill-opacity="0.6"/>
+    <path d="M3 7h1v2H3zM12 7h1v2h-1z" fill="#fff" fill-opacity="0.3"/>
+</svg>
+      <h3 class="mod-title">Cow Army Mod</h3></div>
+  </div>
+
+  <div class="mods-grid-last">
+    <div class="mod-card"
+       data-title="Lie Detector Mod – Truth or Consequences"
+  data-desc="Bring truth and chaos to your Minecraft world with the Lie Detector Mod — the ultimate tool for roleplay, pranks, and multiplayer drama.
+
+Now you can test your friends and find out who’s really telling the truth… and who’s lying."
+     data-images="LD1.png,LD2.png" >
+      <div class="card-meta">
+    <div class="status-pulse">
+        <span class="dot"></span>
+        <span class="tag-text">Gameplay</span>
+    </div>
+    <span class="version">v1.20.0</span>
+</div>
+      <svg class="card-watermark enderman-icon" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0 0h16v16H0z" fill="currentColor" fill-opacity="0.05"/>
+    <path d="M2 7h3v2H2z" fill="#ff00ff" fill-opacity="0.6"/>
+    <path d="M11 7h3v2h-3z" fill="#ff00ff" fill-opacity="0.6"/>
+    <path d="M3 7h1v2H3zM12 7h1v2h-1z" fill="#fff" fill-opacity="0.3"/>
+</svg>
+      <h3 class="mod-title">Lie Detector Mod – Truth or Consequences</h3></div>
+    <div class="mod-card"
+       data-title="Broken Reality Mod"
+  data-desc="Welcome to the most cursed Minecraft experience ever created.
+
+In this mod, every action you take has unexpected consequences. Try to play normally… and the game fights back.
+
+Mining? Something goes wrong.
+Crafting? Something breaks.
+Fighting mobs? It gets worse.
+
+Nothing works the way it should."
+      data-images="BR1.jpeg,BR2.png">
+      <div class="card-meta">
+    <div class="status-pulse">
+        <span class="dot"></span>
+        <span class="tag-text">Gameplay</span>
+    </div>
+    <span class="version">v1.20.0</span>
+</div>
+      <svg class="card-watermark enderman-icon" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0 0h16v16H0z" fill="currentColor" fill-opacity="0.05"/>
+    <path d="M2 7h3v2H2z" fill="#ff00ff" fill-opacity="0.6"/>
+    <path d="M11 7h3v2h-3z" fill="#ff00ff" fill-opacity="0.6"/>
+    <path d="M3 7h1v2H3zM12 7h1v2h-1z" fill="#fff" fill-opacity="0.3"/>
+</svg>
+      <h3 class="mod-title">Broken Reality Mod</h3></div>
+  </div>
+</section>
+
+<section class="mods-section about" id="about">
+
+  <h2 class="section-title">About Me</h2>
+  <div class="about-grid">
+    <div class="about-text">
+      <p id="about-typewriter" data-text="I’m Rox, a Minecraft mod developer focused on building systems that players understand instinctively. I turn complex ideas into polished, intuitive mods through thoughtful design, balanced mechanics, and reliable code."></p>
+
+    </div>
+    <div class="about-stats">
+      <div class="stat"><h3 data-count="2">0+</h3><p>Years Experience</p></div>
+      <div class="stat"><h3 data-count="100">0+</h3><p>Published Mods</p></div>
+      <div class="stat"><h3 data-count="50">0+</h3><p>Clients Served</p></div>
+      <div class="stat"><h3 data-count="4.6">0</h3><p>Avg Rating</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="mods-section contact" id="contact">
+
+  <h2 class="section-title">Get In Touch</h2>
+  <div class="contact-grid">
+    <img src="roxcontact1.png" alt="Contact">
+   <div class="contact-info">
+
+  <div class="contact-row">
+    <!-- Gmail icon -->
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/>
+    </svg>
+    <span>roxminecraft.dev@gmail.com</span>
+  </div>
+
+  <div class="contact-row">
+    <!-- Discord official icon -->
+    <svg viewBox="0 0 245 240" aria-hidden="true">
+      <path d="M104.4 104.6c-5.7 0-10.2 5-10.2 11.1 0 6.1 4.6 11.1 10.2 11.1 5.7 0 10.2-5 10.2-11.1.1-6.1-4.5-11.1-10.2-11.1zm36.2 0c-5.7 0-10.2 5-10.2 11.1 0 6.1 4.6 11.1 10.2 11.1 5.7 0 10.2-5 10.2-11.1 0-6.1-4.5-11.1-10.2-11.1z"/>
+      <path d="M189.5 20h-134C24.5 20 10 34.5 10 52.3v135.4c0 17.8 14.5 32.3 32.3 32.3h113.1l-5.3-18.5 12.8 11.9 12.1 11.2 21.5 19V52.3C196.5 34.5 182 20 164.2 20zM163 157s-5.2-6.2-9.5-11.7c18.8-5.3 26-17.1 26-17.1-5.9 3.9-11.5 6.6-16.6 8.5-7.2 3-14.1 5-20.9 6.2-13.9 2.6-26.6 1.9-37.5-.1-8.3-1.6-15.5-3.9-21.4-6.2-3.3-1.3-6.9-3-10.5-5.1-.4-.2-.8-.4-1.2-.7-.1-.1-.2-.1-.3-.2-1.3-.7-2-1.2-2-1.2s7 11.5 25.4 16.9c-4.3 5.5-9.6 12-9.6 12-31.7-1-43.7-21.8-43.7-21.8 0-46.2 20.7-83.7 20.7-83.7 20.7-15.5 40.4-15 40.4-15l1.4 1.6c-25.9 7.5-37.8 18.8-37.8 18.8s3.2-1.7 8.5-4c15.4-6.8 27.6-8.6 32.6-9.1.8-.1 1.5-.2 2.3-.2 8.3-1.1 17.7-1.4 27.5-.3 13 1.5 26.9 5.4 41 13.4 0 0-11.3-10.8-35.6-18.3l2-2.3s19.7-.5 40.4 15c0 0 20.7 37.5 20.7 83.7 0 0-12.1 20.8-43.8 21.8z"/>
+    </svg>
+    <span class="copy-discord" data-copy="kratos_897">kratos_897</span>
+
+  </div>
+
+</div>
+
+  </div>
+</section>
+
+</main>
+
+<footer>© 2026 Rox · Built for Minecraft modding</footer>
+<!-- ===== MOD MODAL ===== -->
+<div class="mod-modal" id="modModal">
+  <div class="mod-modal-backdrop"></div>
+
+  <div class="mod-modal-content">
+    <button class="mod-modal-close">&times;</button>
+
+    <h2 id="modalTitle"></h2>
+    <p id="modalDesc"></p>
+
+    <div class="mod-modal-gallery" id="modalGallery"></div>
+  </div>
+</div>
+
+<script>
+/* ===== PIXEL PARTICLES ===== */
+const canvas = document.getElementById("particles");
+const ctx = canvas.getContext("2d");
+
+function resize() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+window.addEventListener("resize", resize);
+resize();
+
+const particles = Array.from({ length: 90 }, () => ({
+  x: Math.random() * canvas.width,
+  y: Math.random() * canvas.height,
+  size: Math.floor(Math.random() * 3) + 2,
+  vx: (Math.random() - 0.5) * 0.12,
+  vy: -Math.random() * 0.35 - 0.1,
+  a: Math.random() * 0.5 + 0.3
+}));
+
+function drawParticles() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  for (const p of particles) {
+    ctx.globalAlpha = p.a;
+    ctx.shadowColor = "rgba(168,85,247,0.6)";
+    ctx.shadowBlur = 10;
+    ctx.fillStyle = "#a855f7";
+    ctx.fillRect(p.x, p.y, p.size, p.size);
+
+    p.x += p.vx;
+    p.y += p.vy;
+
+    if (p.y < -10) {
+      p.y = canvas.height + 10;
+      p.x = Math.random() * canvas.width;
+    }
+  }
+  requestAnimationFrame(drawParticles);
+}
+drawParticles();
+
+/* ===== HERO SCROLL + BRAND ===== */
+const hero = document.getElementById("hero");
+const heroText = document.getElementById("heroText");
+const brand = document.getElementById("brandSticky");
+
+window.addEventListener("scroll", () => {
+  const y = window.scrollY;
+  const raw = Math.min(y / 500, 1);
+  const p = 1 - Math.pow(1 - raw, 3);
+
+  hero.style.transform = `translateY(${p * -120}px)`;
+  hero.style.opacity = 1 - p * 0.6;
+  hero.style.backgroundSize = `${110 + p * 6}%`;
+  hero.style.backgroundPositionY = `${50 - p * 6}%`;
+  heroText.style.transform = `translateY(${p * -40}px)`;
+
+  brand.classList.toggle("active", p > 0.55);
+});
+  /* ===== ABOUT STATS COUNT UP (RESTORED) ===== */
+const stats = document.querySelectorAll(".stat h3");
+
+const statObserver = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (!entry.isIntersecting) return;
+
+    const el = entry.target;
+    const target = parseFloat(el.dataset.count);
+    const isDecimal = target % 1 !== 0;
+    const suffix = el.textContent.includes("+") ? "+" : "";
+    const start = performance.now();
+    const duration = 1200;
+
+    function animate(now) {
+      const progress = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      const value = target * eased;
+
+      el.textContent = isDecimal
+        ? value.toFixed(1)
+        : Math.floor(value);
+
+      if (progress < 1) {
+        requestAnimationFrame(animate);
+      } else {
+        el.textContent = target + suffix;
+      }
+    }
+
+    requestAnimationFrame(animate);
+    statObserver.unobserve(el);
+  });
+}, { threshold: 0.6 });
+
+stats.forEach(stat => statObserver.observe(stat));
+ /* ===== ABOUT TYPEWRITER (LOCKED + MICRO TICK FEEL) ===== */
+const typeTarget = document.getElementById("about-typewriter");
+
+if (typeTarget) {
+  const text = typeTarget.dataset.text;
+  let index = 0;
+  let started = false;
+
+  const typeObserver = new IntersectionObserver(entries => {
+    if (!entries[0].isIntersecting || started) return;
+    started = true;
+
+    function type() {
+      if (index >= text.length) return;
+
+      const char = text.charAt(index);
+      typeTarget.textContent += char;
+
+      // micro visual "tick"
+      typeTarget.style.opacity = "0.92";
+      requestAnimationFrame(() => {
+        typeTarget.style.opacity = "1";
+      });
+
+      index++;
+
+      // subtle human-like pauses
+      let delay = 22;
+      if (char === "," || char === ".") delay = 140;
+      if (char === " ") delay = 18;
+
+      setTimeout(type, delay);
+    }
+
+    type();
+  }, { threshold: 0.6 });
+
+  typeObserver.observe(typeTarget);
+}
+  /* ===== COPY DISCORD ID ===== */
+const discordEl = document.querySelector(".copy-discord");
+
+if (discordEl) {
+  discordEl.addEventListener("click", () => {
+    const text = discordEl.dataset.copy;
+
+    navigator.clipboard.writeText(text).then(() => {
+      discordEl.classList.add("copied");
+
+      setTimeout(() => {
+        discordEl.classList.remove("copied");
+      }, 1200);
+    });
+  });
+}
+/* ===== EXPANDABLE NAV ===== */
+const navToggle = document.getElementById("navToggle");
+const navMenu = document.getElementById("navMenu");
+
+navToggle.addEventListener("click", () => {
+  navToggle.classList.toggle("open");
+  navMenu.classList.toggle("open");
+});
+/* ===== NAV TOP FIX ===== */
+const navTop = document.getElementById("navTop");
+
+if (navTop) {
+  navTop.addEventListener("click", (e) => {
+    e.preventDefault();
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+  });
+}
+/* ===== SMOOTH SCROLL FOR NAV LINKS ===== */
+document.querySelectorAll(".nav-menu a").forEach(link => {
+  link.addEventListener("click", e => {
+    e.preventDefault();
+
+    const targetId = link.getAttribute("href");
+
+    if (targetId === "#") {
+      // Top button
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } else {
+      const target = document.querySelector(targetId);
+      if (!target) return;
+
+      const y = target.getBoundingClientRect().top + window.pageYOffset;
+
+      window.scrollTo({
+        top: y,
+        behavior: "smooth"
+      });
+    }
+  });
+});
+/* ===== ACTIVE NAV HIGHLIGHT ===== */
+const sections = [
+  { id: "mods", link: "#mods" },
+  { id: "about", link: "#about" },
+  { id: "contact", link: "#contact" }
+];
+
+const navLinks = document.querySelectorAll(".nav-menu a");
+
+function updateActiveNav() {
+  let current = "";
+
+  sections.forEach(section => {
+    const el = document.getElementById(section.id);
+    if (!el) return;
+
+    const rect = el.getBoundingClientRect();
+    if (rect.top <= window.innerHeight * 0.35 && rect.bottom > window.innerHeight * 0.35) {
+      current = section.link;
+    }
+  });
+
+  navLinks.forEach(link => {
+    link.classList.toggle(
+      "active",
+      link.getAttribute("href") === current
+    );
+  });
+}
+
+window.addEventListener("scroll", updateActiveNav);
+updateActiveNav();
+/* ===== MOD CARD MODAL ===== */
+const modal = document.getElementById("modModal");
+const modalTitle = document.getElementById("modalTitle");
+const modalDesc = document.getElementById("modalDesc");
+const modalGallery = document.getElementById("modalGallery");
+const modalClose = document.querySelector(".mod-modal-close");
+const modalBackdrop = document.querySelector(".mod-modal-backdrop");
+
+document.querySelectorAll(".mod-card").forEach(card => {
+  card.addEventListener("click", () => {
+    modalTitle.textContent = card.dataset.title || "";
+    modalDesc.textContent = card.dataset.desc || "";
+
+    modalGallery.innerHTML = "";
+// Add zoom functionality to each gallery image
+modalGallery.querySelectorAll('img').forEach(img => {
+    img.addEventListener('click', () => {
+        // Create a temporary fullscreen overlay
+        const zoomOverlay = document.createElement('div');
+        zoomOverlay.style.cssText = `
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9); z-index: 3000; display: flex;
+            align-items: center; justify-content: center; cursor: zoom-out;
+            animation: fadeIn 0.3s ease;
+        `;
+        // Inside the click listener
+const category = card.querySelector('.tag').textContent;
+const statusColor = category === 'Gameplay' ? '#27c93f' : 'var(--accent-strong)';
+
+modalTitle.innerHTML = `
+    <span style="display:inline-block; width:10px; height:10px; border-radius:50%; background:${statusColor}; margin-right:12px; box-shadow: 0 0 10px ${statusColor}; animation: statusPulse 2s infinite;"></span>
+    ${card.dataset.title}
+`;
+        const zoomedImg = document.createElement('img');
+        zoomedImg.src = img.src;
+        zoomedImg.style.cssText = `max-width: 90%; max-height: 90%; border-radius: 10px; box-shadow: 0 0 50px rgba(0,0,0,0.5);`;
+        
+        zoomOverlay.appendChild(zoomedImg);
+        document.body.appendChild(zoomOverlay);
+        
+        zoomOverlay.onclick = () => zoomOverlay.remove();
+    });
+});
+    const images = card.dataset.images
+      ? card.dataset.images.split(",")
+      : [];
+
+    if (images.length) {
+      images.forEach(src => {
+        const img = document.createElement("img");
+        img.src = src.trim();
+        modalGallery.appendChild(img);
+      });
+    } else {
+      modalGallery.innerHTML =
+        "<p style='color:var(--muted)'>No images available.</p>";
+    }
+
+    modal.classList.add("active");
+    document.body.style.overflow = "hidden";
+  });
+});
+
+function closeModal() {
+  modal.classList.remove("active");
+  document.body.style.overflow = "";
+}
+
+modalClose.addEventListener("click", closeModal);
+modalBackdrop.addEventListener("click", closeModal);
+
+window.addEventListener("keydown", e => {
+  if (e.key === "Escape") closeModal();
+});
+/* ===== FEATURED ROTATING SPOTLIGHT (CENTER-BASED) ===== */
+
+const featuredCards = Array.from(document.querySelectorAll(".featured-card"));
+
+let positions = ["pos-left", "pos-center", "pos-right"];
+
+function applyPositions() {
+  featuredCards.forEach((card, i) => {
+    card.classList.remove("pos-left", "pos-center", "pos-right");
+    card.classList.add(positions[i]);
+  });
+}
+
+// rotate cards so next one comes to center
+function rotateCards() {
+  positions.unshift(positions.pop()); // right → center → left
+  applyPositions();
+}
+
+/* ===== FEATURED CARD → MODAL ===== */
+
+featuredCards.forEach((card, index) => {
+  card.addEventListener("click", () => {
+
+    // If NOT center → rotate into center
+    if (!card.classList.contains("pos-center")) {
+      while (!card.classList.contains("pos-center")) {
+        rotateCards();
+      }
+      resetAutoRotate();
+      return;
+    }
+
+    // If CENTER → open modal
+    modalTitle.textContent = card.dataset.title || "";
+    modalDesc.textContent = card.dataset.desc || "";
+    modalGallery.innerHTML = "";
+
+    const images = card.dataset.images
+      ? card.dataset.images.split(",")
+      : [];
+
+    if (images.length && images[0]) {
+      images.forEach(src => {
+        const img = document.createElement("img");
+        img.src = src.trim();
+        modalGallery.appendChild(img);
+      });
+    } else {
+      modalGallery.innerHTML =
+        "<p style='color:var(--muted)'>No images available.</p>";
+    }
+
+    modal.classList.add("active");
+    document.body.style.overflow = "hidden";
+  });
+});
+
+
+let autoRotateTimer;
+
+function resetAutoRotate() {
+  clearInterval(autoRotateTimer);
+  autoRotateTimer = setInterval(rotateCards, 3100);
+}
+
+// init
+applyPositions();
+resetAutoRotate();
+
+document.addEventListener('DOMContentLoaded', () => {
+    // 1. Element Selection
+    const progressBar = document.getElementById('progressBar');
+    const percentText = document.getElementById('percent');
+    const decodeText = document.getElementById('decode-text');
+    const loadingStage = document.getElementById('loading-stage');
+    const revealBox = document.getElementById('reveal-box');
+    const typewriterEl = document.getElementById('typewriter-content');
+    const expandBtn = document.getElementById('expand-btn');
+    const aiLoader = document.getElementById('ai-loader');
+    const modal = document.getElementById("modModal");
+
+  // Add this at the start of your DOMContentLoaded block
+document.addEventListener('click', () => {
+    const typeSound = document.getElementById('type-sound');
+    if (typeSound) {
+        // Play and immediately pause to "unlock" the audio context
+        typeSound.play().then(() => {
+            typeSound.pause();
+            typeSound.currentTime = 0;
+        }).catch(() => {});
+    }
+}, { once: true }); // Only runs once on the first click
+    // 2. Loading Bar Logic
+   // --- 2. Intersection-Triggered Loading Logic ---
+let progress = 0;
+let loadingStarted = false;
+
+const hypeSection = document.getElementById('ai-hype-section');
+
+const hypeObserver = new IntersectionObserver((entries) => {
+    // Only start if it's intersecting AND hasn't started yet
+    if (entries[0].isIntersecting && !loadingStarted) {
+        loadingStarted = true;
+        
+        const loadingInterval = setInterval(() => {
+            progress += Math.random() * 5.0; // Faster speed
+            
+            if (progress >= 100) {
+                progress = 100;
+                clearInterval(loadingInterval);
+                setTimeout(startReveal, 200); 
+            }
+            
+            if (progressBar) progressBar.style.width = progress + '%';
+            if (percentText) percentText.textContent = Math.floor(progress) + '%';
+        }, 30);
+        
+        // Stop observing once it has started
+        hypeObserver.unobserve(hypeSection);
+    }
+}, { threshold: 0.4 }); // Trigger when 40% of the section is visible
+
+if (hypeSection) hypeObserver.observe(hypeSection);
+
+    // 3. Transition to Terminal
+    function startReveal() {
+        if (loadingStage) loadingStage.classList.add('hidden');
+        if (revealBox) revealBox.classList.remove('hidden');
+        
+        const chat = [
+            { role: "player", text: "> /rox_ai build defensive perimeter" },
+            { role: "ai",     text: "> [ROX-AI]: Analyzing terrain... Perimeter coordinates set." },
+            { role: "player", text: "> What materials are needed?" },
+            { role: "ai",     text: "> [ROX-AI]: 64x Obsidian, 12x End Crystal. Initiating build..." },
+            { role: "ai",     text: "> [ROX-AI]: System standing by. Encryption secure." }
+        ];
+        playChat(chat);
+    }
+
+    // 4. Conversation Typing Logic
+   function playChat(chatArray) {
+    let lineIdx = 0;
+    const typeSound = document.getElementById('type-sound');
+
+    function typeLine() {
+        if (aiLoader) aiLoader.classList.add('hidden');
+
+        if (lineIdx < chatArray.length) {
+            const lineData = chatArray[lineIdx];
+            const lineDiv = document.createElement('div');
+            lineDiv.style.color = lineData.role === 'ai' ? 'var(--accent-strong)' : 'var(--text)';
+            if (lineData.role === 'ai') lineDiv.style.textShadow = '0 0 10px var(--accent)';
+            lineDiv.style.marginBottom = '12px';
+            lineDiv.style.fontFamily = 'monospace';
+            
+            typewriterEl.appendChild(lineDiv);
+            
+            let charIdx = 0;
+            const text = lineData.text;
+
+            function typeChar() {
+                if (charIdx < text.length) {
+                    lineDiv.textContent += text.charAt(charIdx);
+                    
+                    // ONLY play sound if the AI is typing
+                    if (lineData.role === 'ai' && typeSound) {
+                        typeSound.currentTime = 0; // Reset sound to start
+                        typeSound.play().catch(() => {}); // Play and ignore errors if browser blocks audio
+                    }
+
+                    charIdx++;
+                    setTimeout(typeChar, 30);
+                } else {
+                    lineIdx++;
+                    if (lineIdx < chatArray.length && chatArray[lineIdx].role === 'ai') {
+                        if (aiLoader) aiLoader.classList.remove('hidden');
+                        setTimeout(typeLine, 1400); 
+                    } else {
+                        setTimeout(typeLine, 600);
+                    }
+                }
+            }
+            typeChar();
+        } else {
+            // When typing finishes, show the button and dashboard
+            if (expandBtn) expandBtn.classList.add('visible');
+            const dashboard = document.getElementById('cmd-dashboard');
+            if (dashboard) dashboard.classList.add('active');
+        }
+    }
+    typeLine();
+}
+// --- COMMAND TAG INTERACTION ---
+document.querySelectorAll('.cmd-tag').forEach(tag => {
+    tag.addEventListener('click', () => {
+        const cmd = tag.getAttribute('data-command');
+        
+        // 1. Show thinking loader to simulate processing
+        if (aiLoader) aiLoader.classList.remove('hidden');
+
+        // 2. Create the player "input" line visually
+        const playerLine = document.createElement('div');
+        playerLine.style.color = 'var(--text)';
+        playerLine.style.marginBottom = '12px';
+        playerLine.style.fontFamily = 'monospace';
+        playerLine.textContent = `> ${cmd}`;
+        typewriterEl.appendChild(playerLine);
+
+        // 3. AI processes and then replies
+        setTimeout(() => {
+            if (aiLoader) aiLoader.classList.add('hidden');
+            
+            const aiReply = document.createElement('div');
+            aiReply.style.color = 'var(--accent-strong)';
+            aiReply.style.textShadow = '0 0 10px var(--accent)';
+            aiReply.style.marginBottom = '12px';
+            aiReply.style.fontFamily = 'monospace';
+            
+            // Logic to determine the AI's specific answer
+            let response = "> [ROX-AI]: Accessing database... command acknowledged.";
+
+        if(cmd.includes('stronghold')) {
+    const aiReply = document.createElement('div');
+    aiReply.style.color = 'var(--accent-strong)';
+    aiReply.textContent = "> [ROX-AI]: Stronghold localized. Seed-match found.";
+    typewriterEl.appendChild(aiReply);
+
+    // Create the wrapper for Map + Coords
+    const wrapper = document.createElement('div');
+    wrapper.className = "map-data-wrapper";
+
+    // 1. The Map
+    const mapDiv = document.createElement('div');
+    mapDiv.className = "stronghold-map";
+    
+    // Static "Randomized" Pattern (1=Wall, 2=Portal, 3=Lava, 0=Empty)
+    const blueprint = [
+        1,1,1,1,1,1,1,1,
+        1,0,0,1,2,2,1,1,
+        1,0,0,1,2,2,1,1,
+        1,1,0,1,1,1,1,1,
+        1,0,0,0,0,3,3,1,
+        1,0,1,1,0,3,3,1,
+        1,0,0,0,0,0,0,1,
+        1,1,1,1,1,1,1,1
+    ];
+
+   blueprint.forEach((cell, index) => {
+    const pixel = document.createElement('div');
+    pixel.className = "px " + (cell === 1 ? 'stone' : cell === 2 ? 'portal' : cell === 3 ? 'lava' : 'empty');
+    
+    // Start invisible
+    pixel.style.opacity = "0";
+    mapDiv.appendChild(pixel);
+
+    // Staggered glitch entrance
+    setTimeout(() => {
+        pixel.classList.add('glitch-appear');
+    }, index * 15); // 15ms delay per pixel for a "drawing" effect
+});
+
+    // 2. The Coordinates
+    const coordDiv = document.createElement('div');
+    coordDiv.className = "coord-display";
+    coordDiv.innerHTML = `
+        BLOCK: <span class="coord-val">END_PORTAL_FRAME</span><br>
+        LOC_X: <span class="coord-val">-1422</span><br>
+        LOC_Y: <span class="coord-val">32</span><br>
+        LOC_Z: <span class="coord-val">890</span><br>
+        STATUS: <span style="color:#27c93f">REACHABLE</span>
+    `;
+
+    wrapper.appendChild(mapDiv);
+    wrapper.appendChild(coordDiv);
+    typewriterEl.appendChild(wrapper);
+}
+          else if(cmd.includes('obsidian')) {
+    aiReply.innerHTML = `> [ROX-AI]: Material request approved. 
+        <div style="display:inline-flex; align-items:center; background:rgba(0,0,0,0.3); padding:5px 10px; border-radius:5px; margin-top:10px; border:1px solid #5a5a5a;">
+            <div style="width:20px; height:20px; background:#2e1a47; border:2px solid #1a0f29; margin-right:10px; box-shadow: inset 0 0 5px #000;"></div>
+            <span>64x Obsidian Added</span>
+        </div>`;
+    typewriterEl.appendChild(aiReply);
+}
+            else if(cmd.includes('voice')) {
+                aiReply.textContent = "> [ROX-AI]: Neural bridge synced. Monitoring voice frequency now.";
+                typewriterEl.appendChild(aiReply); // This was likely missing
+            }
+            // Keeps the newest text visible
+            const terminalBody = document.querySelector('.terminal-body');
+            terminalBody.scrollTo({
+                top: terminalBody.scrollHeight,
+                behavior: 'smooth'
+            });
+        }, 800); // 1.2 second "thinking" delay
+    });
+});
+
+ 
+    // 5. THE CLICKABLE BUTTON LOGIC (The Modal Trigger)
+   // 5. THE CLICKABLE BUTTON LOGIC (The Modal Trigger)
+    if (expandBtn) {
+        expandBtn.onclick = () => {
+            if(!modal) return;
+
+            // Set Futuristic Title
+            document.getElementById("modalTitle").textContent = "NEURAL_ASSISTANT // CAPABILITIES_REPORT";
+            
+            const modalDesc = document.getElementById("modalDesc");
+            modalDesc.innerHTML = `
+    <div class="ai-modal-body">
+        <div class="modal-meta-grid">
+            <div class="meta-item">
+                <span class="meta-label">Interface</span>
+                <span class="meta-value">Neural_Bridge_V4</span>
+            </div>
+            <div class="meta-item">
+                <span class="meta-label">Voice_Sync</span>
+                <span class="meta-value status-live">ONLINE</span>
+            </div>
+            <div class="meta-item">
+                <span class="meta-label">Status</span>
+                <span class="meta-value">PREMIUM_CORE</span>
+            </div>
+        </div>
+
+        <div class="premium-log">
+            <span class="status-tag">INTEL</span>
+            <h4 style="color:var(--accent-strong); margin-bottom:8px;">Real-Time Voice Companion</h4>
+            <p style="color:var(--muted); line-height:1.6; font-size:0.95rem;">
+                Rox-AI hears you. Talk to it like another player; it processes voice input and replies via text. It acts as a companion for survival strategies and complex builds.
+            </p>
+        </div>
+
+        <div class="premium-log">
+            <span class="status-tag">UTILITY</span>
+            <h4 style="color:var(--accent-strong); margin-bottom:8px;">Autonomous Command Execution</h4>
+            <p style="color:var(--muted); line-height:1.6; font-size:0.95rem;">
+                Hands-free administration. Ask the AI to "Find stronghold" or "Set weather." It executes server commands and provides coordinates immediately.
+            </p>
+        </div>
+
+        <div class="premium-log" style="border-color: #ffbd2e;">
+            <span class="status-tag" style="background:#ffbd2e;">LOGISTICS</span>
+            <h4 style="color:#ffbd2e; margin-bottom:8px;">Resource & Block Supply</h4>
+            <p style="color:var(--muted); line-height:1.6; font-size:0.95rem;">
+                Task the AI with supplying specific materials. It manages rare ore coordinates and tracks inventory to ensure you never run out of supplies.
+            </p>
+        </div>
+    </div>
+`;
+            
+            const modalGallery = document.getElementById("modalGallery");
+            modalGallery.innerHTML = "<p style='color:var(--muted); font-size:0.8rem; text-align:center; grid-column:1/-1;'>[VISUAL DATA ENCRYPTED - ALPHA ACCESS ONLY]</p>";
+
+            modal.classList.add("active");
+            document.body.style.overflow = "hidden";
+        };
+    }
+});
+</script>
+
+</body>
+</html>
 .nav-wrapper {
   position: fixed;
   top: 22px;

@@ -1782,9 +1782,13 @@ document.querySelectorAll('.cmd-tag').forEach(tag => {
     typewriterEl.appendChild(wrapper);
 }
           else if(cmd.includes('obsidian')) {
-                aiReply.textContent = "> [ROX-AI]: Material request approved. Delivering 64x Obsidian blocks.";
-                typewriterEl.appendChild(aiReply); // This was likely missing
-            } 
+    aiReply.innerHTML = `> [ROX-AI]: Material request approved. 
+        <div style="display:inline-flex; align-items:center; background:rgba(0,0,0,0.3); padding:5px 10px; border-radius:5px; margin-top:10px; border:1px solid #5a5a5a;">
+            <div style="width:20px; height:20px; background:#2e1a47; border:2px solid #1a0f29; margin-right:10px; box-shadow: inset 0 0 5px #000;"></div>
+            <span>64x Obsidian Added</span>
+        </div>`;
+    typewriterEl.appendChild(aiReply);
+}
             else if(cmd.includes('voice')) {
                 aiReply.textContent = "> [ROX-AI]: Neural bridge synced. Monitoring voice frequency now.";
                 typewriterEl.appendChild(aiReply); // This was likely missing

@@ -609,22 +609,44 @@ footer {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 20px;
+    perspective: 1000px; /* Adds depth for 3D effects */
 }
 
+/* Keep this separate */
+@keyframes imgPulse {
+    0% { background-color: rgba(168, 85, 247, 0.05); }
+    50% { background-color: rgba(168, 85, 247, 0.15); }
+    100% { background-color: rgba(168, 85, 247, 0.05); }
+}
+
+/* Merged block */
 .mod-modal-gallery img {
     width: 100%;
     aspect-ratio: 16/9;
     object-fit: cover;
-    border-radius: 15px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease;
-    cursor: zoom-in;
+    border-radius: 12px;
+    border: 1px solid rgba(168, 85, 247, 0.2);
+    cursor: pointer;
+    filter: brightness(0.8) contrast(1.1);
+    transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+    
+    /* ADD THESE TWO LINES HERE */
+    background: rgba(168, 85, 247, 0.1);
+    animation: imgPulse 2s infinite ease-in-out;
 }
 
+/* Keep your hover as it is */
 .mod-modal-gallery img:hover {
-    transform: scale(1.05) translateY(-5px);
-    box-shadow: 0 10px 30px rgba(168, 85, 247, 0.4);
+    filter: brightness(1.1) contrast(1.1);
+    transform: translateY(-8px) scale(1.02);
     border-color: var(--accent-strong);
+    box-shadow: 0 15px 35px rgba(168, 85, 247, 0.3);
+}
+
+/* Add this to stop the pulsing once the image actually loads */
+.mod-modal-gallery img.loaded {
+    animation: none;
+    background: transparent;
 }
 
  /* Futuristic Data Grid */
@@ -1549,7 +1571,28 @@ document.querySelectorAll(".mod-card").forEach(card => {
     modalDesc.textContent = card.dataset.desc || "";
 
     modalGallery.innerHTML = "";
-
+// Add zoom functionality to each gallery image
+modalGallery.querySelectorAll('img').forEach(img => {
+    img.addEventListener('click', () => {
+        // Create a temporary fullscreen overlay
+        const zoomOverlay = document.createElement('div');
+        zoomOverlay.style.cssText = `
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9); z-index: 3000; display: flex;
+            align-items: center; justify-content: center; cursor: zoom-out;
+            animation: fadeIn 0.3s ease;
+        `;
+        
+        const zoomedImg = document.createElement('img');
+        zoomedImg.src = img.src;
+        zoomedImg.style.cssText = `max-width: 90%; max-height: 90%; border-radius: 10px; box-shadow: 0 0 50px rgba(0,0,0,0.5);`;
+        
+        zoomOverlay.appendChild(zoomedImg);
+        document.body.appendChild(zoomOverlay);
+        
+        zoomOverlay.onclick = () => zoomOverlay.remove();
+    });
+});
     const images = card.dataset.images
       ? card.dataset.images.split(",")
       : [];

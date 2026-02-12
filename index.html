@@ -663,7 +663,18 @@ footer {
     animation: none;
     background: transparent;
 }
+.mod-title {
+    font-size: 1.2rem;
+    line-height: 1.4;
+    color: var(--text);
+    position: relative;
+    z-index: 2;
+    transition: color 0.3s ease;
+}
 
+.mod-card:hover .mod-title {
+    color: var(--accent-strong);
+}
  /* Futuristic Data Grid */
 .modal-meta-grid {
     display: grid;

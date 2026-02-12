@@ -233,28 +233,24 @@ body {
 }
 
 .featured-card {
-  width: 420px;
-  min-height: 240px;
-  padding: 36px;
-  border-radius: 26px;
-  cursor: pointer;
-
-  background: linear-gradient(
-    180deg,
-    rgba(70,40,140,.35),
-    rgba(10,5,30,.95)
-  );
-
-  box-shadow:
-    0 0 0 1px rgba(168,85,247,.35),
-    0 0 70px rgba(168,85,247,.35);
-
-  opacity: .45;
-  transform: scale(.88);
-  transition:
-    transform .6s cubic-bezier(.22,1,.36,1),
-    opacity .4s ease,
-    box-shadow .6s cubic-bezier(.22,1,.36,1);
+    position: absolute;
+    width: 420px;
+    min-height: 240px;
+    padding: 40px;
+    border-radius: 30px;
+    cursor: pointer;
+    overflow: hidden;
+    
+    /* 1. Frosted Glass base */
+    background: linear-gradient(145deg, rgba(40, 20, 80, 0.4), rgba(15, 5, 30, 0.95));
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    
+    /* 2. Low-energy state */
+    border: 1px solid rgba(168, 85, 247, 0.15);
+    opacity: 0.4;
+    transform: scale(0.88);
+    transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
 
@@ -269,7 +265,43 @@ body {
     width: 100%;
   }
 }
+.featured-card::before {
+    content: "";
+    position: absolute;
+    top: -100%;
+    left: 0;
+    width: 100%;
+    height: 50%;
+    background: linear-gradient(
+        to bottom,
+        transparent,
+        rgba(168, 85, 247, 0.1),
+        transparent
+    );
+    animation: scannerSweep 4s infinite linear;
+    pointer-events: none;
+}
 
+@keyframes scannerSweep {
+    0% { top: -100%; }
+    100% { top: 200%; }
+}
+  .featured-card h3 {
+    font-size: 1.8rem;
+    font-weight: 900;
+    margin-top: 15px;
+    line-height: 1.2;
+    color: var(--muted);
+    transition: all 0.4s ease;
+}
+
+.featured-card p {
+    font-family: monospace;
+    font-size: 0.85rem;
+    color: var(--accent-strong);
+    margin-top: 10px;
+    letter-spacing: 1px;
+}
 /* ===== FEATURED POSITION STATES ===== */
 
 .featured-card {
@@ -290,16 +322,28 @@ body {
 
 /* CENTER (ONLY spotlight) */
 .featured-card.pos-center {
-  transform: translateX(0) scale(1.08);
-  opacity: 1;
-  z-index: 3;
-
-  box-shadow:
-    0 0 0 1px rgba(168,85,247,.7),
-    0 0 160px rgba(168,85,247,.65),
-    0 0 280px rgba(168,85,247,.45);
+    opacity: 1;
+    z-index: 3;
+    transform: translateX(0) scale(1.05); /* Slight lift */
+    
+    /* 3. Deep contrast separation */
+    background: linear-gradient(145deg, rgba(60, 30, 120, 0.6), rgba(10, 5, 25, 0.98));
+    backdrop-filter: blur(25px) saturate(180%);
+    
+    /* 4. The "Holographic" border */
+    border: 1px solid rgba(168, 85, 247, 0.6);
+    box-shadow: 
+        inset 0 0 25px rgba(168, 85, 247, 0.1), /* Inner glow */
+        0 30px 60px rgba(0, 0, 0, 0.7),        /* Deep drop shadow */
+        0 0 40px rgba(168, 85, 247, 0.2);     /* Outer atmospheric glow */
 }
 
+/* Highlight the Title in the center card only */
+.featured-card.pos-center h3 {
+    color: #fff;
+    text-shadow: 0 0 15px rgba(168, 85, 247, 0.8);
+    transform: scale(1.05);
+}
 /* RIGHT */
 .featured-card.pos-right {
   transform: translateX(460px) scale(.88);

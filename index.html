@@ -628,19 +628,25 @@ footer {
 }
 
 /* Merged block */
+/* Image Showcase Grid - Pulsing State */
 .mod-modal-gallery img {
     width: 100%;
     aspect-ratio: 16/9;
     object-fit: cover;
     border-radius: 12px;
     border: 1px solid rgba(168, 85, 247, 0.2);
-    cursor: pointer;
-    filter: brightness(0.8) contrast(1.1);
-    transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
     
-    /* ADD THESE TWO LINES HERE */
     background: rgba(168, 85, 247, 0.1);
     animation: imgPulse 2s infinite ease-in-out;
+    opacity: 0; /* Hidden until loaded */
+    transition: opacity 0.5s ease;
+}
+
+/* Once Loaded: Show Image and Stop Pulse */
+.mod-modal-gallery img.loaded {
+    animation: none;
+    background: transparent;
+    opacity: 1;
 }
 
 /* Keep your hover as it is */
@@ -651,11 +657,7 @@ footer {
     box-shadow: 0 15px 35px rgba(168, 85, 247, 0.3);
 }
 
-/* Add this to stop the pulsing once the image actually loads */
-.mod-modal-gallery img.loaded {
-    animation: none;
-    background: transparent;
-}
+
 .mod-title {
     font-size: 1.2rem;
     line-height: 1.4;
@@ -1764,6 +1766,7 @@ function updateActiveNav() {
 window.addEventListener("scroll", updateActiveNav);
 updateActiveNav();
 /* ===== MOD CARD MODAL ===== */
+/* ===== MOD CARD MODAL ===== */
 const modal = document.getElementById("modModal");
 const modalTitle = document.getElementById("modalTitle");
 const modalDesc = document.getElementById("modalDesc");
@@ -1771,72 +1774,80 @@ const modalGallery = document.getElementById("modalGallery");
 const modalClose = document.querySelector(".mod-modal-close");
 const modalBackdrop = document.querySelector(".mod-modal-backdrop");
 
-document.querySelectorAll(".mod-card").forEach(card => {
-  card.addEventListener("click", () => {
-    modalTitle.textContent = card.dataset.title || "";
-    modalDesc.textContent = card.dataset.desc || "";
+document.querySelectorAll(".mod-card, .featured-card").forEach(card => {
+    card.addEventListener("click", () => {
+        // 1. Setup Title & Meta Data
+        const categoryTag = card.querySelector('.tag-text') || card.querySelector('.tag');
+        const category = categoryTag ? categoryTag.textContent : 'Gameplay';
+        const statusColor = category === 'Gameplay' ? '#27c93f' : 'var(--accent-strong)';
 
-    modalGallery.innerHTML = "";
-// Add zoom functionality to each gallery image
-modalGallery.querySelectorAll('img').forEach(img => {
-    img.addEventListener('click', () => {
-        // Create a temporary fullscreen overlay
-        const zoomOverlay = document.createElement('div');
-        zoomOverlay.style.cssText = `
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.9); z-index: 3000; display: flex;
-            align-items: center; justify-content: center; cursor: zoom-out;
-            animation: fadeIn 0.3s ease;
+        // Apply futuristic title with pulse dot
+        modalTitle.innerHTML = `
+            <span style="display:inline-block; width:10px; height:10px; border-radius:50%; background:${statusColor}; margin-right:12px; box-shadow: 0 0 10px ${statusColor}; animation: statusPulse 2s infinite;"></span>
+            ${card.dataset.title || "Unknown Mod"}
         `;
-        // Inside the click listener
-const category = card.querySelector('.tag').textContent;
-const statusColor = category === 'Gameplay' ? '#27c93f' : 'var(--accent-strong)';
 
-modalTitle.innerHTML = `
-    <span style="display:inline-block; width:10px; height:10px; border-radius:50%; background:${statusColor}; margin-right:12px; box-shadow: 0 0 10px ${statusColor}; animation: statusPulse 2s infinite;"></span>
-    ${card.dataset.title}
-`;
-        const zoomedImg = document.createElement('img');
-        zoomedImg.src = img.src;
-        zoomedImg.style.cssText = `max-width: 90%; max-height: 90%; border-radius: 10px; box-shadow: 0 0 50px rgba(0,0,0,0.5);`;
-        
-        zoomOverlay.appendChild(zoomedImg);
-        document.body.appendChild(zoomOverlay);
-        
-        zoomOverlay.onclick = () => zoomOverlay.remove();
+        // Apply Description
+        modalDesc.textContent = card.dataset.desc || "No description available.";
+
+        // 2. Handle Gallery Images
+        modalGallery.innerHTML = "";
+        const images = card.dataset.images ? card.dataset.images.split(",") : [];
+
+        if (images.length > 0) {
+            images.forEach(src => {
+                const img = document.createElement("img");
+                img.src = src.trim();
+                
+                // --- THE LOADING FIX ---
+                img.onload = () => img.classList.add('loaded'); // Removes pulse
+                if (img.complete) img.classList.add('loaded'); // Handle cached images
+
+                // --- ZOOM / LIGHTBOX LOGIC ---
+                img.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const zoomOverlay = document.createElement('div');
+                    zoomOverlay.style.cssText = `
+                        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+                        background: rgba(0,0,0,0.9); z-index: 3000; display: flex;
+                        align-items: center; justify-content: center; cursor: zoom-out;
+                        animation: fadeIn 0.3s ease;
+                    `;
+                    
+                    const zoomedImg = document.createElement('img');
+                    zoomedImg.src = img.src;
+                    zoomedImg.style.cssText = `max-width: 90%; max-height: 90%; border-radius: 10px; box-shadow: 0 0 50px rgba(0,0,0,0.5);`;
+                    
+                    zoomOverlay.appendChild(zoomedImg);
+                    document.body.appendChild(zoomOverlay);
+                    zoomOverlay.onclick = () => zoomOverlay.remove();
+                });
+
+                modalGallery.appendChild(img);
+            });
+        } else {
+            modalGallery.innerHTML = "<p style='color:var(--muted)'>No images available.</p>";
+        }
+
+        // 3. Open Modal
+        modal.classList.add("active");
+        document.body.style.overflow = "hidden";
     });
 });
-    const images = card.dataset.images
-      ? card.dataset.images.split(",")
-      : [];
 
-    if (images.length) {
-      images.forEach(src => {
-        const img = document.createElement("img");
-        img.src = src.trim();
-        modalGallery.appendChild(img);
-      });
-    } else {
-      modalGallery.innerHTML =
-        "<p style='color:var(--muted)'>No images available.</p>";
-    }
-
-    modal.classList.add("active");
-    document.body.style.overflow = "hidden";
-  });
-});
-
+/* ===== MODAL UTILITIES ===== */
 function closeModal() {
-  modal.classList.remove("active");
-  document.body.style.overflow = "";
+    modal.classList.remove("active");
+    document.body.style.overflow = "";
 }
 
 modalClose.addEventListener("click", closeModal);
 modalBackdrop.addEventListener("click", closeModal);
 
 window.addEventListener("keydown", e => {
-  if (e.key === "Escape") closeModal();
+    if (e.key === "Escape") closeModal();
 });
+
 /* ===== FEATURED ROTATING SPOTLIGHT (CENTER-BASED) ===== */
 
 const featuredCards = Array.from(document.querySelectorAll(".featured-card"));

@@ -693,16 +693,10 @@ footer {
 }
 
 @keyframes modalIn {
-  from {
-    transform: translateY(40px) scale(.96);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0) scale(1);
-    opacity: 1;
-  }
+    0% { transform: scale(0.9); opacity: 0; filter: brightness(2) blur(10px); }
+    50% { filter: brightness(1.2) blur(0px); }
+    100% { transform: scale(1); opacity: 1; filter: brightness(1); }
 }
-
 .mod-modal-close {
   position: absolute;
   top: 20px;
@@ -1069,6 +1063,41 @@ footer {
 @keyframes map_scanline {
     0% { top: -10%; }
     100% { top: 110%; }
+}
+
+  .modal-footer {
+    position: sticky;
+    bottom: -40px; /* Offset to stay at the very bottom edge */
+    left: 0;
+    width: 100%;
+    padding: 20px 0;
+    background: linear-gradient(to top, rgba(10, 5, 30, 1) 60%, transparent);
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    z-index: 100;
+}
+
+.action-btn {
+    padding: 10px 24px;
+    border-radius: 8px;
+    font-family: monospace;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s ease;
+    border: 1px solid var(--accent);
+    background: rgba(168, 85, 247, 0.1);
+    color: var(--text);
+}
+
+.action-btn.primary {
+    background: var(--accent);
+    box-shadow: 0 0 15px rgba(168, 85, 247, 0.4);
+}
+
+.action-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(168, 85, 247, 0.3);
 }
 </style>
 </head>
@@ -1582,7 +1611,14 @@ modalGallery.querySelectorAll('img').forEach(img => {
             align-items: center; justify-content: center; cursor: zoom-out;
             animation: fadeIn 0.3s ease;
         `;
-        
+        // Inside the click listener
+const category = card.querySelector('.tag').textContent;
+const statusColor = category === 'Gameplay' ? '#27c93f' : 'var(--accent-strong)';
+
+modalTitle.innerHTML = `
+    <span style="display:inline-block; width:10px; height:10px; border-radius:50%; background:${statusColor}; margin-right:12px; box-shadow: 0 0 10px ${statusColor}; animation: statusPulse 2s infinite;"></span>
+    ${card.dataset.title}
+`;
         const zoomedImg = document.createElement('img');
         zoomedImg.src = img.src;
         zoomedImg.style.cssText = `max-width: 90%; max-height: 90%; border-radius: 10px; box-shadow: 0 0 50px rgba(0,0,0,0.5);`;

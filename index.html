@@ -1871,32 +1871,69 @@ function rotateCards() {
   applyPositions();
 }
 
-/* ===== FEATURED CARD → MODAL ===== */
+/* ===== UNIFIED MODAL & CAROUSEL BRAIN ===== */
 
+// 1. The Single "Brain" for opening the modal
+function openModModal(card) {
+    const categoryTag = card.querySelector('.tag-text') || card.querySelector('.tag');
+    const category = categoryTag ? categoryTag.textContent : 'Gameplay';
+    const statusColor = category === 'Gameplay' ? '#27c93f' : 'var(--accent-strong)';
 
-    // If CENTER → open modal
-    modalTitle.textContent = card.dataset.title || "";
-    modalDesc.textContent = card.dataset.desc || "";
+    modalTitle.innerHTML = `
+        <span style="display:inline-block; width:10px; height:10px; border-radius:50%; background:${statusColor}; margin-right:12px; box-shadow: 0 0 10px ${statusColor}; animation: statusPulse 2s infinite;"></span>
+        ${card.dataset.title || "Unknown Mod"}
+    `;
+
+    modalDesc.textContent = card.dataset.desc || "No description available.";
     modalGallery.innerHTML = "";
+    
+    const images = card.dataset.images ? card.dataset.images.split(",") : [];
 
-    const images = card.dataset.images
-      ? card.dataset.images.split(",")
-      : [];
+    if (images.length > 0 && images[0] !== "") {
+        images.forEach(src => {
+            const img = document.createElement("img");
+            img.src = src.trim();
+            img.onload = () => img.classList.add('loaded');
+            if (img.complete) img.classList.add('loaded');
 
-    if (images.length && images[0]) {
-      images.forEach(src => {
-        const img = document.createElement("img");
-        img.src = src.trim();
-        modalGallery.appendChild(img);
-      });
+            img.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const zoomOverlay = document.createElement('div');
+                zoomOverlay.style.cssText = `position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.9);z-index:3000;display:flex;align-items:center;justify-content:center;cursor:zoom-out;`;
+                const zoomedImg = document.createElement('img');
+                zoomedImg.src = img.src;
+                zoomedImg.style.cssText = `max-width:90%;max-height:90%;border-radius:10px;`;
+                zoomOverlay.appendChild(zoomedImg);
+                document.body.appendChild(zoomOverlay);
+                zoomOverlay.onclick = () => zoomOverlay.remove();
+            });
+            modalGallery.appendChild(img);
+        });
     } else {
-      modalGallery.innerHTML =
-        "<p style='color:var(--muted)'>No images available.</p>";
+        modalGallery.innerHTML = "<p style='color:var(--muted); grid-column: 1/-1; text-align:center;'>No showcase images available.</p>";
     }
 
     modal.classList.add("active");
     document.body.style.overflow = "hidden";
-  });
+}
+
+// 2. Attach to Featured Cards (with rotation logic)
+featuredCards.forEach((card) => {
+    card.addEventListener("click", () => {
+        if (!card.classList.contains("pos-center")) {
+            while (!card.classList.contains("pos-center")) {
+                rotateCards();
+            }
+            resetAutoRotate();
+            return; // Exit so modal doesn't open on a side-click
+        }
+        openModModal(card);
+    });
+});
+
+// 3. Attach to All Mods grid
+document.querySelectorAll(".mod-card").forEach(card => {
+    card.addEventListener("click", () => openModModal(card));
 });
 
 

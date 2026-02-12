@@ -1194,10 +1194,78 @@ footer {
 .mod-card:hover .card-watermark path[fill="#ff00ff"] {
     fill-opacity: 1; /* Eyes brighten on hover */
 }
+    #preloader {
+    position: fixed;
+    inset: 0;
+    background: #0b0614;
+    z-index: 10000; /* Highest priority */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.8s cubic-bezier(0.85, 0, 0.15, 1);
+}
+
+.preloader-content {
+    text-align: center;
+}
+
+.loader-name {
+    font-size: 5rem;
+    font-weight: 900;
+    letter-spacing: 15px;
+    color: #fff;
+    text-shadow: 0 0 20px rgba(168, 85, 247, 0.8), 0 0 40px rgba(168, 85, 247, 0.4);
+    animation: loaderPulse 2s ease-in-out infinite;
+    margin-bottom: 20px;
+}
+
+.loader-bar-container {
+    width: 200px;
+    height: 2px;
+    background: rgba(168, 85, 247, 0.1);
+    margin: 0 auto;
+    overflow: hidden;
+    border-radius: 4px;
+}
+
+.loader-bar-fill {
+    width: 0%;
+    height: 100%;
+    background: var(--accent-strong);
+    box-shadow: 0 0 10px var(--accent-strong);
+}
+
+.loader-status {
+    margin-top: 15px;
+    font-family: monospace;
+    font-size: 0.7rem;
+    color: var(--muted);
+    letter-spacing: 2px;
+}
+
+/* Animations */
+@keyframes loaderPulse {
+    0%, 100% { opacity: 1; filter: brightness(1); }
+    50% { opacity: 0.7; filter: brightness(1.5); }
+}
+
+/* State when finished */
+#preloader.loaded {
+    transform: translateY(-100%);
+}
 </style>
 </head>
 
 <body>
+    <div id="preloader">
+    <div class="preloader-content">
+        <h1 class="loader-name">ROX</h1>
+        <div class="loader-bar-container">
+            <div class="loader-bar-fill"></div>
+        </div>
+        <p class="loader-status">INITIALIZING SYSTEM...</p>
+    </div>
+</div>
 
   <audio id="type-sound" preload="auto">
     <source src="https://www.soundjay.com/communication/typewriter-key-1.mp3" type="audio/mpeg">
@@ -1922,7 +1990,38 @@ document.addEventListener('DOMContentLoaded', () => {
     const expandBtn = document.getElementById('expand-btn');
     const aiLoader = document.getElementById('ai-loader');
     const modal = document.getElementById("modModal");
+const preloader = document.getElementById('preloader');
+const barFill = document.querySelector('.loader-bar-fill');
+const statusText = document.querySelector('.loader-status');
 
+let loadProgress = 0;
+const messages = ["ACCESSING CORE...", "SYNCING NEURAL LINKS...", "LOADING MODS...", "SYSTEM READY"];
+
+const interval = setInterval(() => {
+    loadProgress += Math.random() * 15;
+    
+    if (loadProgress >= 100) {
+        loadProgress = 100;
+        clearInterval(interval);
+        statusText.textContent = messages[3];
+        
+        // Final Delay for the user to see "READY"
+        setTimeout(() => {
+            preloader.classList.add('loaded');
+            // Allow scrolling once loaded
+            document.body.style.overflow = 'auto';
+        }, 600);
+    } else {
+        // Change status message based on progress
+        const msgIndex = Math.floor((loadProgress / 100) * messages.length);
+        statusText.textContent = messages[msgIndex] || messages[0];
+    }
+    
+    barFill.style.width = loadProgress + '%';
+}, 120);
+
+// Lock scrolling while preloader is active
+document.body.style.overflow = 'hidden';
   // Add this at the start of your DOMContentLoaded block
 document.addEventListener('click', () => {
     const typeSound = document.getElementById('type-sound');

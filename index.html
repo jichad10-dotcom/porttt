@@ -1688,26 +1688,30 @@ function drawParticles() {
 drawParticles();
 
 /* ===== HERO SCROLL + BRAND ===== */
-const hero = document.getElementById("hero");
-const heroText = document.getElementById("heroText");
-const brand = document.getElementById("brandSticky");
-
-window.addEventListener("scroll", () => {
-    /* ===== HERO NAME TRANSITION (BIG -> SMALL) ===== */
+/* ===== UNIFIED SCROLL LOGIC ===== */
 const mainName = document.getElementById('main-name');
 const heroSub = document.querySelector('.hero-sub');
-    const scrollDistance = window.scrollY;
-    
-    if (scrollDistance > 200) {
-        // If user scrolled down more than 100px
+const brandSticky = document.getElementById("brandSticky");
+
+window.addEventListener("scroll", () => {
+    const y = window.scrollY;
+
+    // 1. Handle Name Docking (Big -> Small)
+    if (y > 100) {
         mainName.classList.add('docked');
-        if (heroSub) heroSub.style.opacity = "0"; // Hide the developer subtitle
+        if (heroSub) heroSub.classList.add('hidden');
     } else {
-        // If user is back at the very top
         mainName.classList.remove('docked');
-        if (heroSub) heroSub.style.opacity = "1"; // Show subtitle again
+        if (heroSub) heroSub.classList.remove('hidden');
     }
-    });
+
+    // 2. Handle Background Fade & Brand Appearance
+    const raw = Math.min(y / 500, 1);
+    const p = 1 - Math.pow(1 - raw, 3);
+    
+    hero.style.opacity = 1 - p * 0.6;
+    brandSticky.classList.toggle("active", p > 0.55);
+});
     /* ===== HERO PARALLAX ===== */
 const heroSection = document.getElementById("hero");
 const heroContent = document.getElementById("heroText");

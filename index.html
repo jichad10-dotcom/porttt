@@ -212,7 +212,7 @@ body {
     line-height: 1;
     color: #fff;
     text-shadow: 0 0 30px rgba(168, 85, 247, 0.5);
-    z-index: 1002; /* Above the nav */
+    z-index: 9999 !important; /* Above the nav */
     transition: all 0.6s cubic-bezier(0.22, 1, 0.36, 1);
     pointer-events: none; /* So it doesn't block clicks */
 }
@@ -1700,7 +1700,7 @@ window.addEventListener('scroll', () => {
     // This value (100) is the "Trigger Point" in pixels
     const scrollDistance = window.scrollY;
     
-    if (scrollDistance > 280) {
+    if (scrollDistance > 250) {
         // If user scrolled down more than 100px
         mainName.classList.add('docked');
         if (heroSub) heroSub.style.opacity = "0"; // Hide the developer subtitle

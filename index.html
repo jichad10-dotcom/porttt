@@ -203,6 +203,7 @@ body {
 }
 
 .hero-name {
+    border: 2px solid red !important;
     position: fixed; /* Stays on screen to move */
     left: clamp(2.5rem, 8vw, 6rem);
     top: 50%;
@@ -219,9 +220,9 @@ body {
 
 /* When the user scrolls, we will add this class via JS */
 .hero-name.docked {
-    top: 44px; /* Matches your nav vertical alignment */
-    left: 85px; /* Sets it next to your "+" nav button */
-    font-size: 1.5rem;
+    top: 20px !important; /* Matches your nav vertical alignment */
+    left: 20px !important; /* Sets it next to your "+" nav button */
+    font-size: 2rem;
     letter-spacing: 2px;
     text-shadow: 0 0 10px rgba(168, 85, 247, 0.8);
 }

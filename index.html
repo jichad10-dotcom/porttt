@@ -460,6 +460,27 @@ body {
 
 .featured-card:hover .featured-card-source {
     opacity: 0.05; /* Keep it extremely subtle */
+
+    /* Background Watermark (Sword) */
+.featured-sword-icon {
+    position: absolute;
+    bottom: -10px;
+    right: -10px;
+    width: 120px;
+    height: 120px;
+    pointer-events: none;
+    transform: rotate(-15deg);
+    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 0; /* Behind the text */
+    opacity: 0.05;
+}
+
+/* Hover effect for the active center card */
+.featured-card.pos-center:hover .featured-sword-icon {
+    transform: scale(1.15) rotate(-5deg) translateY(-5px);
+    opacity: 0.12;
+    filter: drop-shadow(0 0 10px rgba(168, 85, 247, 0.4));
+}
 }
 /* ===== FEATURED POSITION STATES ===== */
 
@@ -1528,6 +1549,10 @@ footer {
      data-desc="Take your survival experience to the next level with a full Godzilla progression system designed specifically for the 100 Days Challenge format. Start your journey as a Baby Godzilla, small and vulnerable, and survive your way through the world as you grow stronger over time. As the days progress, you’ll evolve into a massive, powerful version of Godzilla, unlocking devastating abilities and unstoppable strength."
      data-images="G2.png,G1.png">
     <span class="tag">Gameplay</span>
+      <svg class="featured-sword-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M18.5 3L11.5 10L10.5 11L11.5 12L12.5 11L11.5 10M18.5 3L21 5.5L14 12.5L11.5 10L18.5 3ZM10.5 11L7.5 14L4 14.5L3 17.5L5.5 20L8.5 19L9 15.5L12 12.5L10.5 11ZM6.5 17.5L5 19L4.5 17L6.5 17.5Z" 
+    stroke="var(--accent-strong)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
     <h3>Godzilla Evolution Mod</h3>
     <p>[Click for more deails]</p>
   </div>
@@ -1538,6 +1563,10 @@ footer {
     This mod allows players to use a fully functional Omnitrix system, transforming into multiple powerful aliens — each with their own unique abilities, strengths, and combat styles.."
      data-images="B1.png,B2.png">
     <span class="tag">Gameplay</span>
+      <svg class="featured-sword-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M18.5 3L11.5 10L10.5 11L11.5 12L12.5 11L11.5 10M18.5 3L21 5.5L14 12.5L11.5 10L18.5 3ZM10.5 11L7.5 14L4 14.5L3 17.5L5.5 20L8.5 19L9 15.5L12 12.5L10.5 11ZM6.5 17.5L5 19L4.5 17L6.5 17.5Z" 
+    stroke="var(--accent-strong)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
     <h3>Ben 10 Omnitrix Mod – Ultimate Alien Transformation</h3>
     <p>[Click for more deails]</p>
   </div>
@@ -1547,6 +1576,10 @@ footer {
      data-desc="Enter the brutal world of Titans and experience Minecraft like never before with this fully featured Attack on Titan transformation mod. Start your journey as a Baby Titan, weak and unstable — and survive your way to becoming the unstoppable Colossal Titan. As you evolve, you unlock massive destruction abilities, titan strength, and world-ending powers. This mod is built for intense survival challenges and cinematic 100 Days content."
      data-images="T1.png,T2.png">
     <span class="tag">Gameplay</span>
+      <svg class="featured-sword-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M18.5 3L11.5 10L10.5 11L11.5 12L12.5 11L11.5 10M18.5 3L21 5.5L14 12.5L11.5 10L18.5 3ZM10.5 11L7.5 14L4 14.5L3 17.5L5.5 20L8.5 19L9 15.5L12 12.5L10.5 11ZM6.5 17.5L5 19L4.5 17L6.5 17.5Z" 
+    stroke="var(--accent-strong)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
     <h3>Attack on Titan: Ultimate 100 Days Titan Evolution</h3>
     <p>[Click for more deails]</p>
   </div>

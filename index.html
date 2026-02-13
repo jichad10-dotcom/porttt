@@ -2135,7 +2135,25 @@ document.addEventListener('DOMContentLoaded', () => {
 const preloader = document.getElementById('preloader');
 const barFill = document.querySelector('.loader-bar-fill');
 const statusText = document.querySelector('.loader-status');
+const featuredSection = document.querySelector('.featured-carousel');
 
+featuredSection.addEventListener('mousemove', (e) => {
+    const activeCard = document.querySelector('.featured-card.pos-center');
+    if (!activeCard) return;
+
+    const rect = activeCard.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width - 0.5;
+    const y = (e.clientY - rect.top) / rect.height - 0.5;
+
+    // Apply a subtle 3D tilt
+    activeCard.style.transform = `translateX(0) scale(1.1) rotateX(${y * -10}deg) rotateY(${x * 10}deg)`;
+});
+
+// Reset tilt when mouse leaves
+featuredSection.addEventListener('mouseleave', () => {
+    const activeCard = document.querySelector('.featured-card.pos-center');
+    if (activeCard) activeCard.style.transform = `translateX(0) scale(1.1) rotateX(0) rotateY(0)`;
+});
 let loadProgress = 0;
 const messages = ["ACCESSING CORE...", "SYNCING NEURAL LINKS...", "LOADING MODS...", "SYSTEM READY"];
 

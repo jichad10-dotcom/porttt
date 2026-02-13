@@ -1704,22 +1704,38 @@ window.addEventListener("scroll", () => {
     const heroSub = document.querySelector('.hero-sub');
     const hero = document.getElementById("hero");
 
-    // 1. Name Docking
-    if (y > 200) {
-        if(mainName) mainName.classList.add('docked');
-        if(heroSub) heroSub.classList.add('hidden');
-    } else {
-        if(mainName) mainName.classList.remove('docked');
-        if(heroSub) heroSub.classList.remove('hidden');
+    // 1. Calculate progress (0 to 1) over the first 400px of scroll
+    const scrollMax = 400;
+    const p = Math.min(y / scrollMax, 1);
+
+    // 2. Smoothly interpolate Name Position & Size
+    // Starts at 50% top / 50% left -> Ends at 44px top / 85px left
+    const startTop = 50; // %
+    const endTop = 44;   // px
+    const startLeft = 50; // %
+    const endLeft = 100;  // px (approx center of nav area)
+    const startSize = 10; // rem (approx clamp max)
+    const endSize = 1.5;  // rem
+
+    if (mainName) {
+        // Move from center (%) to corner (px)
+        // We use calc to blend percentage and pixels smoothly
+        mainName.style.top = `calc(${startTop - (startTop * p)}% + ${endTop * p}px)`;
+        mainName.style.left = `calc(${50 - (42 * p)}% + ${28 * p}px)`; 
+        
+        // Smoothly shrink font size
+        mainName.style.fontSize = `${startSize - (startSize - endSize) * p}rem`;
+        
+        // Reset the translateY centering as we move
+        mainName.style.transform = `translateY(${-50 + (50 * p)}%)`;
+        
+        // Reduce glow as it gets smaller
+        mainName.style.textShadow = `0 0 ${40 - (30 * p)}px rgba(168,85,247,${0.8 - (0.3 * p)})`;
     }
 
-    // 2. Background Fade
-    const raw = Math.min(y / 500, 1);
-    const p = 1 - Math.pow(1 - raw, 3);
-    if(hero) {
-        hero.style.opacity = 1 - p * 0.6;
-        hero.style.transform = `translateY(${p * -40}px)`;
-    }
+    // 3. Fade out the Subtitle and Hero Background
+    if (heroSub) heroSub.style.opacity = 1 - (p * 2); // Fades out faster
+    if (hero) hero.style.opacity = 1 - p;
 });
   /* ===== ABOUT STATS COUNT UP (RESTORED) ===== */
 const stats = document.querySelectorAll(".stat h3");

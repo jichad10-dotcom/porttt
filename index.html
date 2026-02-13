@@ -209,6 +209,8 @@ body {
     top: 50%;
     transform: translateY(-50%);
     z-index: 9999;
+    margin: 0;   /* Ensure this is 0 */
+    padding: 0;  /* Ensure this is 0 */
     pointer-events: none;
 }
 
@@ -1707,25 +1709,29 @@ window.addEventListener("scroll", () => {
     const p = Math.min(y / 300, 1);
 
     if (mainName) {
-        // 2. THE MOVEMENT FIX
-        // We calculate the distance from the middle of the screen (50vh) 
-        // to the top padding (22px).
+        // 2. THE TOP-LIMIT FIX
+        // Instead of calculating from the center, we calculate 
+        // the offset needed to land the top of the text at 22px.
         const startPos = window.innerHeight / 2;
-        const endPos = 22; // Your target top position in pixels
+        const endPos = 22; 
         
-        // This math pulls the element up exactly as you scroll
+        // We add an extra buffer based on the progress 'p' 
+        // to prevent the font-scaling from pulling it upward.
         const moveY = (startPos - endPos) * p;
-        mainName.style.transform = `translateY(-${moveY}px)`;
+        
+        // Using translate3d is smoother for browser performance
+        mainName.style.transform = `translate3d(0, -${moveY}px, 0)`;
         
         // 3. SIZE & STYLE
-        const startSize = 8; // rem base
-        const endSize = 1.5; // rem final
+        const startSize = 8; 
+        const endSize = 1.5;
         mainName.style.fontSize = `${startSize - (startSize - endSize) * p}rem`;
         
+        // Reduce shadow to keep it clean in the corner
         mainName.style.textShadow = `0 0 ${40 - (30 * p)}px rgba(168, 85, 247, ${0.8 - (0.4 * p)})`;
     }
 
-    // 4. Fades for Subtitle and Background
+    // 4. Fades
     if (heroSub) heroSub.style.opacity = 1 - (p * 2);
     if (heroSection) heroSection.style.opacity = 1 - p;
 });

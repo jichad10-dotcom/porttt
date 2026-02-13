@@ -289,10 +289,10 @@ body {
 /* ===== REFINED PREMIUM FEATURED CARDS ===== */
 /* ===== PREMIUM SPOTLIGHT CARDS ===== */
 .featured-card {
-    width: 420px;
-    min-height: 280px;
-    padding: 40px;
-    border-radius: 28px;
+    width: 380px;
+    min-height: 220px;
+    padding: 430px;
+    border-radius: 24px;
     cursor: pointer;
     position: absolute;
     overflow: hidden; /* Crucial for the light sweep */
@@ -378,33 +378,37 @@ body {
 }
 /* Card Subtitles/Tags */
 /* Make titles shine */
+/* Featured Title - Smaller and more refined */
 .featured-card h3 {
-    font-size: 1.8rem;
+    font-size: 1.35rem; /* Reduced from 1.8rem */
     color: #ffffff;
-    margin-top: 20px;
-    font-weight: 900;
-    letter-spacing: -0.5px;
-    text-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+    margin-top: 15px;
+    font-weight: 800;
+    letter-spacing: -0.2px;
+    line-height: 1.3;
+    text-shadow: 0 0 15px rgba(255, 255, 255, 0.05);
 }
 
-/* Category Tag Visibility */
+/* Category Tag - Smaller and tighter */
 .featured-card .tag {
     background: var(--accent);
     color: #fff;
-    font-size: 0.65rem;
+    font-size: 0.55rem; /* Reduced from 0.65rem */
     font-weight: 800;
-    padding: 6px 14px;
-    border-radius: 6px;
-    box-shadow: 0 0 20px rgba(168, 85, 247, 0.4);
-    letter-spacing: 1.5px;
+    padding: 4px 10px; /* Tighter padding */
+    border-radius: 4px;
+    box-shadow: 0 0 15px rgba(168, 85, 247, 0.3);
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
 }
 
-/* Description Text */
+/* Description Text - Clean and readable */
 .featured-card p {
-    color: #cdc4f0; /* Brighter muted color */
-    line-height: 1.6;
-    margin-top: 12px;
-    font-size: 0.95rem;
+    color: #b7aedf; /* Muted purple-white */
+    line-height: 1.5;
+    margin-top: 10px;
+    font-size: 0.85rem; /* Reduced from 0.95rem */
+    font-weight: 400;
 }
 
 /* Subtle HUD background detail */

@@ -295,18 +295,22 @@ body {
     border-radius: 24px;
     cursor: pointer;
     position: absolute;
-    overflow: hidden; /* Crucial for the light sweep */
+    overflow: hidden;
     
-    /* Increased visibility: Darker base with higher saturation blur */
-    background: rgba(18, 12, 30, 0.85);
-    backdrop-filter: blur(30px) saturate(200%);
-    -webkit-backdrop-filter: blur(30px) saturate(200%);
+    /* 1. VINES/VOID BLEND: Using the background's indigo-purple */
+    background: rgba(13, 8, 26, 0.82); 
     
-    /* Silver Rim - very thin but bright */
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    /* 2. SATURATION PUNCH: Makes the background colors pop through the glass */
+    backdrop-filter: blur(25px) saturate(180%) brightness(0.9);
+    -webkit-backdrop-filter: blur(25px) saturate(180%) brightness(0.9);
     
-    /* Deep Shadow for physical depth */
-    box-shadow: 0 40px 80px rgba(0, 0, 0, 0.9);
+    /* 3. SUBTLE RIM: A very thin indigo line instead of white */
+    border: 1px solid rgba(168, 85, 247, 0.25);
+    
+    /* 4. VOID SHADOW: Deep indigo glow instead of black */
+    box-shadow: 
+        0 40px 100px rgba(0, 0, 0, 0.7),
+        0 0 40px rgba(10, 5, 20, 0.5);
     
     transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
@@ -355,10 +359,11 @@ body {
     opacity: 1;
     z-index: 10;
     transform: translateX(0) scale(1.05);
-    border-color: rgba(168, 85, 247, 0.6); /* Purple accent when active */
+    background: rgba(18, 10, 40, 0.88); /* Slightly lighter/more vivid purple */
+    border-color: rgba(168, 85, 247, 0.5);
     box-shadow: 
-        0 0 40px rgba(168, 85, 247, 0.15),
-        0 50px 100px rgba(0, 0, 0, 0.9);
+        0 0 60px rgba(168, 85, 247, 0.1),
+        0 50px 120px rgba(0, 0, 0, 0.9);
 }
 
 .featured-card.pos-center:hover {

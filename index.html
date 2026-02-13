@@ -202,22 +202,42 @@ body {
   align-items: flex-start;
 }
 
-.hero-name {
+/* Container to lock the starting 'rail' */
+.hero-text-container {
     position: fixed;
-    /* Lock the left side to 100px */
-    left: 100px !important; 
-    top: 45%;
+    left: 100px; /* This is your horizontal anchor for everything */
+    top: 50%;
     transform: translateY(-50%);
-    font-size: clamp(5rem, 15vw, 10rem);
-    font-weight: 900;
-    color: #e9d5ff;
-    text-shadow: 0 0 40px rgba(168, 85, 247, 0.8);
     z-index: 9999;
-    white-space: nowrap;
-    transition: none; 
     pointer-events: none;
 }
 
+.hero-name {
+    font-size: clamp(5rem, 12vw, 9rem);
+    font-weight: 900;
+    line-height: 0.9;
+    margin: 0;
+    color: #e9d5ff;
+    text-shadow: 0 0 40px rgba(168, 85, 247, 0.8);
+    white-space: nowrap;
+    transition: none; /* Instant scroll response */
+}
+
+.hero-sub {
+    margin-top: 10px;
+    font-size: 1.1rem;
+    color: var(--muted);
+    letter-spacing: .3em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    opacity: 1;
+    transition: opacity 0.2s ease;
+}
+
+/* Position when docked - linked via JS math, but here for reference */
+.hero-name.is-docked {
+    text-shadow: 0 0 10px rgba(168, 85, 247, 0.8);
+}
 /* This is the state it will snap to when you scroll down */
 .hero-name.docked {
     top: 22px;                     /* Match your Nav button height */
@@ -230,19 +250,6 @@ body {
 /* Hide the subtitle and illustration fade when scrolling */
 .hero-sub.hidden {
     opacity: 0;
-}
-.hero-sub {
-    position: fixed;
-    /* This MUST match the name's left value exactly */
-    left: 100px !important;
-    top: 56%;
-    font-size: 1.1rem;
-    color: var(--muted);
-    letter-spacing: .2em;
-    text-transform: uppercase;
-    white-space: nowrap; 
-    z-index: 9998;
-    pointer-events: none;
 }
 
   .hero-overlay {
@@ -1280,16 +1287,23 @@ footer {
 </head>
 
 <body>
-    <h1 class="hero-name" id="main-name">ROX</h1>
-    <div id="preloader">
-    <div class="preloader-content">
-        <h1 class="loader-name">ROX</h1>
-        <div class="loader-bar-container">
-            <div class="loader-bar-fill"></div>
-        </div>
-        <p class="loader-status">INITIALIZING SYSTEM...</p>
+    <div class="hero-text-container">
+        <h1 class="hero-name" id="main-name">ROX</h1>
+        <p class="hero-sub" id="hero-subtitle">MINECRAFT MOD DEVELOPER</p>
     </div>
-</div>
+
+    <div id="preloader">
+        <div class="preloader-content">
+            <h1 class="loader-name">ROX</h1>
+            <div class="loader-bar-container"><div class="loader-bar-fill"></div></div>
+            <p class="loader-status">INITIALIZING SYSTEM...</p>
+        </div>
+    </div>
+
+    <header class="hero" id="hero">
+        <div id="top"></div>
+        <div class="hero-overlay"></div> 
+    </header>
 
   <audio id="type-sound" preload="auto">
     <source src="https://www.soundjay.com/communication/typewriter-key-1.mp3" type="audio/mpeg">
@@ -1308,19 +1322,6 @@ footer {
 
 
 <canvas id="particles"></canvas>
-
-
-
-<header class="hero" id="hero">
-  <div id="top"></div>
-
- <div class="hero-overlay">
-  <div class="hero-text" id="heroText">
-   
-    <p class="hero-sub">Minecraft Mod Developer</p>
-  </div>
-</div>
-</header>
 
 <main>
 
@@ -1698,34 +1699,29 @@ drawParticles();
 window.addEventListener("scroll", () => {
     const y = window.scrollY;
     const mainName = document.getElementById('main-name');
-    const heroSub = document.querySelector('.hero-sub');
-    const hero = document.getElementById("hero");
+    const heroSub = document.getElementById('hero-subtitle');
+    const heroSection = document.getElementById("hero");
 
     // Progress (0 to 1) over 300px of scroll
     const p = Math.min(y / 300, 1);
 
     if (mainName) {
-        // Vertical Move: from 45% top down to 22px top
-        mainName.style.top = `calc(${45 - (45 * p)}% + ${22 * p}px)`;
+        // VERTICAL ONLY: Starts at 50% screen height, ends at 22px from top
+        // The 44% represents the starting point relative to the container
+        mainName.style.transform = `translateY(calc(${-50 + (50 * p)}% + ${22 * p}px))`;
         
-        // Horizontal: HARD-LOCKED to 100px (Matches the CSS anchor)
-        mainName.style.left = "100px";
-        
-        // Size: Shrink from 8rem to 1.5rem
-        const startSize = 8; 
-        const endSize = 1.5;
+        // SIZE: Shrinks from big to 1.5rem
+        const startSize = 8; // rem base
+        const endSize = 1.5; // rem final
         mainName.style.fontSize = `${startSize - (startSize - endSize) * p}rem`;
         
-        // Flatten the translateY as it docks
-        mainName.style.transform = `translateY(${-50 + (50 * p)}%)`;
-        
-        // Soften the glow
-        mainName.style.textShadow = `0 0 ${40 - (30 * p)}px rgba(168,85,247,${0.8 - (0.4 * p)})`;
+        // EFFECTS
+        mainName.style.textShadow = `0 0 ${40 - (30 * p)}px rgba(168, 85, 247, ${0.8 - (0.4 * p)})`;
     }
 
-    // Fades
+    // Fades for Subtitle and Background
     if (heroSub) heroSub.style.opacity = 1 - (p * 2);
-    if (hero) hero.style.opacity = 1 - p;
+    if (heroSection) heroSection.style.opacity = 1 - p;
 });
   /* ===== ABOUT STATS COUNT UP (RESTORED) ===== */
 const stats = document.querySelectorAll(".stat h3");

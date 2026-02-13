@@ -204,17 +204,17 @@ body {
 
 .hero-name {
     position: fixed;
-    left: 50%; /* Start Centered */
-    top: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 10rem;
+    /* Start exactly where your padding was earlier */
+    left: clamp(2.5rem, 8vw, 6rem); 
+    top: 45%;
+    transform: translateY(-50%);
+    font-size: clamp(5rem, 15vw, 10rem);
     font-weight: 900;
     color: #e9d5ff;
-    text-shadow: 0 0 40px rgba(168,85,247,.8);
+    text-shadow: 0 0 40px rgba(168, 85, 247, 0.8);
     z-index: 9999;
     white-space: nowrap;
-    /* Remove transition so it follows scroll instantly */
-    transition: none; 
+    transition: none; /* Instant response to scroll */
     pointer-events: none;
 }
 
@@ -234,18 +234,16 @@ body {
 
 .hero-sub {
     position: fixed;
-    left: 0;
-    right: 0;
-    top: 60%; /* Positioned below the center */
-    text-align: center;
-    font-size: 1.2rem;
+    /* Keeps it aligned with the name's left edge */
+    left: clamp(2.5rem, 8vw, 6rem);
+    top: 58%;
+    font-size: 1.1rem;
     color: var(--muted);
     letter-spacing: .2em;
     text-transform: uppercase;
-    white-space: nowrap; /* Forces it to stay on one line */
+    white-space: nowrap; /* Fixes the multi-line stacking */
     z-index: 9998;
     pointer-events: none;
-    transition: opacity 0.2s ease;
 }
 
   .hero-overlay {
@@ -1704,37 +1702,37 @@ window.addEventListener("scroll", () => {
     const heroSub = document.querySelector('.hero-sub');
     const hero = document.getElementById("hero");
 
-    // 1. Calculate progress (0 to 1) over the first 400px of scroll
-    const scrollMax = 400;
-    const p = Math.min(y / scrollMax, 1);
+    // 1. Progress (0 to 1) over 350px of scroll
+    const p = Math.min(y / 350, 1);
 
-    // 2. Smoothly interpolate Name Position & Size
-    // Starts at 50% top / 50% left -> Ends at 44px top / 85px left
-    const startTop = 50; // %
-    const endTop = 44;   // px
-    const startLeft = 50; // %
-    const endLeft = 100;  // px (approx center of nav area)
-    const startSize = 10; // rem (approx clamp max)
-    const endSize = 1.5;  // rem
+    // 2. Linear Position Math
+    const startTop = 45; // Start %
+    const endTop = 22;   // End px (Nav height)
+    
+    // We keep the left side consistent to avoid swerving
+    const startLeft = parseFloat(window.getComputedStyle(mainName).left); 
+    const endLeft = 85; // Fixed pixel position next to your Nav button
 
     if (mainName) {
-        // Move from center (%) to corner (px)
-        // We use calc to blend percentage and pixels smoothly
+        // Move Top: from 45% to 22px
         mainName.style.top = `calc(${startTop - (startTop * p)}% + ${endTop * p}px)`;
-        mainName.style.left = `calc(${50 - (42 * p)}% + ${28 * p}px)`; 
         
-        // Smoothly shrink font size
-        mainName.style.fontSize = `${startSize - (startSize - endSize) * p}rem`;
+        // Move Left: very slight shift to align with Nav button
+        mainName.style.left = `calc(${startLeft * (1 - p)}px + ${endLeft * p}px)`;
         
-        // Reset the translateY centering as we move
+        // Shrink Size: from current clamp down to 1.5rem
+        const currentSize = 8; // base rem size
+        mainName.style.fontSize = `${currentSize - (currentSize - 1.5) * p}rem`;
+        
+        // Flatten the translateY as it nears the top
         mainName.style.transform = `translateY(${-50 + (50 * p)}%)`;
         
-        // Reduce glow as it gets smaller
-        mainName.style.textShadow = `0 0 ${40 - (30 * p)}px rgba(168,85,247,${0.8 - (0.3 * p)})`;
+        // Dim shadow as it shrinks
+        mainName.style.textShadow = `0 0 ${40 - (30 * p)}px rgba(168,85,247,${0.8 - (0.4 * p)})`;
     }
 
-    // 3. Fade out the Subtitle and Hero Background
-    if (heroSub) heroSub.style.opacity = 1 - (p * 2); // Fades out faster
+    // 3. Fade Subtitle and Hero Background
+    if (heroSub) heroSub.style.opacity = 1 - (p * 2.5);
     if (hero) hero.style.opacity = 1 - p;
 });
   /* ===== ABOUT STATS COUNT UP (RESTORED) ===== */

@@ -203,19 +203,19 @@ body {
 }
 
 .hero-name {
-    position: fixed;               /* Stays on screen while you scroll */
-    left: clamp(2.5rem, 8vw, 6rem); /* Matches your current left padding */
-    top: 50%;                      /* Starts in the vertical center */
-    transform: translateY(-50%);    /* Perfectly centered vertically */
-    
+    position: fixed;
+    left: clamp(2.5rem, 8vw, 6rem);
+    /* Changed from 50% to 42% to give space for the subtitle below it */
+    top: 42%; 
+    transform: translateY(-50%);
     font-size: clamp(5rem, 15vw, 10rem);
     font-weight: 900;
     line-height: 1;
     color: #e9d5ff;
     text-shadow: 0 0 40px rgba(168,85,247,.8);
-    z-index: 9999;                 /* On top of everything */
-    transition: all 0.6s cubic-bezier(0.22, 1, 0.36, 1);
-    pointer-events: none;          /* Doesn't block clicks */
+    z-index: 9999;
+    transition: all 0.7s cubic-bezier(0.22, 1, 0.36, 1); /* Slightly slower for 'premium' feel */
+    pointer-events: none;
 }
 
 /* This is the state it will snap to when you scroll down */
@@ -233,10 +233,15 @@ body {
 }
 
 .hero-sub {
-  margin-top: .35rem;
-  font-size: 1.05rem;
-  color: var(--muted);
-  letter-spacing: .02em;
+    /* Fixed position to match the name's alignment */
+    position: fixed;
+    left: clamp(2.5rem, 8vw, 6rem);
+    top: 55%; /* Sits clearly below the ROX name */
+    font-size: 1.05rem;
+    color: var(--muted);
+    letter-spacing: .02em;
+    z-index: 9998;
+    transition: opacity 0.4s ease;
 }
 
   .hero-overlay {
@@ -1303,7 +1308,7 @@ footer {
 
 <canvas id="particles"></canvas>
 
-<div class="brand-sticky" id="brandSticky">ROX</div>
+
 
 <header class="hero" id="hero">
   <div id="top"></div>
@@ -1696,7 +1701,7 @@ window.addEventListener("scroll", () => {
     const hero = document.getElementById("hero");
 
     // 1. Name Docking
-    if (y > 80) {
+    if (y > 200) {
         if(mainName) mainName.classList.add('docked');
         if(heroSub) heroSub.classList.add('hidden');
     } else {

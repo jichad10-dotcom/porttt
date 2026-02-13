@@ -203,7 +203,6 @@ body {
 }
 
 .hero-name {
-    border: 2px solid red !important;
     position: fixed; /* Stays on screen to move */
     left: clamp(2.5rem, 8vw, 6rem);
     top: 50%;
@@ -1701,7 +1700,7 @@ window.addEventListener('scroll', () => {
     // This value (100) is the "Trigger Point" in pixels
     const scrollDistance = window.scrollY;
     
-    if (scrollDistance > 250) {
+    if (scrollDistance > 200) {
         // If user scrolled down more than 100px
         mainName.classList.add('docked');
         if (heroSub) heroSub.style.opacity = "0"; // Hide the developer subtitle

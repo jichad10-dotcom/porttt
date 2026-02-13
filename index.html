@@ -233,15 +233,19 @@ body {
 }
 
 .hero-sub {
-    /* Fixed position to match the name's alignment */
     position: fixed;
-    left: clamp(2.5rem, 8vw, 6rem);
-    top: 55%; /* Sits clearly below the ROX name */
-    font-size: 1.05rem;
+    left: 0;
+    right: 0;
+    top: 60%; /* Positioned below the center */
+    text-align: center;
+    font-size: 1.2rem;
     color: var(--muted);
-    letter-spacing: .02em;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    white-space: nowrap; /* Forces it to stay on one line */
     z-index: 9998;
-    transition: opacity 0.4s ease;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
 }
 
   .hero-overlay {

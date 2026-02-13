@@ -1408,6 +1408,16 @@ footer {
     33% { transform: translate(30px, -50px); }
     66% { transform: translate(-20px, 20px); }
 }
+    #scroll-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 2px;
+    background: var(--accent-strong);
+    box-shadow: 0 0 10px var(--accent-strong);
+    z-index: 10002;
+    width: 0%;
+}
 </style>
 </head>
 
@@ -1424,7 +1434,7 @@ footer {
             <p class="loader-status">INITIALIZING SYSTEM...</p>
         </div>
     </div>
-
+<div id="scroll-progress"></div>
     <header class="hero" id="hero">
         <div id="top"></div>
         <div class="hero-overlay">
@@ -1833,7 +1843,8 @@ window.addEventListener("scroll", () => {
     const mainName = document.getElementById('main-name');
     const heroSub = document.getElementById('hero-subtitle');
     const heroSection = document.getElementById("hero");
-
+const scrollPercent = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+document.getElementById('scroll-progress').style.width = scrollPercent + '%';
     // 1. Progress (0 to 1) over 300px of scroll
     const p = Math.min(y / 300, 1);
 

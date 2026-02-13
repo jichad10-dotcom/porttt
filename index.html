@@ -1286,6 +1286,16 @@ footer {
 #preloader.loaded {
     transform: translateY(-100%);
 }
+    @keyframes nameEntrance {
+    0% { opacity: 0; filter: blur(20px) brightness(2); transform: scale(1.1); }
+    10% { opacity: 0.5; filter: blur(10px) brightness(1.5); }
+    20% { opacity: 0.2; filter: blur(5px); }
+    100% { opacity: 1; filter: blur(0); transform: scale(1); }
+}
+
+.hero-name.animate-in {
+    animation: nameEntrance 1.2s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+}
 </style>
 </head>
 
@@ -2057,6 +2067,7 @@ const interval = setInterval(() => {
         setTimeout(() => {
             preloader.classList.add('loaded');
             // Allow scrolling once loaded
+            mainName.classList.add('animate-in');
             document.body.style.overflow = 'auto';
             // Tell the hero text to pop in with a smooth entrance
         document.getElementById("heroText").style.animation = "modalIn 0.8s cubic-bezier(0.23, 1, 0.32, 1) forwards";

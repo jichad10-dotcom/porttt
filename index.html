@@ -222,6 +222,7 @@ body {
     top: 20px !important; /* Matches your nav vertical alignment */
     left: 20px !important; /* Sets it next to your "+" nav button */
     font-size: 2rem;
+    transform: translateY(0) !important;
     letter-spacing: 2px;
     text-shadow: 0 0 10px rgba(168, 85, 247, 0.8);
 }
@@ -1304,12 +1305,12 @@ footer {
 <canvas id="particles"></canvas>
 
 <div class="brand-sticky" id="brandSticky">ROX</div>
-
+ <h1 class="hero-name" id="main-name">ROX</h1>
 <header class="hero" id="hero">
     <div id="top"></div>
     <div class="hero-overlay">
         <div class="hero-text">
-            <h1 class="hero-name" id="main-name">ROX</h1>
+           
             <p class="hero-sub">MINECRAFT MOD DEVELOPER</p>
         </div>
     </div>
@@ -1695,9 +1696,6 @@ window.addEventListener("scroll", () => {
     /* ===== HERO NAME TRANSITION (BIG -> SMALL) ===== */
 const mainName = document.getElementById('main-name');
 const heroSub = document.querySelector('.hero-sub');
-
-window.addEventListener('scroll', () => {
-    // This value (100) is the "Trigger Point" in pixels
     const scrollDistance = window.scrollY;
     
     if (scrollDistance > 200) {
@@ -1709,7 +1707,7 @@ window.addEventListener('scroll', () => {
         mainName.classList.remove('docked');
         if (heroSub) heroSub.style.opacity = "1"; // Show subtitle again
     }
-});
+    });
     /* ===== HERO PARALLAX ===== */
 const heroSection = document.getElementById("hero");
 const heroContent = document.getElementById("heroText");

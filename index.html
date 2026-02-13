@@ -203,29 +203,41 @@ body {
 }
 
 .hero-name {
-    font-size: clamp(4.5rem, 10vw, 7.5rem);
+    position: fixed; /* Stays on screen to move */
+    left: clamp(2.5rem, 8vw, 6rem);
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: clamp(5rem, 15vw, 10rem);
     font-weight: 900;
-    line-height: 1.05;
-    margin: 0;
-    color: #e9d5ff;
-    position: relative; /* Required for glitch */
-    text-shadow: 0 0 40px rgba(168,85,247,.8);
-    animation: heroGlitch 5s infinite; /* The timing of the glitch */
+    line-height: 1;
+    color: #fff;
+    text-shadow: 0 0 30px rgba(168, 85, 247, 0.5);
+    z-index: 1002; /* Above the nav */
+    transition: all 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+    pointer-events: none; /* So it doesn't block clicks */
 }
 
-@keyframes heroGlitch {
-    0%, 94%, 100% { transform: none; text-shadow: 0 0 40px rgba(168,85,247,.8); }
-    95% { transform: skew(2deg); text-shadow: -3px 0 #ff00ff, 3px 0 #00ffff; }
-    97% { transform: skew(-2deg); text-shadow: 3px 0 #ff00ff, -3px 0 #00ffff; }
-    98% { transform: none; }
+/* When the user scrolls, we will add this class via JS */
+.hero-name.docked {
+    top: 44px; /* Matches your nav vertical alignment */
+    left: 85px; /* Sets it next to your "+" nav button */
+    font-size: 1.5rem;
+    letter-spacing: 2px;
+    text-shadow: 0 0 10px rgba(168, 85, 247, 0.8);
 }
-
 
 .hero-sub {
-  margin-top: .35rem;
-  font-size: 1.05rem;
-  color: var(--muted);
-  letter-spacing: .02em;
+    margin-top: 20px;
+    font-size: 1.2rem;
+    letter-spacing: 5px;
+    color: var(--muted);
+    opacity: 1;
+    transition: opacity 0.3s ease;
+}
+
+/* Hide the subtitle when scrolling down */
+.hero-sub.hidden {
+    opacity: 0;
 }
 
   .hero-overlay {
@@ -1294,14 +1306,13 @@ footer {
 <div class="brand-sticky" id="brandSticky">ROX</div>
 
 <header class="hero" id="hero">
-  <div id="top"></div>
-
- <div class="hero-overlay">
-  <div class="hero-text" id="heroText">
-    <h1 class="hero-name">ROX</h1>
-    <p class="hero-sub">Minecraft Mod Developer</p>
-  </div>
-</div>
+    <div id="top"></div>
+    <div class="hero-overlay">
+        <div class="hero-text">
+            <h1 class="hero-name" id="main-name">ROX</h1>
+            <p class="hero-sub">MINECRAFT MOD DEVELOPER</p>
+        </div>
+    </div>
 </header>
 
 <main>
@@ -1681,6 +1692,24 @@ const heroText = document.getElementById("heroText");
 const brand = document.getElementById("brandSticky");
 
 window.addEventListener("scroll", () => {
+    /* ===== HERO NAME TRANSITION (BIG -> SMALL) ===== */
+const mainName = document.getElementById('main-name');
+const heroSub = document.querySelector('.hero-sub');
+
+window.addEventListener('scroll', () => {
+    // This value (100) is the "Trigger Point" in pixels
+    const scrollDistance = window.scrollY;
+    
+    if (scrollDistance > 100) {
+        // If user scrolled down more than 100px
+        mainName.classList.add('docked');
+        if (heroSub) heroSub.style.opacity = "0"; // Hide the developer subtitle
+    } else {
+        // If user is back at the very top
+        mainName.classList.remove('docked');
+        if (heroSub) heroSub.style.opacity = "1"; // Show subtitle again
+    }
+});
     /* ===== HERO PARALLAX ===== */
 const heroSection = document.getElementById("hero");
 const heroContent = document.getElementById("heroText");

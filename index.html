@@ -464,15 +464,20 @@ body {
     /* Background Watermark (Sword) */
 .featured-sword-icon {
     position: absolute;
-    bottom: -10px;
-    right: -10px;
-    width: 120px;
-    height: 120px;
+    bottom: -15px;
+    right: -15px;
+    width: 100px; /* Force a smaller size */
+    height: 100px;
+    opacity: 0.1; /* Make it very faint like a watermark */
     pointer-events: none;
+    z-index: 1;
     transform: rotate(-15deg);
-    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-    z-index: 0; /* Behind the text */
-    opacity: 0.05;
+}
+    .featured-card h3, 
+.featured-card p, 
+.featured-card .tag {
+    position: relative; /* This allows z-index to work */
+    z-index: 10;        /* Put it above the sword and the rain */
 }
 
 /* Hover effect for the active center card */

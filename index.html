@@ -442,21 +442,32 @@ body {
     transform: scale(1.1) translate(10px, 10px);
 }
 
-    .featured-card-source {
+/* Ensure the rain is visible but doesn't block the light sweep */
+.featured-card-source {
     position: absolute;
     inset: 0;
     font-family: monospace;
-    font-size: 8px;
+    font-size: 9px;
     color: var(--accent-strong);
+    padding: 20px;
+    line-height: 1.2;
     opacity: 0;
     pointer-events: none;
-    overflow: hidden;
-    mask-image: linear-gradient(to bottom, black, transparent);
-    -webkit-mask-image: linear-gradient(to bottom, black, transparent);
+    z-index: 1; /* Behind the text (5) but above the background */
+    transition: opacity 0.4s ease;
 }
 
+/* Make it appear on hover */
 .featured-card:hover .featured-card-source {
-    opacity: 0.05; /* Keep it extremely subtle */
+    opacity: 0.12; /* Increased slightly so you can see it */
+}
+
+/* Ensure your main text stays on top of the rain */
+.featured-card h3, 
+.featured-card p, 
+.featured-card .tag {
+    position: relative;
+    z-index: 5; 
 }
 /* ===== FEATURED POSITION STATES ===== */
 

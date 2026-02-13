@@ -204,8 +204,8 @@ body {
 
 .hero-name {
     position: fixed;
-    /* This is your new horizontal 'rail' */
-    left: 7rem; 
+    /* Lock the left side to 100px */
+    left: 100px !important; 
     top: 45%;
     transform: translateY(-50%);
     font-size: clamp(5rem, 15vw, 10rem);
@@ -214,7 +214,7 @@ body {
     text-shadow: 0 0 40px rgba(168, 85, 247, 0.8);
     z-index: 9999;
     white-space: nowrap;
-    transition: none; /* Instant feedback for scrolling */
+    transition: none; 
     pointer-events: none;
 }
 
@@ -231,11 +231,10 @@ body {
 .hero-sub.hidden {
     opacity: 0;
 }
-
 .hero-sub {
     position: fixed;
-    /* MUST match the name's left value exactly for perfect alignment */
-    left: 7rem;
+    /* This MUST match the name's left value exactly */
+    left: 100px !important;
     top: 56%;
     font-size: 1.1rem;
     color: var(--muted);
@@ -1706,25 +1705,25 @@ window.addEventListener("scroll", () => {
     const p = Math.min(y / 300, 1);
 
     if (mainName) {
-        // Vertical: Moves from 45% top to 22px top
+        // Vertical Move: from 45% top down to 22px top
         mainName.style.top = `calc(${45 - (45 * p)}% + ${22 * p}px)`;
         
-        // Horizontal: LOCKED to 7rem (This fixes the swerve/alignment)
-        mainName.style.left = "7rem";
+        // Horizontal: HARD-LOCKED to 100px (Matches the CSS anchor)
+        mainName.style.left = "100px";
         
-        // Size: Shrinks from big clamp to small nav size
+        // Size: Shrink from 8rem to 1.5rem
         const startSize = 8; 
         const endSize = 1.5;
         mainName.style.fontSize = `${startSize - (startSize - endSize) * p}rem`;
         
-        // Transform: Flattens centering as it docks
+        // Flatten the translateY as it docks
         mainName.style.transform = `translateY(${-50 + (50 * p)}%)`;
         
-        // Glow: Smoothly fades out shadow
+        // Soften the glow
         mainName.style.textShadow = `0 0 ${40 - (30 * p)}px rgba(168,85,247,${0.8 - (0.4 * p)})`;
     }
 
-    // Fades for Subtitle and Background
+    // Fades
     if (heroSub) heroSub.style.opacity = 1 - (p * 2);
     if (hero) hero.style.opacity = 1 - p;
 });

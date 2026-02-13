@@ -204,17 +204,17 @@ body {
 
 .hero-name {
     position: fixed;
-    left: clamp(2.5rem, 8vw, 6rem);
-    /* Changed from 50% to 42% to give space for the subtitle below it */
-    top: 42%; 
-    transform: translateY(-50%);
-    font-size: clamp(5rem, 15vw, 10rem);
+    left: 50%; /* Start Centered */
+    top: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 10rem;
     font-weight: 900;
-    line-height: 1;
     color: #e9d5ff;
     text-shadow: 0 0 40px rgba(168,85,247,.8);
     z-index: 9999;
-    transition: all 0.7s cubic-bezier(0.22, 1, 0.36, 1); /* Slightly slower for 'premium' feel */
+    white-space: nowrap;
+    /* Remove transition so it follows scroll instantly */
+    transition: none; 
     pointer-events: none;
 }
 

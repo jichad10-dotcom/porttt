@@ -1708,7 +1708,11 @@ window.addEventListener("scroll", () => {
         if(mainName) mainName.classList.remove('docked');
         if(heroSub) heroSub.classList.remove('hidden');
     }
-
+const hero = document.getElementById("hero");
+    if(hero) {
+        const p = Math.min(y / 600, 1); // Increased from 500 to 600
+        hero.style.opacity = 1 - p;
+    }
     // 2. Background Fade
     const raw = Math.min(y / 500, 1);
     const p = 1 - Math.pow(1 - raw, 3);

@@ -509,7 +509,23 @@ body {
 }
 /* ===== FEATURED POSITION STATES ===== */
 
-
+.featured-watermark-icon {
+    position: absolute;
+    bottom: -15px;
+    right: -15px;
+    width: 110px;
+    height: 110px;
+    opacity: 0.08; /* Keep it very faint like a glass etching */
+    pointer-events: none;
+    z-index: 1;
+    transform: rotate(-10deg);
+    transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+}
+    .featured-card.pos-center:hover .featured-watermark-icon {
+    transform: scale(1.18) rotate(5deg) translateY(-8px);
+    opacity: 0.15;
+    filter: drop-shadow(0 0 15px rgba(192, 132, 252, 0.4));
+}
 
 .featured-carousel {
   position: relative;
@@ -1573,9 +1589,10 @@ footer {
     data-title="Godzilla Evolution Mod"
      data-desc="Take your survival experience to the next level with a full Godzilla progression system designed specifically for the 100 Days Challenge format. Start your journey as a Baby Godzilla, small and vulnerable, and survive your way through the world as you grow stronger over time. As the days progress, you’ll evolve into a massive, powerful version of Godzilla, unlocking devastating abilities and unstoppable strength."
      data-images="G2.png,G1.png">
-      <svg class="featured-sword-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M18.5 3L11.5 10L10.5 11L11.5 12L12.5 11L11.5 10M18.5 3L21 5.5L14 12.5L11.5 10L18.5 3ZM10.5 11L7.5 14L4 14.5L3 17.5L5.5 20L8.5 19L9 15.5L12 12.5L10.5 11ZM6.5 17.5L5 19L4.5 17L6.5 17.5Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-    </svg>
+     <svg class="featured-watermark-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M12.5 12.5L3.5 21.5M7 14.5L14.5 7M20.5 3.5L16.5 2.5L11 5L12 8L15 9L18 8L20.5 3.5ZM5 11L2.5 16.5L3.5 20.5L8 18L9 15L8 12L5 11Z" 
+    stroke="var(--accent-strong)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
     <span class="tag">Gameplay</span>
     <h3>Godzilla Evolution Mod</h3>
     <p>[Click for more deails]</p>
@@ -1586,9 +1603,10 @@ footer {
      data-desc="Bring the power of the Omnitrix into Minecraft and become the ultimate alien hero! 
     This mod allows players to use a fully functional Omnitrix system, transforming into multiple powerful aliens — each with their own unique abilities, strengths, and combat styles.."
      data-images="B1.png,B2.png">
-      <svg class="featured-sword-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M18.5 3L11.5 10L10.5 11L11.5 12L12.5 11L11.5 10M18.5 3L21 5.5L14 12.5L11.5 10L18.5 3ZM10.5 11L7.5 14L4 14.5L3 17.5L5.5 20L8.5 19L9 15.5L12 12.5L10.5 11ZM6.5 17.5L5 19L4.5 17L6.5 17.5Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-    </svg>
+     <svg class="featured-watermark-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M12.5 12.5L3.5 21.5M7 14.5L14.5 7M20.5 3.5L16.5 2.5L11 5L12 8L15 9L18 8L20.5 3.5ZM5 11L2.5 16.5L3.5 20.5L8 18L9 15L8 12L5 11Z" 
+    stroke="var(--accent-strong)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
     <span class="tag">Gameplay</span>
     <h3>Ben 10 Omnitrix Mod – Ultimate Alien Transformation</h3>
     <p>[Click for more deails]</p>
@@ -1598,9 +1616,10 @@ footer {
     data-title="Attack on Titan: Ultimate 100 Days Titan Evolution"
      data-desc="Enter the brutal world of Titans and experience Minecraft like never before with this fully featured Attack on Titan transformation mod. Start your journey as a Baby Titan, weak and unstable — and survive your way to becoming the unstoppable Colossal Titan. As you evolve, you unlock massive destruction abilities, titan strength, and world-ending powers. This mod is built for intense survival challenges and cinematic 100 Days content."
      data-images="T1.png,T2.png">
-      <svg class="featured-sword-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M18.5 3L11.5 10L10.5 11L11.5 12L12.5 11L11.5 10M18.5 3L21 5.5L14 12.5L11.5 10L18.5 3ZM10.5 11L7.5 14L4 14.5L3 17.5L5.5 20L8.5 19L9 15.5L12 12.5L10.5 11ZM6.5 17.5L5 19L4.5 17L6.5 17.5Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-    </svg>
+     <svg class="featured-watermark-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M12.5 12.5L3.5 21.5M7 14.5L14.5 7M20.5 3.5L16.5 2.5L11 5L12 8L15 9L18 8L20.5 3.5ZM5 11L2.5 16.5L3.5 20.5L8 18L9 15L8 12L5 11Z" 
+    stroke="var(--accent-strong)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
     <span class="tag">Gameplay</span>
     <h3>Attack on Titan: Ultimate 100 Days Titan Evolution</h3>
     <p>[Click for more deails]</p>

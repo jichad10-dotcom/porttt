@@ -204,8 +204,8 @@ body {
 
 .hero-name {
     position: fixed;
-    /* This sets the 'rail' the name slides on */
-    left: 6rem; 
+    /* This is your new horizontal 'rail' */
+    left: 7rem; 
     top: 45%;
     transform: translateY(-50%);
     font-size: clamp(5rem, 15vw, 10rem);
@@ -214,7 +214,7 @@ body {
     text-shadow: 0 0 40px rgba(168, 85, 247, 0.8);
     z-index: 9999;
     white-space: nowrap;
-    transition: none; /* Removed so it follows your finger exactly */
+    transition: none; /* Instant feedback for scrolling */
     pointer-events: none;
 }
 
@@ -234,14 +234,14 @@ body {
 
 .hero-sub {
     position: fixed;
-    /* MUST match the name's 'left' value exactly */
-    left: 6rem;
+    /* MUST match the name's left value exactly for perfect alignment */
+    left: 7rem;
     top: 56%;
     font-size: 1.1rem;
     color: var(--muted);
     letter-spacing: .2em;
     text-transform: uppercase;
-    white-space: nowrap; /* Keeps text in one line */
+    white-space: nowrap; 
     z-index: 9998;
     pointer-events: none;
 }
@@ -1706,25 +1706,25 @@ window.addEventListener("scroll", () => {
     const p = Math.min(y / 300, 1);
 
     if (mainName) {
-        // Vertical: Move from 45% top to 22px top
+        // Vertical: Moves from 45% top to 22px top
         mainName.style.top = `calc(${45 - (45 * p)}% + ${22 * p}px)`;
         
-        // Horizontal: Locked to 6rem (No movement left or right)
-        mainName.style.left = "6rem";
+        // Horizontal: LOCKED to 7rem (This fixes the swerve/alignment)
+        mainName.style.left = "7rem";
         
-        // Shrink Font smoothly
+        // Size: Shrinks from big clamp to small nav size
         const startSize = 8; 
         const endSize = 1.5;
         mainName.style.fontSize = `${startSize - (startSize - endSize) * p}rem`;
         
-        // Remove the vertical centering shift as it reaches the top
+        // Transform: Flattens centering as it docks
         mainName.style.transform = `translateY(${-50 + (50 * p)}%)`;
         
-        // Smoothly reduce glow
+        // Glow: Smoothly fades out shadow
         mainName.style.textShadow = `0 0 ${40 - (30 * p)}px rgba(168,85,247,${0.8 - (0.4 * p)})`;
     }
 
-    // Fades
+    // Fades for Subtitle and Background
     if (heroSub) heroSub.style.opacity = 1 - (p * 2);
     if (hero) hero.style.opacity = 1 - p;
 });

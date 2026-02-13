@@ -1418,6 +1418,20 @@ footer {
     z-index: 10002;
     width: 0%;
 }
+    /* Lift the actual content above the light streaks */
+.featured-card h3, 
+.featured-card p, 
+.featured-card .tag,
+.featured-card img {
+    position: relative;
+    z-index: 5; 
+}
+
+/* Ensure the light streaks stay in the background */
+.featured-card::before,
+.featured-card::after {
+    z-index: 1; /* Lowered from 2 */
+}
 </style>
 </head>
 

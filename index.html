@@ -220,6 +220,7 @@ body {
     color: #e9d5ff;
     text-shadow: 0 0 40px rgba(168, 85, 247, 0.8);
     white-space: nowrap;
+    display: inline-block;
     transition: none; /* Instant scroll response */
 }
 
@@ -1702,24 +1703,29 @@ window.addEventListener("scroll", () => {
     const heroSub = document.getElementById('hero-subtitle');
     const heroSection = document.getElementById("hero");
 
-    // Progress (0 to 1) over 300px of scroll
+    // 1. Progress (0 to 1) over 300px of scroll
     const p = Math.min(y / 300, 1);
 
     if (mainName) {
-        // VERTICAL ONLY: Starts at 50% screen height, ends at 22px from top
-        // The 44% represents the starting point relative to the container
-        mainName.style.transform = `translateY(calc(${-50 + (50 * p)}% + ${22 * p}px))`;
+        // 2. THE MOVEMENT FIX
+        // We calculate the distance from the middle of the screen (50vh) 
+        // to the top padding (22px).
+        const startPos = window.innerHeight / 2;
+        const endPos = 22; // Your target top position in pixels
         
-        // SIZE: Shrinks from big to 1.5rem
+        // This math pulls the element up exactly as you scroll
+        const moveY = (startPos - endPos) * p;
+        mainName.style.transform = `translateY(-${moveY}px)`;
+        
+        // 3. SIZE & STYLE
         const startSize = 8; // rem base
         const endSize = 1.5; // rem final
         mainName.style.fontSize = `${startSize - (startSize - endSize) * p}rem`;
         
-        // EFFECTS
         mainName.style.textShadow = `0 0 ${40 - (30 * p)}px rgba(168, 85, 247, ${0.8 - (0.4 * p)})`;
     }
 
-    // Fades for Subtitle and Background
+    // 4. Fades for Subtitle and Background
     if (heroSub) heroSub.style.opacity = 1 - (p * 2);
     if (heroSection) heroSection.style.opacity = 1 - p;
 });

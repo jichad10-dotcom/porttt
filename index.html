@@ -203,15 +203,21 @@ body {
 }
 
 .hero-name {
-  font-size: clamp(4.5rem, 10vw, 7.5rem);
-  font-weight: 900;
-  line-height: 1.05;
-  margin: 0;
-  color: #e9d5ff;
-  text-shadow:
-    0 0 40px rgba(168,85,247,.8),
-    0 0 90px rgba(168,85,247,.65),
-    0 0 180px rgba(168,85,247,.45);
+    font-size: clamp(4.5rem, 10vw, 7.5rem);
+    font-weight: 900;
+    line-height: 1.05;
+    margin: 0;
+    color: #e9d5ff;
+    position: relative; /* Required for glitch */
+    text-shadow: 0 0 40px rgba(168,85,247,.8);
+    animation: heroGlitch 5s infinite; /* The timing of the glitch */
+}
+
+@keyframes heroGlitch {
+    0%, 94%, 100% { transform: none; text-shadow: 0 0 40px rgba(168,85,247,.8); }
+    95% { transform: skew(2deg); text-shadow: -3px 0 #ff00ff, 3px 0 #00ffff; }
+    97% { transform: skew(-2deg); text-shadow: 3px 0 #ff00ff, -3px 0 #00ffff; }
+    98% { transform: none; }
 }
 
 
@@ -1675,6 +1681,27 @@ const heroText = document.getElementById("heroText");
 const brand = document.getElementById("brandSticky");
 
 window.addEventListener("scroll", () => {
+    /* ===== HERO PARALLAX ===== */
+const heroSection = document.getElementById("hero");
+const heroContent = document.getElementById("heroText");
+
+heroSection.addEventListener("mousemove", (e) => {
+    // Calculate mouse position relative to center
+    const x = (window.innerWidth / 2 - e.pageX) / 25;
+    const y = (window.innerHeight / 2 - e.pageY) / 25;
+
+    // Move the ROX text slightly
+    heroContent.style.transform = `translateX(${x}px) translateY(${y}px)`;
+    
+    // Move the background illustration in the opposite direction
+    heroSection.style.backgroundPosition = `calc(center right + ${-x}px) ${50 + -y}%`;
+});
+
+// Reset position when mouse leaves
+heroSection.addEventListener("mouseleave", () => {
+    heroContent.style.transform = `translateX(0) translateY(0)`;
+    heroSection.style.backgroundPosition = `center right`;
+});
   const y = window.scrollY;
   const raw = Math.min(y / 500, 1);
   const p = 1 - Math.pow(1 - raw, 3);
@@ -2010,6 +2037,8 @@ const interval = setInterval(() => {
             preloader.classList.add('loaded');
             // Allow scrolling once loaded
             document.body.style.overflow = 'auto';
+            // Tell the hero text to pop in with a smooth entrance
+        document.getElementById("heroText").style.animation = "modalIn 0.8s cubic-bezier(0.23, 1, 0.32, 1) forwards";
         }, 200);
     } else {
         // Change status message based on progress

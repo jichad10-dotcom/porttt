@@ -223,7 +223,7 @@ body {
     top: 22px;                     /* Match your Nav button height */
     left: 85px;                    /* Positions it next to your "+" button */
     font-size: 1.5rem;             /* Smaller size */
-    transform: translateY(0);       /* Resets the centering so it stays at 22px */
+    transform: translateY(0) !important;       /* Resets the centering so it stays at 22px */
     letter-spacing: 2px;
 }
 
@@ -1274,7 +1274,7 @@ footer {
 </head>
 
 <body>
-     <h1 class="hero-name">ROX</h1>
+    <h1 class="hero-name" id="main-name">ROX</h1>
     <div id="preloader">
     <div class="preloader-content">
         <h1 class="loader-name">ROX</h1>
@@ -1688,57 +1688,29 @@ function drawParticles() {
 drawParticles();
 
 /* ===== HERO SCROLL + BRAND ===== */
-const hero = document.getElementById("hero");
-const heroText = document.getElementById("heroText");
-const brand = document.getElementById("brandSticky");
-
-/* ===== UNIFIED HERO SCROLL LOGIC ===== */
-const mainName = document.getElementById('main-name');
-const heroSub = document.querySelector('.hero-sub');
-const brandSticky = document.getElementById("brandSticky");
-
+/* ===== CLEAN SCROLL LOGIC ===== */
 window.addEventListener("scroll", () => {
     const y = window.scrollY;
+    const mainName = document.getElementById('main-name');
+    const heroSub = document.querySelector('.hero-sub');
+    const hero = document.getElementById("hero");
 
-    // 1. Name Docking Logic
+    // 1. Name Docking
     if (y > 80) {
-        mainName.classList.add('docked');
-        if (heroSub) heroSub.classList.add('hidden');
+        if(mainName) mainName.classList.add('docked');
+        if(heroSub) heroSub.classList.add('hidden');
     } else {
-        mainName.classList.remove('docked');
-        if (heroSub) heroSub.classList.remove('hidden');
+        if(mainName) mainName.classList.remove('docked');
+        if(heroSub) heroSub.classList.remove('hidden');
     }
 
-    // 2. Background & Illustration Fade Logic
+    // 2. Background Fade
     const raw = Math.min(y / 500, 1);
     const p = 1 - Math.pow(1 - raw, 3);
-    
-    const heroSection = document.getElementById("hero");
-    if (heroSection) {
-        heroSection.style.opacity = 1 - p * 0.8;
-        heroSection.style.transform = `translateY(${p * -50}px)`;
+    if(hero) {
+        hero.style.opacity = 1 - p * 0.6;
+        hero.style.transform = `translateY(${p * -40}px)`;
     }
-    
-    // Hide old brand if name is already docked
-    brandSticky.style.display = "none"; 
-});
-
-// Reset position when mouse leaves
-heroSection.addEventListener("mouseleave", () => {
-    heroContent.style.transform = `translateX(0) translateY(0)`;
-    heroSection.style.backgroundPosition = `center right`;
-});
-  const y = window.scrollY;
-  const raw = Math.min(y / 500, 1);
-  const p = 1 - Math.pow(1 - raw, 3);
-
-  hero.style.transform = `translateY(${p * -120}px)`;
-  hero.style.opacity = 1 - p * 0.6;
-  hero.style.backgroundSize = `${110 + p * 6}%`;
-  hero.style.backgroundPositionY = `${50 - p * 6}%`;
-  heroText.style.transform = `translateY(${p * -40}px)`;
-
-  brand.classList.toggle("active", p > 0.55);
 });
   /* ===== ABOUT STATS COUNT UP (RESTORED) ===== */
 const stats = document.querySelectorAll(".stat h3");

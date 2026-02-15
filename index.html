@@ -1623,6 +1623,20 @@ footer {
     box-shadow: 0 0 15px #fff, 0 0 30px rgba(168, 85, 247, 0.8);
     transform: scale(1.2);
 }
+
+    .bio-log {
+    font-family: 'Courier New', monospace;
+    font-size: 1rem;
+    line-height: 1.8;
+    color: var(--text);
+    white-space: pre-line; /* Essential to keep the line breaks */
+}
+
+/* Make the ">" symbols glow like the rest of your UI */
+.bio-log::first-letter {
+    color: var(--accent-strong);
+    text-shadow: 0 0 10px var(--accent);
+}
 </style>
 </head>
 
@@ -1947,9 +1961,22 @@ Nothing works the way it should."
 <section class="mods-section about" id="about">
     <h2 class="section-title">About Me</h2>
     <div class="about-grid">
-        <div class="about-text">
-            <p id="about-typewriter" data-text="I’m Rox, a Minecraft mod developer focused on building systems that players understand instinctively. I turn complex ideas into polished, intuitive mods through thoughtful design, balanced mechanics, and reliable code."></p>
+       <div class="about-text">
+    <div class="bio-terminal">
+        <div class="terminal-header-mini">
+            <span class="dot-red"></span>
+            <span class="status-text">USER_RECON_INITIALIZED</span>
         </div>
+        
+        <div id="about-typewriter" class="bio-log" data-text="> USERNAME: ROX
+> ROLE: MINECRAFT_MOD_DEV
+> MISSION: Turning complex ideas into polished, intuitive systems.
+> FOCUS: Thoughtful design, balanced mechanics, and reliable code.
+> STATUS: System ready for new challenges."></div>
+        
+        <div class="terminal-footer-mini">_ESTABLISHED_2024</div>
+    </div>
+</div>
         
        <div class="about-stats">
     <div class="stat-premium-card">
@@ -2181,8 +2208,8 @@ if (typeTarget) {
       index++;
 
       // subtle human-like pauses
-      let delay = 22;
-      if (char === "," || char === ".") delay = 140;
+      let delay = 15;
+      if (char === "," || char === ">") delay = 100;
       if (char === " ") delay = 18;
 
       setTimeout(type, delay);

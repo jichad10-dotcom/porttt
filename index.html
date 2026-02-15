@@ -1541,6 +1541,28 @@ footer {
 .featured-card::after {
     z-index: 1; /* Lowered from 2 */
 }
+    .carousel-dots {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 40px;
+    position: relative;
+    z-index: 10;
+}
+
+.dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(168, 85, 247, 0.3); /* Muted purple */
+    transition: all 0.4s ease;
+}
+
+.dot.active {
+    background: #fff;
+    box-shadow: 0 0 15px #fff, 0 0 30px rgba(168, 85, 247, 0.8);
+    transform: scale(1.2);
+}
 </style>
 </head>
 
@@ -1594,6 +1616,11 @@ footer {
 
   <h2 class="section-title">Featured Mods</h2>
 <div class="featured-carousel">
+    <div class="carousel-dots" id="carouselDots">
+    <div class="dot active"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+</div>
   <div class="featured-card"
     data-title="Godzilla Evolution Mod"
      data-desc="Take your survival experience to the next level with a full Godzilla progression system designed specifically for the 100 Days Challenge format. Start your journey as a Baby Godzilla, small and vulnerable, and survive your way through the world as you grow stronger over time. As the days progress, you’ll evolve into a massive, powerful version of Godzilla, unlocking devastating abilities and unstoppable strength."
@@ -2273,8 +2300,18 @@ function applyPositions() {
 
 // rotate cards so next one comes to center
 function rotateCards() {
-  positions.unshift(positions.pop()); // right → center → left
-  applyPositions();
+    // 1. Shift card positions
+    positions.unshift(positions.pop()); 
+    applyPositions();
+
+    // 2. Update dot index
+    currentModIndex = (currentModIndex + 1) % featuredCards.length;
+
+    // 3. Update visual dots
+    const dots = document.querySelectorAll('.dot');
+    dots.forEach((dot, index) => {
+        dot.classList.toggle('active', index === currentModIndex);
+    });
 }
 
 /* ===== FEATURED CARD → MODAL ===== */

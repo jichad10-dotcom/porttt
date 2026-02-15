@@ -674,80 +674,67 @@ featured-card h3,
 
 .about-grid {
     display: grid;
-    grid-template-columns: 1.2fr 1fr;
-    gap: 40px;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 60px;
     align-items: center;
 }
 
-/* Bio Box Enhancements */
-.bio-terminal {
-    background: rgba(15, 10, 25, 0.4);
-    padding: 40px;
-    border-radius: 24px;
-    border: 1px solid rgba(168, 85, 247, 0.15);
-    backdrop-filter: blur(10px);
-    position: relative;
+#about-typewriter {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: var(--muted);
 }
 
-.terminal-header-mini {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 20px;
-    font-family: monospace;
-    font-size: 0.7rem;
-    color: var(--accent-strong);
-    letter-spacing: 2px;
-}
-
-.dot-red { width: 6px; height: 6px; background: #ff5f56; border-radius: 50%; box-shadow: 0 0 8px #ff5f56; }
-.terminal-footer-mini { margin-top: 20px; font-family: monospace; font-size: 0.6rem; opacity: 0.3; text-align: right; }
-
-/* Stat Card Style (Removes the Bar feeling) */
 .about-stats {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
+    gap: 24px;
 }
 
-.stat-card {
-    background: rgba(24, 18, 45, 0.6);
-    padding: 30px 20px;
-    border-radius: 18px;
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    text-align: center;
-    transition: all 0.4s ease;
-}
-
-.stat-card:hover {
-    border-color: var(--accent);
-    transform: translateY(-5px);
-    background: rgba(168, 85, 247, 0.05);
-}
-
-.stat-label {
-    display: block;
-    font-family: monospace;
-    font-size: 0.65rem;
-    color: var(--muted);
-    letter-spacing: 2px;
-    margin-bottom: 10px;
-}
-
-.stat-value-wrapper {
+.stat-premium-card {
+    background: rgba(15, 10, 25, 0.85); /* Exact match for your mod cards */
+    backdrop-filter: blur(25px) saturate(160%);
+    border: 1px solid rgba(168, 85, 247, 0.4);
+    border-radius: 20px;
+    padding: 30px;
     display: flex;
-    justify-content: center;
-    align-items: baseline;
-    color: #fff;
+    align-items: center;
+    gap: 20px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.stat-premium-card:hover {
+    transform: translateY(-8px);
+    border-color: var(--accent-strong);
+    background: rgba(25, 15, 45, 0.95);
+    box-shadow: 0 25px 50px rgba(168, 85, 247, 0.15);
+}
+
+.stat-icon {
+    font-size: 2.2rem;
+    filter: drop-shadow(0 0 10px rgba(168, 85, 247, 0.4));
+}
+
+.stat-info {
+    display: flex;
+    flex-direction: column;
 }
 
 .stat-number {
-    font-size: 2.4rem;
-    font-weight: 900;
-    text-shadow: 0 0 20px rgba(168, 85, 247, 0.4);
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: #fff;
+    line-height: 1;
 }
 
-.plus { font-size: 1.5rem; color: var(--accent-strong); margin-left: 5px; }
+.stat-desc {
+    font-size: 0.8rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 5px;
+}
     
 /* ================= GET IN TOUCH ================= */
 .contact {
@@ -1945,30 +1932,40 @@ Nothing works the way it should."
     <h2 class="section-title">About Me</h2>
     <div class="about-grid">
         <div class="about-text">
-            <div class="bio-slate">
-                <p id="about-typewriter" data-text="I’m Rox, a Minecraft mod developer focused on building systems that players understand instinctively. I turn complex ideas into polished, intuitive mods through thoughtful design, balanced mechanics, and reliable code."></p>
-            </div>
+            <p id="about-typewriter" data-text="I’m Rox, a Minecraft mod developer focused on building systems that players understand instinctively. I turn complex ideas into polished, intuitive mods through thoughtful design, balanced mechanics, and reliable code."></p>
         </div>
         
         <div class="about-stats">
-            <div class="data-item">
-                <h3 class="stat-number" data-count="2">0</h3>
-                <span class="data-label">Years of Mastery</span>
+            <div class="stat-premium-card">
+                <div class="stat-icon">📅</div>
+                <div class="stat-info">
+                    <h3 class="stat-number" data-count="2">0</h3>
+                    <span class="stat-desc">Years Experience</span>
+                </div>
             </div>
             
-            <div class="data-item">
-                <h3 class="stat-number" data-count="100">0</h3>
-                <span class="data-label">Forge & Fabric Mods</span>
+            <div class="stat-premium-card">
+                <div class="stat-icon">📦</div>
+                <div class="stat-info">
+                    <h3 class="stat-number" data-count="100">0</h3>
+                    <span class="stat-desc">Mods Released</span>
+                </div>
             </div>
 
-            <div class="data-item">
-                <h3 class="stat-number" data-count="50">0</h3>
-                <span class="data-label">Satisfied Clients</span>
+            <div class="stat-premium-card">
+                <div class="stat-icon">🤝</div>
+                <div class="stat-info">
+                    <h3 class="stat-number" data-count="50">0</h3>
+                    <span class="stat-desc">Happy Clients</span>
+                </div>
             </div>
 
-            <div class="data-item">
-                <h3 class="stat-number" data-count="4.6">0</h3>
-                <span class="data-label">Average User Rating</span>
+            <div class="stat-premium-card">
+                <div class="stat-icon">⭐</div>
+                <div class="stat-info">
+                    <h3 class="stat-number" data-count="4.6">0</h3>
+                    <span class="stat-desc">Average Rating</span>
+                </div>
             </div>
         </div>
     </div>
@@ -2104,33 +2101,7 @@ document.getElementById('scroll-progress').style.width = scrollPercent + '%';
 });
   /* ===== ABOUT STATS COUNT UP (RESTORED) ===== */
 /* ===== INTEGRATED STATS & PROGRESS BARS ===== */
-const statObserver = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-        if (!entry.isIntersecting) return;
-
-        const el = entry.target;
-        const target = parseFloat(el.dataset.count);
-        const duration = 1500;
-        const start = performance.now();
-        
-        function update(now) {
-            const progress = Math.min((now - start) / duration, 1);
-            const value = progress * target;
-            el.textContent = target % 1 === 0 ? Math.floor(value) : value.toFixed(1);
-            
-            if (progress < 1) {
-                requestAnimationFrame(update);
-            } else {
-                el.textContent = target;
-                if (target >= 50) el.textContent += "+";
-            }
-        }
-        requestAnimationFrame(update);
-        statObserver.unobserve(el);
-    });
-}, { threshold: 0.5 });
-
-document.querySelectorAll(".stat-number").forEach(stat => statObserver.observe(stat));
+const statObserver = new IntersectionObserver(entri
  /* ===== ABOUT TYPEWRITER (LOCKED + MICRO TICK FEEL) ===== */
 const typeTarget = document.getElementById("about-typewriter");
 

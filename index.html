@@ -1541,20 +1541,21 @@ footer {
 .featured-card::after {
     z-index: 1; /* Lowered from 2 */
 }
-    .carousel-dots {
+   .carousel-dots {
     display: flex;
     justify-content: center;
     gap: 12px;
-    margin-top: 40px;
+    margin-top: 320px; /* Pushes dots below the absolute cards */
     position: relative;
-    z-index: 10;
+    z-index: 100;
+    width: 100%;
 }
 
 .dot {
     width: 8px;
     height: 8px;
     border-radius: 50%;
-    background: rgba(168, 85, 247, 0.3); /* Muted purple */
+    background: rgba(168, 85, 247, 0.3);
     transition: all 0.4s ease;
 }
 
@@ -1616,6 +1617,7 @@ footer {
 
   <h2 class="section-title">Featured Mods</h2>
 <div class="featured-carousel">
+    </div>
     <div class="carousel-dots" id="carouselDots">
     <div class="dot active"></div>
     <div class="dot"></div>
@@ -2290,6 +2292,7 @@ window.addEventListener("keydown", e => {
 const featuredCards = Array.from(document.querySelectorAll(".featured-card"));
 
 let positions = ["pos-left", "pos-center", "pos-right"];
+    let currentModIndex = 0;
 
 function applyPositions() {
   featuredCards.forEach((card, i) => {
@@ -2300,14 +2303,14 @@ function applyPositions() {
 
 // rotate cards so next one comes to center
 function rotateCards() {
-    // 1. Shift card positions
+    // 1. Shift positions
     positions.unshift(positions.pop()); 
     applyPositions();
 
-    // 2. Update dot index
+    // 2. Calculate next dot
     currentModIndex = (currentModIndex + 1) % featuredCards.length;
 
-    // 3. Update visual dots
+    // 3. Update dots visually
     const dots = document.querySelectorAll('.dot');
     dots.forEach((dot, index) => {
         dot.classList.toggle('active', index === currentModIndex);

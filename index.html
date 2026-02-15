@@ -664,11 +664,7 @@ featured-card h3,
   );
 }
 
-.about-grid {
-  display: grid;
-  grid-template-columns: 1.2fr 1fr;
-  gap: 64px;
-}
+
 
 .about-text p {
   font-size: 1.05rem;
@@ -676,23 +672,70 @@ featured-card h3,
   color: var(--muted);
 }
 
-.about-stats {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 28px;
+.about-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 50px;
+    align-items: center;
 }
 
-.stat {
-  background: rgba(24,18,45,.65);
-  border-radius: 18px;
-  padding: 28px;
-  box-shadow: 0 0 60px rgba(168,85,247,.25);
+.bio-terminal {
+    background: rgba(15, 10, 25, 0.6);
+    padding: 35px;
+    border-radius: 20px;
+    border: 1px solid rgba(168, 85, 247, 0.2);
+    font-family: 'Courier New', monospace;
+    line-height: 1.8;
 }
 
-.stat h3 {
-  font-size: 2rem;
-  color: var(--accent-strong);
+.bio-line {
+    color: var(--accent-strong);
+    opacity: 0.4;
+    font-size: 0.8rem;
+    display: block;
 }
+
+.stat-row {
+    margin-bottom: 30px;
+    padding: 10px 0;
+}
+
+.stat-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.stat-label {
+    font-family: monospace;
+    font-size: 0.75rem;
+    color: var(--accent-strong);
+    letter-spacing: 2px;
+}
+
+.stat-number {
+    font-size: 1.8rem;
+    color: #fff;
+    text-shadow: 0 0 10px var(--accent);
+}
+
+.stat-bar {
+    width: 100%;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.stat-bar .fill {
+    height: 100%;
+    width: 0%; /* Animates via JS */
+    background: var(--accent);
+    box-shadow: 0 0 15px var(--accent);
+    transition: width 2s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
 
 /* ================= GET IN TOUCH ================= */
 .contact {
@@ -1887,20 +1930,50 @@ Nothing works the way it should."
 </section>
 
 <section class="mods-section about" id="about">
+    <h2 class="section-title">About Me</h2>
+    <div class="about-grid">
+        <div class="about-text">
+            <div class="bio-terminal">
+                <span class="bio-line">/* SYSTEM_BIO_START */</span>
+                <p id="about-typewriter" data-text="I’m Rox, a Minecraft mod developer focused on building systems that players understand instinctively. I turn complex ideas into polished, intuitive mods through thoughtful design, balanced mechanics, and reliable code."></p>
+                <span class="bio-line">/* SYSTEM_BIO_END */</span>
+            </div>
+        </div>
+        
+        <div class="about-stats">
+            <div class="stat-row">
+                <div class="stat-header">
+                    <span class="stat-label">EXP_YEARS</span>
+                    <h3 class="stat-number" data-count="2">0</h3>
+                </div>
+                <div class="stat-bar"><div class="fill" data-width="85%"></div></div>
+            </div>
+            
+            <div class="stat-row">
+                <div class="stat-header">
+                    <span class="stat-label">MODS_PUBLISHED</span>
+                    <h3 class="stat-number" data-count="100">0</h3>
+                </div>
+                <div class="stat-bar"><div class="fill" data-width="95%"></div></div>
+            </div>
 
-  <h2 class="section-title">About Me</h2>
-  <div class="about-grid">
-    <div class="about-text">
-      <p id="about-typewriter" data-text="I’m Rox, a Minecraft mod developer focused on building systems that players understand instinctively. I turn complex ideas into polished, intuitive mods through thoughtful design, balanced mechanics, and reliable code."></p>
+            <div class="stat-row">
+                <div class="stat-header">
+                    <span class="stat-label">CLIENTS_SERVED</span>
+                    <h3 class="stat-number" data-count="50">0</h3>
+                </div>
+                <div class="stat-bar"><div class="fill" data-width="75%"></div></div>
+            </div>
 
+            <div class="stat-row">
+                <div class="stat-header">
+                    <span class="stat-label">USER_RATING</span>
+                    <h3 class="stat-number" data-count="4.6">0</h3>
+                </div>
+                <div class="stat-bar"><div class="fill" data-width="92%"></div></div>
+            </div>
+        </div>
     </div>
-    <div class="about-stats">
-      <div class="stat"><h3 data-count="2">0+</h3><p>Years Experience</p></div>
-      <div class="stat"><h3 data-count="100">0+</h3><p>Published Mods</p></div>
-      <div class="stat"><h3 data-count="50">0+</h3><p>Clients Served</p></div>
-      <div class="stat"><h3 data-count="4.6">0</h3><p>Avg Rating</p></div>
-    </div>
-  </div>
 </section>
 
 <section class="mods-section contact" id="contact">
@@ -2032,41 +2105,48 @@ document.getElementById('scroll-progress').style.width = scrollPercent + '%';
     if (heroSection) heroSection.style.opacity = 1 - p;
 });
   /* ===== ABOUT STATS COUNT UP (RESTORED) ===== */
-const stats = document.querySelectorAll(".stat h3");
-
+/* ===== INTEGRATED STATS & PROGRESS BARS ===== */
 const statObserver = new IntersectionObserver(entries => {
-  entries.forEach(entry => {
-    if (!entry.isIntersecting) return;
+    entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
 
-    const el = entry.target;
-    const target = parseFloat(el.dataset.count);
-    const isDecimal = target % 1 !== 0;
-    const suffix = el.textContent.includes("+") ? "+" : "";
-    const start = performance.now();
-    const duration = 1200;
+        const el = entry.target;
+        const target = parseFloat(el.dataset.count);
+        
+        // 1. Sync Number Animation
+        const duration = 1500;
+        const start = performance.now();
+        
+        function update(now) {
+            const progress = Math.min((now - start) / duration, 1);
+            const value = progress * target;
+            
+            // Format number based on if it's a decimal (like 4.6) or integer (like 100)
+            el.textContent = target % 1 === 0 ? Math.floor(value) : value.toFixed(1);
+            
+            if (progress < 1) {
+                requestAnimationFrame(update);
+            } else {
+                // Add "+" suffix for counts over 5 (Years, Mods, Clients)
+                el.textContent = target + (target > 5 ? "+" : "");
+            }
+        }
+        requestAnimationFrame(update);
 
-    function animate(now) {
-      const progress = Math.min((now - start) / duration, 1);
-      const eased = 1 - Math.pow(1 - progress, 3);
-      const value = target * eased;
+        // 2. Sync Bar Animation
+        // Finds the closest container and tells the inner 'fill' to expand
+        const row = el.closest('.stat-row');
+        if (row) {
+            const fill = row.querySelector('.fill');
+            fill.style.width = fill.dataset.width;
+        }
 
-      el.textContent = isDecimal
-        ? value.toFixed(1)
-        : Math.floor(value);
+        statObserver.unobserve(el);
+    });
+}, { threshold: 0.5 });
 
-      if (progress < 1) {
-        requestAnimationFrame(animate);
-      } else {
-        el.textContent = target + suffix;
-      }
-    }
-
-    requestAnimationFrame(animate);
-    statObserver.unobserve(el);
-  });
-}, { threshold: 0.6 });
-
-stats.forEach(stat => statObserver.observe(stat));
+// Initialize the observer on the new class name
+document.querySelectorAll(".stat-number").forEach(stat => statObserver.observe(stat));
  /* ===== ABOUT TYPEWRITER (LOCKED + MICRO TICK FEEL) ===== */
 const typeTarget = document.getElementById("about-typewriter");
 

@@ -934,12 +934,12 @@ footer {
 }
 
 .dot {
-    width: 6px;
-    height: 6px;
-    background: #27c93f;
+    width: 8px;
+    height: 8px;
     border-radius: 50%;
-    box-shadow: 0 0 8px #27c93f;
-    animation: statusPulse 2s infinite;
+    background: rgba(168, 85, 247, 0.3);
+    transition: all 0.4s ease;
+    cursor: pointer; /* Add this line */
 }
 
 .version {
@@ -2659,6 +2659,34 @@ document.querySelectorAll('.cmd-tag').forEach(tag => {
             document.body.style.overflow = "hidden";
         };
     }
+});
+
+    // Add Click Events to Dots
+document.querySelectorAll('.dot').forEach((dot, index) => {
+    dot.addEventListener('click', () => {
+        // Calculate how many times we need to rotate to get to the clicked index
+        let diff = index - currentModIndex;
+
+        // If it's already centered, do nothing
+        if (diff === 0) return;
+
+        // Reset the auto-rotate timer so it doesn't rotate immediately after we click
+        resetAutoRotate();
+
+        // Perform the rotations
+        if (diff > 0) {
+            // Move forward
+            for (let i = 0; i < diff; i++) {
+                rotateCards();
+            }
+        } else {
+            // Move backward (featuredCards.length + negative diff)
+            let moves = featuredCards.length + diff;
+            for (let i = 0; i < moves; i++) {
+                rotateCards();
+            }
+        }
+    });
 });
 </script>
 

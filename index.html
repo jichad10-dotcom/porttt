@@ -263,13 +263,59 @@ body {
 
 /* ================= SECTIONS ================= */
 .mods-section {
-  position: relative;
-  z-index: 1;
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 7rem 3rem;
+    position: sticky;
+    top: 0;
+    min-height: 100vh; /* Each section takes full screen height */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: var(--bg); /* Ensure sections have a solid base */
+    padding: 80px 10%;
+    border-top: 1px solid rgba(168, 85, 247, 0.2);
+    box-shadow: 0 -20px 50px rgba(0, 0, 0, 0.5); /* Shadow on the top edge */
+    transition: transform 0.5s ease;
 }
 
+/* Add a slight "dim" to sections as they get covered */
+.mods-section::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(11, 6, 20, 0);
+    transition: background 0.5s ease;
+    pointer-events: none;
+    z-index: 10;
+}
+
+/* Optional: Make the section tilt slightly as you scroll to it */
+.mods-section.active {
+    transform: perspective(1000px) rotateX(0deg);
+}
+    #mods { z-index: 10; }
+#ai-hype-section { z-index: 20; }
+#about { z-index: 30; }
+#contact { z-index: 40; }
+    
+   .section-tag {
+    position: absolute;
+    top: 50px;           /* Distance from the top of the section */
+    right: 50px;          /* Distance from the right edge */
+    font-family: 'Courier New', monospace;
+    font-size: 0.75rem;
+    color: var(--accent-strong);
+    letter-spacing: 4px;
+    opacity: 0.4;         /* Keeps it subtle so it doesn't distract */
+    text-transform: uppercase;
+    pointer-events: none; /* User can click through it */
+    user-select: none;
+}
+
+/* Optional: Make the tag glow slightly when you hover over the section */
+.mods-section:hover .section-tag {
+    opacity: 0.8;
+    text-shadow: 0 0 10px var(--accent);
+    transition: all 0.5s ease;
+}
 .section-title {
   font-size: 2.4rem;
   margin-bottom: 3rem;
@@ -1934,7 +1980,7 @@ footer {
 <main>
 
 <section class="mods-section" id="mods">
-
+<div class="section-tag">SEC_01 // ARCHIVE</div>
   <h2 class="section-title">Featured Mods</h2>
 <div class="featured-carousel">
   
@@ -1981,6 +2027,7 @@ footer {
   <div style="height: 18rem;"></div>
 
 <section class="mods-section" id="ai-hype-section">
+    <div class="section-tag">SEC_02 // NEURAL_LAB</div>
     <h2 class="section-title">In Development</h2>
     
     <div class="hype-stage-wrapper">
@@ -2206,6 +2253,7 @@ Nothing works the way it should."
 </section>
 <div class="section-divider"></div>
 <section class="mods-section about" id="about">
+    <div class="section-tag">SEC_03 // CORE_DATA</div>
     <h2 class="section-title">About Me</h2>
     <div class="about-grid">
      <div class="about-text">
@@ -2266,6 +2314,7 @@ Nothing works the way it should."
 </section>
 <div class="section-divider"></div>
 <section class="mods-section contact" id="contact">
+    <div class="section-tag">SEC_04 // COMM_LINK</div>
     <h2 class="section-title">Get In Touch</h2>
     <div class="contact-grid">
        <div class="contact-visual">

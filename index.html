@@ -280,10 +280,14 @@ mods-section {
 }
 
 .section-title {
-  font-size: 2.4rem;
-  margin-bottom: 3rem;
-  border-left: 4px solid var(--accent);
-  padding-left: 1rem;
+    font-family: 'Courier New', monospace;
+    font-size: 1.6rem;
+    text-transform: uppercase;
+    letter-spacing: 5px;
+    color: #fff;
+    border-left: none; /* Removing the old purple bar */
+    padding-left: 0;
+    margin-bottom: 4rem;
 }
 /* ================= FEATURED SPOTLIGHT ================= */
 
@@ -1820,6 +1824,41 @@ footer {
 #about-typewriter::first-word {
     color: var(--accent-strong);
 }
+
+
+    main {
+    position: relative;
+    /* This creates a thin line down the left side */
+    border-left: 1px solid rgba(168, 85, 247, 0.15);
+    margin-left: 60px;
+    padding-left: 40px;
+}
+
+    .section-line {
+    height: 1px;
+    width: 100%;
+    background: linear-gradient(90deg, 
+        var(--accent-strong) 0%, 
+        rgba(168, 85, 247, 0.1) 100%
+    );
+    margin: 20px 0 60px -41px; /* Positions it to start exactly on the vertical rail */
+    position: relative;
+    box-shadow: 0 0 10px rgba(168, 85, 247, 0.2);
+}
+
+/* The small square "Node" at the intersection */
+.section-line::before {
+    content: "";
+    position: absolute;
+    left: -4px;
+    top: -4px;
+    width: 8px;
+    height: 8px;
+    background: var(--bg);
+    border: 2px solid var(--accent-strong);
+    box-shadow: 0 0 10px var(--accent-strong);
+    z-index: 2;
+}
 </style>
 </head>
 
@@ -1870,7 +1909,7 @@ footer {
 <main>
 
 <section class="mods-section" id="mods">
-
+<div class="section-line"></div>
   <h2 class="section-title">Featured Mods</h2>
 <div class="featured-carousel">
   
@@ -1917,6 +1956,7 @@ footer {
   
 
 <section class="mods-section" id="ai-hype-section">
+    <div class="section-line"></div>
     <h2 class="section-title">In Development</h2>
     
     <div class="hype-stage-wrapper">
@@ -1963,6 +2003,7 @@ footer {
 
 
 <section class="mods-section">
+    <div class="section-line"></div>
   <h2 class="section-title">All Mods</h2>
   <div class="mods-grid">
     <div class="mod-card"
@@ -2142,6 +2183,7 @@ Nothing works the way it should."
 </section>
 
 <section class="mods-section about" id="about">
+    <div class="section-line"></div>
     <h2 class="section-title">About Me</h2>
     <div class="about-grid">
      <div class="about-text">
@@ -2202,6 +2244,7 @@ Nothing works the way it should."
 </section>
 
 <section class="mods-section contact" id="contact">
+    <div class="section-line"></div>
     <h2 class="section-title">Get In Touch</h2>
     <div class="contact-grid">
        <div class="contact-visual">

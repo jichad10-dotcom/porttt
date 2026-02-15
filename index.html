@@ -1820,6 +1820,50 @@ footer {
 #about-typewriter::first-word {
     color: var(--accent-strong);
 }
+
+    /* Initial state: Hidden and slightly lower */
+.mods-section {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Revealed state: Visible and at original position */
+.mods-section.revealed {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+    /* Neutral purple for Featured */
+#mods { background: radial-gradient(circle at 10% 20%, rgba(168, 85, 247, 0.05), transparent 50%); }
+
+/* Deep blue for Development */
+#ai-hype-section { background: radial-gradient(circle at 90% 50%, rgba(59, 130, 246, 0.05), transparent 50%); }
+
+/* Warm magenta for About */
+#about { background: radial-gradient(circle at 10% 80%, rgba(236, 72, 153, 0.05), transparent 50%); }
+
+/* High-contrast purple for Contact */
+#contact { background: radial-gradient(circle at 50% 50%, rgba(168, 85, 247, 0.08), transparent 60%); }
+
+    .section-title {
+    position: relative;
+    padding-top: 20px;
+}
+
+/* The L-shaped corner marker */
+.section-title::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 30px;
+    height: 30px;
+    border-top: 2px solid var(--accent-strong);
+    border-left: 2px solid var(--accent-strong);
+    filter: drop-shadow(0 0 5px var(--accent));
+    opacity: 0.6;
+}
 </style>
 </head>
 
@@ -2983,6 +3027,18 @@ document.querySelectorAll('.dot').forEach((dot, index) => {
             }
         }
     });
+});
+
+    const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('revealed');
+        }
+    });
+}, { threshold: 0.15 }); // Trigger when 15% of the section is visible
+
+document.querySelectorAll('.mods-section').forEach(section => {
+    revealObserver.observe(section);
 });
 </script>
 

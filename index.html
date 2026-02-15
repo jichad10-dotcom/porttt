@@ -809,7 +809,16 @@ featured-card h3,
     box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
 }
 
+.floating-img {
+    width: 100%;
+    border-radius: 20px;
+    animation: floatVertical 6s infinite ease-in-out;
+}
 
+@keyframes floatVertical {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
+}
 
 /* Contact Nodes */
 .contact-node {

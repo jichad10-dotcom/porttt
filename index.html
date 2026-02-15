@@ -1945,45 +1945,30 @@ Nothing works the way it should."
     <h2 class="section-title">About Me</h2>
     <div class="about-grid">
         <div class="about-text">
-            <div class="bio-terminal">
-                <div class="terminal-header-mini">
-                    <span class="dot-red"></span>
-                    <span class="status-text">CORE_PROFILE_LOADED</span>
-                </div>
+            <div class="bio-slate">
                 <p id="about-typewriter" data-text="I’m Rox, a Minecraft mod developer focused on building systems that players understand instinctively. I turn complex ideas into polished, intuitive mods through thoughtful design, balanced mechanics, and reliable code."></p>
-                <div class="terminal-footer-mini">_ESTABLISHED_2024</div>
             </div>
         </div>
         
         <div class="about-stats">
-            <div class="stat-card">
-                <span class="stat-label">EXP_YEARS</span>
-                <div class="stat-value-wrapper">
-                    <h3 class="stat-number" data-count="2">0</h3>
-                </div>
+            <div class="data-item">
+                <h3 class="stat-number" data-count="2">0</h3>
+                <span class="data-label">Years of Mastery</span>
             </div>
             
-            <div class="stat-card">
-                <span class="stat-label">MODS_PUBLISHED</span>
-                <div class="stat-value-wrapper">
-                    <h3 class="stat-number" data-count="100">0</h3>
-                    <span class="plus">+</span>
-                </div>
+            <div class="data-item">
+                <h3 class="stat-number" data-count="100">0</h3>
+                <span class="data-label">Forge & Fabric Mods</span>
             </div>
 
-            <div class="stat-card">
-                <span class="stat-label">CLIENTS_SERVED</span>
-                <div class="stat-value-wrapper">
-                    <h3 class="stat-number" data-count="50">0</h3>
-                    <span class="plus">+</span>
-                </div>
+            <div class="data-item">
+                <h3 class="stat-number" data-count="50">0</h3>
+                <span class="data-label">Satisfied Clients</span>
             </div>
 
-            <div class="stat-card">
-                <span class="stat-label">USER_RATING</span>
-                <div class="stat-value-wrapper">
-                    <h3 class="stat-number" data-count="4.6">0</h3>
-                </div>
+            <div class="data-item">
+                <h3 class="stat-number" data-count="4.6">0</h3>
+                <span class="data-label">Average User Rating</span>
             </div>
         </div>
     </div>
@@ -2132,7 +2117,13 @@ const statObserver = new IntersectionObserver(entries => {
             const progress = Math.min((now - start) / duration, 1);
             const value = progress * target;
             el.textContent = target % 1 === 0 ? Math.floor(value) : value.toFixed(1);
-            if (progress < 1) requestAnimationFrame(update);
+            
+            if (progress < 1) {
+                requestAnimationFrame(update);
+            } else {
+                el.textContent = target;
+                if (target >= 50) el.textContent += "+";
+            }
         }
         requestAnimationFrame(update);
         statObserver.unobserve(el);

@@ -1834,19 +1834,26 @@ footer {
     padding-left: 40px;
 }
 
-    .section-line {
+  .section-line {
     height: 1px;
-    width: 100%;
+    width: 0; /* Initial state is hidden */
     background: linear-gradient(90deg, 
         var(--accent-strong) 0%, 
         rgba(168, 85, 247, 0.1) 100%
     );
-    margin: 20px 0 60px -41px; /* Positions it to start exactly on the vertical rail */
+    margin: 20px 0 60px -41px;
     position: relative;
     box-shadow: 0 0 10px rgba(168, 85, 247, 0.2);
+    /* Controls the speed and feel of the "drawing" */
+    transition: width 1.2s cubic-bezier(0.22, 1, 0.36, 1); 
 }
 
-/* The small square "Node" at the intersection */
+/* The state that will be triggered by JavaScript */
+.section-line.draw-active {
+    width: 100%;
+}
+
+/* Ensure the node (square) only appears when the line starts drawing */
 .section-line::before {
     content: "";
     position: absolute;
@@ -1858,6 +1865,12 @@ footer {
     border: 2px solid var(--accent-strong);
     box-shadow: 0 0 10px var(--accent-strong);
     z-index: 2;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.section-line.draw-active::before {
+    opacity: 1;
 }
 </style>
 </head>
@@ -3026,6 +3039,19 @@ document.querySelectorAll('.dot').forEach((dot, index) => {
             }
         }
     });
+});
+    const lineObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('draw-active');
+            // Stop observing once the animation has played
+            lineObserver.unobserve(entry.target);
+        }
+    });
+}, { threshold: 0.5 }); // Starts drawing when 50% of the line's area is visible
+
+document.querySelectorAll('.section-line').forEach(line => {
+    lineObserver.observe(line);
 });
 </script>
 

@@ -664,7 +664,11 @@ featured-card h3,
   );
 }
 
-
+.about-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 64px;
+}
 
 .about-text p {
   font-size: 1.05rem;
@@ -672,70 +676,24 @@ featured-card h3,
   color: var(--muted);
 }
 
-.about-grid {
-    display: grid;
-    grid-template-columns: 1fr 1.2fr;
-    gap: 60px;
-    align-items: center;
-}
-
-#about-typewriter {
-    font-size: 1.1rem;
-    line-height: 1.8;
-    color: var(--muted);
-}
-
 .about-stats {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 24px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 28px;
 }
 
-.stat-premium-card {
-    background: rgba(15, 10, 25, 0.85); /* Exact match for your mod cards */
-    backdrop-filter: blur(25px) saturate(160%);
-    border: 1px solid rgba(168, 85, 247, 0.4);
-    border-radius: 20px;
-    padding: 30px;
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
-    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+.stat {
+  background: rgba(24,18,45,.65);
+  border-radius: 18px;
+  padding: 28px;
+  box-shadow: 0 0 60px rgba(168,85,247,.25);
 }
 
-.stat-premium-card:hover {
-    transform: translateY(-8px);
-    border-color: var(--accent-strong);
-    background: rgba(25, 15, 45, 0.95);
-    box-shadow: 0 25px 50px rgba(168, 85, 247, 0.15);
+.stat h3 {
+  font-size: 2rem;
+  color: var(--accent-strong);
 }
 
-.stat-icon {
-    font-size: 2.2rem;
-    filter: drop-shadow(0 0 10px rgba(168, 85, 247, 0.4));
-}
-
-.stat-info {
-    display: flex;
-    flex-direction: column;
-}
-
-.stat-number {
-    font-size: 2.2rem;
-    font-weight: 800;
-    color: #fff;
-    line-height: 1;
-}
-
-.stat-desc {
-    font-size: 0.8rem;
-    color: var(--muted);
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-top: 5px;
-}
-    
 /* ================= GET IN TOUCH ================= */
 .contact {
   margin-top: 24rem;
@@ -1929,48 +1887,22 @@ Nothing works the way it should."
 </section>
 
 <section class="mods-section about" id="about">
-    <h2 class="section-title">About Me</h2>
-    <div class="about-grid">
-        <div class="about-text">
-            <p id="about-typewriter" data-text="I’m Rox, a Minecraft mod developer focused on building systems that players understand instinctively. I turn complex ideas into polished, intuitive mods through thoughtful design, balanced mechanics, and reliable code."></p>
-        </div>
-        
-        <div class="about-stats">
-            <div class="stat-premium-card">
-                <div class="stat-icon">📅</div>
-                <div class="stat-info">
-                    <h3 class="stat-number" data-count="2">0</h3>
-                    <span class="stat-desc">Years Experience</span>
-                </div>
-            </div>
-            
-            <div class="stat-premium-card">
-                <div class="stat-icon">📦</div>
-                <div class="stat-info">
-                    <h3 class="stat-number" data-count="100">0</h3>
-                    <span class="stat-desc">Mods Released</span>
-                </div>
-            </div>
 
-            <div class="stat-premium-card">
-                <div class="stat-icon">🤝</div>
-                <div class="stat-info">
-                    <h3 class="stat-number" data-count="50">0</h3>
-                    <span class="stat-desc">Happy Clients</span>
-                </div>
-            </div>
+  <h2 class="section-title">About Me</h2>
+  <div class="about-grid">
+    <div class="about-text">
+      <p id="about-typewriter" data-text="I’m Rox, a Minecraft mod developer focused on building systems that players understand instinctively. I turn complex ideas into polished, intuitive mods through thoughtful design, balanced mechanics, and reliable code."></p>
 
-            <div class="stat-premium-card">
-                <div class="stat-icon">⭐</div>
-                <div class="stat-info">
-                    <h3 class="stat-number" data-count="4.6">0</h3>
-                    <span class="stat-desc">Average Rating</span>
-                </div>
-            </div>
-        </div>
     </div>
+    <div class="about-stats">
+      <div class="stat"><h3 data-count="2">0+</h3><p>Years Experience</p></div>
+      <div class="stat"><h3 data-count="100">0+</h3><p>Published Mods</p></div>
+      <div class="stat"><h3 data-count="50">0+</h3><p>Clients Served</p></div>
+      <div class="stat"><h3 data-count="4.6">0</h3><p>Avg Rating</p></div>
+    </div>
+  </div>
 </section>
-    
+
 <section class="mods-section contact" id="contact">
 
   <h2 class="section-title">Get In Touch</h2>
@@ -2100,8 +2032,41 @@ document.getElementById('scroll-progress').style.width = scrollPercent + '%';
     if (heroSection) heroSection.style.opacity = 1 - p;
 });
   /* ===== ABOUT STATS COUNT UP (RESTORED) ===== */
-/* ===== INTEGRATED STATS & PROGRESS BARS ===== */
-const statObserver = new IntersectionObserver(entri
+const stats = document.querySelectorAll(".stat h3");
+
+const statObserver = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (!entry.isIntersecting) return;
+
+    const el = entry.target;
+    const target = parseFloat(el.dataset.count);
+    const isDecimal = target % 1 !== 0;
+    const suffix = el.textContent.includes("+") ? "+" : "";
+    const start = performance.now();
+    const duration = 1200;
+
+    function animate(now) {
+      const progress = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      const value = target * eased;
+
+      el.textContent = isDecimal
+        ? value.toFixed(1)
+        : Math.floor(value);
+
+      if (progress < 1) {
+        requestAnimationFrame(animate);
+      } else {
+        el.textContent = target + suffix;
+      }
+    }
+
+    requestAnimationFrame(animate);
+    statObserver.unobserve(el);
+  });
+}, { threshold: 0.6 });
+
+stats.forEach(stat => statObserver.observe(stat));
  /* ===== ABOUT TYPEWRITER (LOCKED + MICRO TICK FEEL) ===== */
 const typeTarget = document.getElementById("about-typewriter");
 

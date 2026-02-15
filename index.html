@@ -2309,7 +2309,10 @@ if (discordEl) {
 
     navigator.clipboard.writeText(text).then(() => {
       discordEl.classList.add("copied");
-
+discordEl.style.borderColor = "#27c93f";
+    setTimeout(() => {
+        discordEl.style.borderColor = "rgba(168, 85, 247, 0.2)";
+    }, 2000);
       setTimeout(() => {
         discordEl.classList.remove("copied");
       }, 1200);

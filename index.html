@@ -1872,6 +1872,32 @@ footer {
 .section-line.draw-active::before {
     opacity: 1;
 }
+
+    /* 1. The entire scrollbar area */
+::-webkit-scrollbar {
+    width: 8px; /* Slimmer than the default */
+    background: var(--bg); /* Matches your background exactly */
+}
+
+/* 2. The background 'track' the bar slides on */
+::-webkit-scrollbar-track {
+    background: rgba(168, 85, 247, 0.02);
+    border-left: 1px solid rgba(168, 85, 247, 0.05);
+}
+
+/* 3. The actual draggable handle (the 'thumb') */
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(to bottom, var(--accent), var(--accent-strong));
+    border-radius: 20px;
+    border: 2px solid var(--bg); /* Adds space around the thumb for a 'floating' look */
+    box-shadow: 0 0 10px rgba(168, 85, 247, 0.4);
+}
+
+/* 4. Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: var(--accent-strong);
+    box-shadow: 0 0 20px var(--accent-strong);
+}
 </style>
 </head>
 

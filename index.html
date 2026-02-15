@@ -1932,6 +1932,26 @@ footer {
     pointer-events: none;
     z-index: 10;
 }
+
+    .mod-modal-gallery {
+    position: relative;
+}
+
+.mod-modal-gallery::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+        0deg,
+        rgba(0, 0, 0, 0.1) 0px,
+        rgba(0, 0, 0, 0.1) 1px,
+        transparent 2px,
+        transparent 4px
+    );
+    pointer-events: none;
+    z-index: 10;
+    opacity: 0.3;
+}
 </style>
 </head>
 

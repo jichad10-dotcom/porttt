@@ -675,68 +675,80 @@ featured-card h3,
 .about-grid {
     display: grid;
     grid-template-columns: 1.2fr 1fr;
-    gap: 50px;
+    gap: 40px;
     align-items: center;
 }
 
+/* Bio Box Enhancements */
 .bio-terminal {
-    background: rgba(15, 10, 25, 0.6);
-    padding: 35px;
-    border-radius: 20px;
-    border: 1px solid rgba(168, 85, 247, 0.2);
-    font-family: 'Courier New', monospace;
-    line-height: 1.8;
+    background: rgba(15, 10, 25, 0.4);
+    padding: 40px;
+    border-radius: 24px;
+    border: 1px solid rgba(168, 85, 247, 0.15);
+    backdrop-filter: blur(10px);
+    position: relative;
 }
 
-.bio-line {
-    color: var(--accent-strong);
-    opacity: 0.4;
-    font-size: 0.8rem;
-    display: block;
-}
-
-.stat-row {
-    margin-bottom: 30px;
-    padding: 10px 0;
-}
-
-.stat-header {
+.terminal-header-mini {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    margin-bottom: 10px;
-}
-
-.stat-label {
+    gap: 10px;
+    margin-bottom: 20px;
     font-family: monospace;
-    font-size: 0.75rem;
+    font-size: 0.7rem;
     color: var(--accent-strong);
     letter-spacing: 2px;
 }
 
-.stat-number {
-    font-size: 1.8rem;
+.dot-red { width: 6px; height: 6px; background: #ff5f56; border-radius: 50%; box-shadow: 0 0 8px #ff5f56; }
+.terminal-footer-mini { margin-top: 20px; font-family: monospace; font-size: 0.6rem; opacity: 0.3; text-align: right; }
+
+/* Stat Card Style (Removes the Bar feeling) */
+.about-stats {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.stat-card {
+    background: rgba(24, 18, 45, 0.6);
+    padding: 30px 20px;
+    border-radius: 18px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    text-align: center;
+    transition: all 0.4s ease;
+}
+
+.stat-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-5px);
+    background: rgba(168, 85, 247, 0.05);
+}
+
+.stat-label {
+    display: block;
+    font-family: monospace;
+    font-size: 0.65rem;
+    color: var(--muted);
+    letter-spacing: 2px;
+    margin-bottom: 10px;
+}
+
+.stat-value-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
     color: #fff;
-    text-shadow: 0 0 10px var(--accent);
 }
 
-.stat-bar {
-    width: 100%;
-    height: 4px;
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 2px;
-    overflow: hidden;
+.stat-number {
+    font-size: 2.4rem;
+    font-weight: 900;
+    text-shadow: 0 0 20px rgba(168, 85, 247, 0.4);
 }
 
-.stat-bar .fill {
-    height: 100%;
-    width: 0%; /* Animates via JS */
-    background: var(--accent);
-    box-shadow: 0 0 15px var(--accent);
-    transition: width 2s cubic-bezier(0.23, 1, 0.32, 1);
-}
-
-
+.plus { font-size: 1.5rem; color: var(--accent-strong); margin-left: 5px; }
+    
 /* ================= GET IN TOUCH ================= */
 .contact {
   margin-top: 24rem;
@@ -1934,48 +1946,49 @@ Nothing works the way it should."
     <div class="about-grid">
         <div class="about-text">
             <div class="bio-terminal">
-                <span class="bio-line">/* SYSTEM_BIO_START */</span>
+                <div class="terminal-header-mini">
+                    <span class="dot-red"></span>
+                    <span class="status-text">CORE_PROFILE_LOADED</span>
+                </div>
                 <p id="about-typewriter" data-text="I’m Rox, a Minecraft mod developer focused on building systems that players understand instinctively. I turn complex ideas into polished, intuitive mods through thoughtful design, balanced mechanics, and reliable code."></p>
-                <span class="bio-line">/* SYSTEM_BIO_END */</span>
+                <div class="terminal-footer-mini">_ESTABLISHED_2024</div>
             </div>
         </div>
         
         <div class="about-stats">
-            <div class="stat-row">
-                <div class="stat-header">
-                    <span class="stat-label">EXP_YEARS</span>
+            <div class="stat-card">
+                <span class="stat-label">EXP_YEARS</span>
+                <div class="stat-value-wrapper">
                     <h3 class="stat-number" data-count="2">0</h3>
                 </div>
-                <div class="stat-bar"><div class="fill" data-width="85%"></div></div>
             </div>
             
-            <div class="stat-row">
-                <div class="stat-header">
-                    <span class="stat-label">MODS_PUBLISHED</span>
+            <div class="stat-card">
+                <span class="stat-label">MODS_PUBLISHED</span>
+                <div class="stat-value-wrapper">
                     <h3 class="stat-number" data-count="100">0</h3>
+                    <span class="plus">+</span>
                 </div>
-                <div class="stat-bar"><div class="fill" data-width="95%"></div></div>
             </div>
 
-            <div class="stat-row">
-                <div class="stat-header">
-                    <span class="stat-label">CLIENTS_SERVED</span>
+            <div class="stat-card">
+                <span class="stat-label">CLIENTS_SERVED</span>
+                <div class="stat-value-wrapper">
                     <h3 class="stat-number" data-count="50">0</h3>
+                    <span class="plus">+</span>
                 </div>
-                <div class="stat-bar"><div class="fill" data-width="75%"></div></div>
             </div>
 
-            <div class="stat-row">
-                <div class="stat-header">
-                    <span class="stat-label">USER_RATING</span>
+            <div class="stat-card">
+                <span class="stat-label">USER_RATING</span>
+                <div class="stat-value-wrapper">
                     <h3 class="stat-number" data-count="4.6">0</h3>
                 </div>
-                <div class="stat-bar"><div class="fill" data-width="92%"></div></div>
             </div>
         </div>
     </div>
 </section>
-
+    
 <section class="mods-section contact" id="contact">
 
   <h2 class="section-title">Get In Touch</h2>
@@ -2112,40 +2125,20 @@ const statObserver = new IntersectionObserver(entries => {
 
         const el = entry.target;
         const target = parseFloat(el.dataset.count);
-        
-        // 1. Sync Number Animation
         const duration = 1500;
         const start = performance.now();
         
         function update(now) {
             const progress = Math.min((now - start) / duration, 1);
             const value = progress * target;
-            
-            // Format number based on if it's a decimal (like 4.6) or integer (like 100)
             el.textContent = target % 1 === 0 ? Math.floor(value) : value.toFixed(1);
-            
-            if (progress < 1) {
-                requestAnimationFrame(update);
-            } else {
-                // Add "+" suffix for counts over 5 (Years, Mods, Clients)
-                el.textContent = target + (target > 5 ? "+" : "");
-            }
+            if (progress < 1) requestAnimationFrame(update);
         }
         requestAnimationFrame(update);
-
-        // 2. Sync Bar Animation
-        // Finds the closest container and tells the inner 'fill' to expand
-        const row = el.closest('.stat-row');
-        if (row) {
-            const fill = row.querySelector('.fill');
-            fill.style.width = fill.dataset.width;
-        }
-
         statObserver.unobserve(el);
     });
 }, { threshold: 0.5 });
 
-// Initialize the observer on the new class name
 document.querySelectorAll(".stat-number").forEach(stat => statObserver.observe(stat));
  /* ===== ABOUT TYPEWRITER (LOCKED + MICRO TICK FEEL) ===== */
 const typeTarget = document.getElementById("about-typewriter");

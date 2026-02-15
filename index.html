@@ -704,10 +704,34 @@ featured-card h3,
 }
 
 .stat-icon {
-    font-size: 2.2rem;
-    filter: drop-shadow(0 0 10px rgba(168, 85, 247, 0.4));
+    width: 48px;
+    height: 48px;
+    color: var(--accent-strong);
+    filter: drop-shadow(0 0 8px var(--accent));
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
+.stat-icon svg {
+    width: 100%;
+    height: 100%;
+    /* Subtle pulsing animation to keep the UI feeling "alive" */
+    animation: iconPulse 3s infinite ease-in-out;
+}
+
+@keyframes iconPulse {
+    0%, 100% { transform: scale(1); filter: drop-shadow(0 0 8px var(--accent)); }
+    50% { transform: scale(1.05); filter: drop-shadow(0 0 15px var(--accent-strong)); }
+}
+
+/* Hover refinement: The icon brightens and rotates slightly when card is hovered */
+.stat-premium-card:hover .stat-icon {
+    color: #fff;
+    transform: rotate(-10deg) scale(1.1);
+    filter: drop-shadow(0 0 20px #fff);
+    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+}
 .stat-info {
     display: flex;
     flex-direction: column;
@@ -1927,39 +1951,47 @@ Nothing works the way it should."
             <p id="about-typewriter" data-text="I’m Rox, a Minecraft mod developer focused on building systems that players understand instinctively. I turn complex ideas into polished, intuitive mods through thoughtful design, balanced mechanics, and reliable code."></p>
         </div>
         
-        <div class="about-stats">
-            <div class="stat-premium-card">
-                <div class="stat-icon">📅</div>
-                <div class="stat-info">
-                    <h3 class="stat-number" data-count="2">0</h3>
-                    <span class="stat-desc">Years Experience</span>
-                </div>
-            </div>
-            
-            <div class="stat-premium-card">
-                <div class="stat-icon">📦</div>
-                <div class="stat-info">
-                    <h3 class="stat-number" data-count="100">0</h3>
-                    <span class="stat-desc">Mods Released</span>
-                </div>
-            </div>
-
-            <div class="stat-premium-card">
-                <div class="stat-icon">🤝</div>
-                <div class="stat-info">
-                    <h3 class="stat-number" data-count="50">0</h3>
-                    <span class="stat-desc">Happy Clients</span>
-                </div>
-            </div>
-
-            <div class="stat-premium-card">
-                <div class="stat-icon">⭐</div>
-                <div class="stat-info">
-                    <h3 class="stat-number" data-count="4.6">0</h3>
-                    <span class="stat-desc">Average Rating</span>
-                </div>
-            </div>
+       <div class="about-stats">
+    <div class="stat-premium-card">
+        <div class="stat-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
         </div>
+        <div class="stat-info">
+            <h3 class="stat-number" data-count="2">0</h3>
+            <span class="stat-desc">Years Experience</span>
+        </div>
+    </div>
+    
+    <div class="stat-premium-card">
+        <div class="stat-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"></path><polyline points="3.29 7 12 12 20.71 7"></polyline><line x1="12" y1="22" x2="12" y2="12"></line></svg>
+        </div>
+        <div class="stat-info">
+            <h3 class="stat-number" data-count="100">0</h3>
+            <span class="stat-desc">Mods Released</span>
+        </div>
+    </div>
+
+    <div class="stat-premium-card">
+        <div class="stat-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+        </div>
+        <div class="stat-info">
+            <h3 class="stat-number" data-count="50">0</h3>
+            <span class="stat-desc">Happy Clients</span>
+        </div>
+    </div>
+
+    <div class="stat-premium-card">
+        <div class="stat-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+        </div>
+        <div class="stat-info">
+            <h3 class="stat-number" data-count="4.6">0</h3>
+            <span class="stat-desc">Avg Rating</span>
+        </div>
+    </div>
+</div>
     </div>
 </section>
 
@@ -2107,13 +2139,12 @@ const statObserver = new IntersectionObserver(entries => {
             const progress = Math.min((now - start) / duration, 1);
             const value = progress * target;
             
-            // Format decimals or whole numbers
             el.textContent = target % 1 === 0 ? Math.floor(value) : value.toFixed(1);
             
             if (progress < 1) {
                 requestAnimationFrame(update);
             } else {
-                el.textContent = target;
+                // Add the plus sign for your volume stats
                 if (target >= 50) el.textContent += "+";
             }
         }

@@ -1565,6 +1565,54 @@ footer {
     box-shadow: 0 0 15px #fff, 0 0 30px rgba(168, 85, 247, 0.8);
     transform: scale(1.2);
 }
+
+    .bio-terminal {
+    background: rgba(10, 5, 20, 0.5);
+    padding: 30px;
+    border-radius: 15px;
+    border-left: 3px solid var(--accent);
+    font-family: 'Courier New', monospace;
+}
+
+.bio-line {
+    color: var(--accent-strong);
+    opacity: 0.5;
+    display: block;
+    margin-bottom: 10px;
+}
+
+/* Stat Box Enhancements */
+.stat {
+    background: rgba(24, 18, 45, 0.4);
+    border: 1px solid rgba(168, 85, 247, 0.2);
+    padding: 25px;
+    border-radius: 12px;
+    position: relative;
+    overflow: hidden;
+}
+
+.stat-label {
+    font-family: monospace;
+    font-size: 0.7rem;
+    color: var(--accent-strong);
+    letter-spacing: 2px;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.stat-bar {
+    width: 100%;
+    height: 2px;
+    background: rgba(255, 255, 255, 0.05);
+    margin-top: 15px;
+}
+
+.stat-bar .fill {
+    height: 100%;
+    background: var(--accent);
+    box-shadow: 0 0 10px var(--accent);
+}
+    
 </style>
 </head>
 
@@ -1887,20 +1935,39 @@ Nothing works the way it should."
 </section>
 
 <section class="mods-section about" id="about">
-
-  <h2 class="section-title">About Me</h2>
-  <div class="about-grid">
-    <div class="about-text">
-      <p id="about-typewriter" data-text="I’m Rox, a Minecraft mod developer focused on building systems that players understand instinctively. I turn complex ideas into polished, intuitive mods through thoughtful design, balanced mechanics, and reliable code."></p>
-
+    <h2 class="section-title">User Profile // System Information</h2>
+    <div class="about-grid">
+        <div class="about-text">
+            <div class="bio-terminal">
+                <span class="bio-line">/* </span>
+                <p id="about-typewriter" data-text="I’m Rox, a Minecraft mod developer focused on building systems that players understand instinctively. I turn complex ideas into polished, intuitive mods through thoughtful design, balanced mechanics, and reliable code."></p>
+                <span class="bio-line">*/</span>
+            </div>
+        </div>
+        
+        <div class="about-stats">
+            <div class="stat">
+                <span class="stat-label">EXP_YEARS</span>
+                <h3 data-count="2">0</h3>
+                <div class="stat-bar"><div class="fill" style="width: 85%"></div></div>
+            </div>
+            <div class="stat">
+                <span class="stat-label">MODS_RELEASED</span>
+                <h3 data-count="100">0</h3>
+                <div class="stat-bar"><div class="fill" style="width: 95%"></div></div>
+            </div>
+            <div class="stat">
+                <span class="stat-label">CLIENTS_SERVED</span>
+                <h3 data-count="50">0</h3>
+                <div class="stat-bar"><div class="fill" style="width: 75%"></div></div>
+            </div>
+            <div class="stat">
+                <span class="stat-label">AVG_RATING</span>
+                <h3 data-count="4.6">0</h3>
+                <div class="stat-bar"><div class="fill" style="width: 92%"></div></div>
+            </div>
+        </div>
     </div>
-    <div class="about-stats">
-      <div class="stat"><h3 data-count="2">0+</h3><p>Years Experience</p></div>
-      <div class="stat"><h3 data-count="100">0+</h3><p>Published Mods</p></div>
-      <div class="stat"><h3 data-count="50">0+</h3><p>Clients Served</p></div>
-      <div class="stat"><h3 data-count="4.6">0</h3><p>Avg Rating</p></div>
-    </div>
-  </div>
 </section>
 
 <section class="mods-section contact" id="contact">
@@ -2037,7 +2104,9 @@ const stats = document.querySelectorAll(".stat h3");
 const statObserver = new IntersectionObserver(entries => {
   entries.forEach(entry => {
     if (!entry.isIntersecting) return;
-
+// Add this inside your existing statObserver animate function
+const bar = el.parentElement.querySelector('.fill');
+if(bar) bar.style.transform = `scaleX(${progress})`;
     const el = entry.target;
     const target = parseFloat(el.dataset.count);
     const isDecimal = target % 1 !== 0;

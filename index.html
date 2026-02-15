@@ -2663,10 +2663,11 @@ document.querySelectorAll(".mod-card, .featured-card").forEach(card => {
         modalDesc.textContent = card.dataset.desc || "No description available.";
 
         // 2. Handle Gallery Images
+       // 2. Handle Gallery Images
         modalGallery.innerHTML = "";
         const images = card.dataset.images ? card.dataset.images.split(",") : [];
 
-       if (images.length > 0) {
+        if (images.length > 0) {
             images.forEach(src => {
                 const img = document.createElement("img");
                 img.src = src.trim();
@@ -2674,15 +2675,16 @@ document.querySelectorAll(".mod-card, .featured-card").forEach(card => {
                 // --- THE LOADING + GLITCH TRIGGER ---
                 img.onload = () => {
                     img.classList.add('loaded');
-                    // Trigger the glitch
+                    // 1. Add the glitch class to start the flicker
                     img.classList.add('glitch-active');
-                    // Remove class after 400ms so it can trigger again next time
+                    
+                    // 2. Remove the class after 400ms so it doesn't loop forever
                     setTimeout(() => {
                         img.classList.remove('glitch-active');
                     }, 400);
                 };
 
-                // Handle cached images
+                // Handle cached images (ensures glitch triggers even if fast-loaded)
                 if (img.complete) img.onload(); 
 
                 // --- ZOOM / LIGHTBOX LOGIC ---
@@ -2710,7 +2712,6 @@ document.querySelectorAll(".mod-card, .featured-card").forEach(card => {
         } else {
             modalGallery.innerHTML = "<p style='color:var(--muted)'>No images available.</p>";
         }
-
         // 3. Open Modal
         modal.classList.add("active");
         document.body.style.overflow = "hidden";

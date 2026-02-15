@@ -1898,6 +1898,40 @@ footer {
     background: var(--accent-strong);
     box-shadow: 0 0 20px var(--accent-strong);
 }
+
+    /* The glitch animation */
+@keyframes imageGlitch {
+    0% { transform: translate(0); clip-path: inset(0); opacity: 1; }
+    20% { transform: translate(-5px, 2px); clip-path: inset(20% 0 50% 0); }
+    40% { transform: translate(5px, -2px); clip-path: inset(60% 0 10% 0); filter: hue-rotate(90deg); }
+    60% { transform: translate(-2px, 5px); clip-path: inset(10% 0 80% 0); }
+    80% { transform: translate(2px, -5px); clip-path: inset(40% 0 30% 0); filter: invert(0.2); }
+    100% { transform: translate(0); clip-path: inset(0); opacity: 1; }
+}
+
+.glitch-active {
+    animation: imageGlitch 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+
+/* Optional: The Scanline overlay on the gallery */
+.mod-modal-gallery {
+    position: relative;
+}
+
+.mod-modal-gallery::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+        0deg,
+        rgba(0, 0, 0, 0.05) 0px,
+        rgba(0, 0, 0, 0.05) 1px,
+        transparent 2px,
+        transparent 4px
+    );
+    pointer-events: none;
+    z-index: 10;
+}
 </style>
 </head>
 
@@ -2612,14 +2646,24 @@ document.querySelectorAll(".mod-card, .featured-card").forEach(card => {
         modalGallery.innerHTML = "";
         const images = card.dataset.images ? card.dataset.images.split(",") : [];
 
-        if (images.length > 0) {
+       if (images.length > 0) {
             images.forEach(src => {
                 const img = document.createElement("img");
                 img.src = src.trim();
                 
-                // --- THE LOADING FIX ---
-                img.onload = () => img.classList.add('loaded'); // Removes pulse
-                if (img.complete) img.classList.add('loaded'); // Handle cached images
+                // --- THE LOADING + GLITCH TRIGGER ---
+                img.onload = () => {
+                    img.classList.add('loaded');
+                    // Trigger the glitch
+                    img.classList.add('glitch-active');
+                    // Remove class after 400ms so it can trigger again next time
+                    setTimeout(() => {
+                        img.classList.remove('glitch-active');
+                    }, 400);
+                };
+
+                // Handle cached images
+                if (img.complete) img.onload(); 
 
                 // --- ZOOM / LIGHTBOX LOGIC ---
                 img.addEventListener('click', (e) => {

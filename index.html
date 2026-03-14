@@ -270,7 +270,7 @@ body {
 }
 
 /* ================= SECTIONS ================= */
-mods-section {
+.mods-section {
     position: relative;
     z-index: 1;
     max-width: 1400px;
@@ -1012,14 +1012,74 @@ footer {
   z-index: 1;
 }
 
-@media(max-width: 900px) {
-  .featured-grid,
-  .mods-grid,
-  .mods-grid-last,
-  .about-grid,
-  .contact-grid {
-    grid-template-columns: 1fr;
-  }
+/* ================= MOBILE OPTIMIZATION ================= */
+@media (max-width: 850px) {
+    /* 1. Fix massive padding & shrink the left technical rail */
+    .mods-section {
+        padding: 100px 1.5rem !important; /* Reduces huge vertical gaps */
+    }
+    main {
+        margin-left: 20px; /* Brings content back from the right edge */
+        padding-left: 20px;
+    }
+    .section-line {
+        margin-left: -21px; /* Re-aligns the glowing line with the new rail */
+    }
+
+    /* 2. Fix the Hero Docking */
+    .hero-name.docked {
+        left: 85px; /* Ensures it clears the "+" hamburger menu */
+        font-size: 1.2rem; /* Slightly smaller to fit phone screens */
+    }
+    
+    /* 3. Fix the 3D Carousel Overflow */
+    .featured-carousel {
+        height: auto;
+        display: flex;
+        justify-content: center;
+    }
+    /* Hide side cards entirely on mobile so they don't cause side-scrolling */
+    .featured-card:not(.pos-center) {
+        opacity: 0 !important;
+        pointer-events: none;
+        position: absolute; 
+        z-index: -1;
+    }
+    /* Lock the center card to full width */
+    .featured-card.pos-center {
+        position: relative;
+        width: 100% !important;
+        transform: none !important; /* Kills the 3D hover scale on mobile */
+    }
+    .carousel-dots { 
+        margin-top: 30px; 
+    }
+
+    /* 4. Grids to Single Column */
+    .mods-grid, 
+    .mods-grid-last, 
+    .about-grid, 
+    .contact-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+    
+    /* 5. About Stats & Contact Sizing */
+    .about-stats {
+        grid-template-columns: 1fr; /* Stacks the stat cards vertically */
+    }
+    .img-container {
+        height: 250px; /* Stops the contact image from being massive */
+    }
+
+    /* 6. Modal Fixes for Tiny Screens */
+    .mod-modal-content {
+        padding: 30px 20px;
+        width: 95%;
+    }
+    #modalTitle {
+        font-size: 1.5rem;
+    }
 }
   .hero-name {
   line-height: 0.88;          /* tighter glyph box */
